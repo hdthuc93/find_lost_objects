@@ -5,5 +5,5 @@ export default {
     portDB: 8999,
     nameDB: '',
     secretKey: '',
-    port: 9000
+    portServer: 9000
 };
