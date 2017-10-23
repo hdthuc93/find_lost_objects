@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en" ng-app="myMatrix" ng-controller="mainCtrl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="img/favicon.ico">
+  <title>{{lang.mainTitle}}</title>
+  <!-- STYLES -->
+  <link type="text/css" href="https://fonts.googleapis.com/css?family=Muli:400,300" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="angular-ui-grid/ui-grid.min.css">
+
+  <!-- MY STYLES -->
+  <link rel="stylesheet" type="text/css" href="style/main.min.css">
+  <link rel="stylesheet" type="text/css" href="style/appstyle.css">
+
+  <!-- SCRIPTS -->
+  <script type="text/javascript" src="jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="angular/angular.min.js"></script>
+  <script type="text/javascript" src="angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+  <script type="text/javascript" src="angular-cookies/angular-cookies.min.js"></script>
+  <script type="text/javascript" src="angular-ui-router/release/angular-ui-router.min.js"></script>
+
+  <!-- MY SOURCE CODE -->
+  <!--1 components-->
+  <script type="text/javascript" src="js/modules/helper.js"></script>
+  <!--2 modules-->
+  <script type="text/javascript" src="js/modules/app.js"></script>
+  <script type="text/javascript" src="js/modules/routes.js"></script>
+  <!--3.1 directives-->
+  <script type="text/javascript" src="js/directives/loading.js"></script>
+  <!--3.2 controllers-->
+  <script type="text/javascript" src="js/controllers/main-ctrl.js"></script>
+</head>
+
+<body>
+  <div id="page-wrapper" ng-class="{'open': toggle}" class="open" ng-cloak>
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+      <ul class="sidebar">
+        <li class="sidebar-main">
+          <a ng-click="toggleSidebar()">
+            <span class="text-uppercase">{{lang.menu}}</span>
+            <span class="menu-icon glyphicon glyphicon-transfer"></span>
+          </a>
+        </li>
+        <!--<li class="sidebar-title"><span><NAVIGATION></span></li>-->
+        <li class="sidebar-list">
+          <a href="#">{{lang.home}} <span class="menu-icon fa fa-tachometer"></span></a>
+        </li>
+        <li class="sidebar-list">
+          <a href="#/config">{{lang.config}} <span class="menu-icon fa fa-cogs"></span></a>
+        </li>
+    </div>
+    <!-- End Sidebar -->
+
+    <div id="content-wrapper">
+      <div class="page-content">
+
+        <!-- Header Bar -->
+        <div class="row header">
+          <div class="col-xs-12">
+            <div class="user pull-right" style="padding: 5px;">
+              <label>{{lang.lang}}: </label>
+              <select class="input input-sm" ng-model="systemLanguage" ng-change="changeLanguage()" style="width: 10em; height: 30px!important;">
+                  <option value="vi">{{lang.vi}}</option>
+                  <option value="en">{{lang.en}}</option>
+              </select>
+              <!-- <label style="padding: 20px; margin: 0;">Xin chào {{masterUserName}},    <span style="color: blue; text-decoration: underline; cursor: pointer;" ng-click="logout()">Đăng xuất</span></label> -->
+            </div>
+            <div class="meta">
+              <div class="page" style="padding: 5px;">
+                <label>{{lang.mainTitle}}</label>
+                <div style="font-size: 80%"><label>{{lang.subTitle}}</label></div>
+              </div>
+              <!-- <div class="breadcrumb-links">
+              </div> -->
+            </div>
+          </div>
+        </div>
+        <!-- End Header Bar -->
+
+        <!-- Main Content -->
+        <div ui-view></div>
+
+      </div>
+      <!-- End Page Content -->
+    </div>
+    <!-- End Content Wrapper -->
+  </div>
+  <!-- End Page Wrapper -->
+  <div id="modal_area"></div>
+  <my-loading/>
+</body>
+
+</html>

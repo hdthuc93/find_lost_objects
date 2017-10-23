@@ -1,0 +1,28 @@
+{
+  "name": "MTRXC",
+  "description": "Matrix Caculator",
+  "main": "index.js",
+  "authors": [
+    "Nguyen Thanh Phong, Huynh Duy Thuc"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.6.6",
+    "angular-cookies": "^1.6.6",
+    "angular-bootstrap": "^2.5.0",
+    "angular-ui-router": "^1.0.7",
+    "bootstrap": "^3.3.7",
+    "font-awesome": "^4.7.0",
+    "angular-ui-grid": "^4.0.7",
+    "jquery": "^3.2.1"
+  },
+  "private": true
+}
