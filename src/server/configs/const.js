@@ -2,7 +2,7 @@ export default {
     hostDB: '',
     userDB: '',
     passwordDB: '',
-    portDB: 8999,
+    portDB: 1234,
     nameDB: '',
     secretKey: '',
     portServer: 9000
