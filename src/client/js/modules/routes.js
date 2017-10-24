@@ -1,5 +1,5 @@
 'use strict';
-angular.module('myMatrix').config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
+angular.module('findLostObject').config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
     function ($stateProvider, $urlRouterProvider, $locationProvider) {
         $locationProvider.hashPrefix('');/*remove new hash prefix from angular 1.6*/
         $urlRouterProvider.when('', '/');
@@ -9,15 +9,11 @@ angular.module('myMatrix').config(['$stateProvider', '$urlRouterProvider', '$loc
         $stateProvider
             .state('index', {
                 url: '/',
-                templateUrl: 'templates/demo.html'
+                templateUrl: 'templates/dashboard.html'
             })
-            .state('config', {
-                url: '/config',
-                templateUrl: 'templates/config.html'
-            })
-            .state('statistic', {
-                url: '/statistic',
-                templateUrl: 'templates/demo.html'
+            .state('category', {
+                url: '/config/category',
+                templateUrl: 'templates/category.html'
             })
             .state('404', {
                 url: '/404',

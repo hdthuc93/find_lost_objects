@@ -188,7 +188,7 @@ ul.sidebar .sidebar-list a:hover {
 /*Menu - END*/
 
 /*Panel - START*/
-.panel-default {
+/* .panel-default {
     border-color: #8a613e;
     -webkit-transition: all .25s linear;
     transition: all .25s linear;
@@ -212,7 +212,7 @@ ul.sidebar .sidebar-list a:hover {
     box-shadow: 0 1px 2px rgba(80, 56, 12, 0.15);
     background: #f5f0ec;
     border-bottom: 1px solid #e2d8d1;
-}
+} */
 /*Panel - END*/
 
 /*Modal - START*/
@@ -595,4 +595,24 @@ table.ke{
     margin: 0;
     background-color: white;
     z-index: 9999;
+}
+@media (min-width: 768px){
+    #page-wrapper {
+        position: inherit;
+        margin: 50px 0 0 200px;
+        padding: 0 30px;
+        border-left: 1px solid #e7e7e7;
+    }
+    .sidebar {
+        z-index: 1;
+        position: absolute;
+        width: 200px;
+        margin-top: 51px;
+    }
+}
+
+.page-header {
+    padding: 0;
+    margin: 10px 0;
+    border-bottom: 1px solid #eee;
 }
