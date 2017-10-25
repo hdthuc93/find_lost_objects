@@ -1,0 +1,89 @@
+<div ng-controller="lostItemCtrl">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">Thêm vật nhặt được</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-9 col-lg-8">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">Thể loại *</label>
+                    <select ng-model="options.address" type="text" class="form-control input-sm">
+
+                    </select>
+                </div>
+                <div ng-repeat="field in category" class="form-group">
+                    <label class="control-label">{{field.fieldLabel}}
+                        <span ng-if="field.isRequired"> *</span>
+                    </label>
+                    <input ng-model="field.helpText" ng-required="field.isRequired" type="text" class="form-control input-sm">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">Vị trí *</label>
+                    <select ng-model="options.address" type="text" class="form-control input-sm">
+
+                    </select>
+                    <p class="help-block">Nơi tìm được vật</p>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Thông tin khác</label>
+                    <textarea ng-model="options.address" type="text" class="form-control input-sm"></textarea>
+                    <p class="help-block">Nhập thêm một số thông tin để mô tả vật này</p>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Nhặt được bởi</label>
+                    <input ng-model="options.address" type="text" class="form-control input-sm">
+                    <p class="help-block">Nhập tên người nhặt được</p>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Thời điểm nhặt được</label>
+                    <input ng-model="options.address" type="text" class="form-control input-sm">
+                    <p class="help-block">Theo giờ Việt Nam</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">Thông tin người bị mất</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-9 col-lg-8">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">Họ *</label>
+                    <input ng-model="options.address" type="text" class="form-control input-sm">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Địa chỉ email *</label>
+                    <input ng-model="options.address" type="text" class="form-control input-sm">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">Tên *</label>
+                    <input ng-model="options.address" type="text" class="form-control input-sm">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Số điện thoại</label>
+                    <input ng-model="options.address" type="text" class="form-control input-sm">
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <hr>
+    <div class="row">
+        <div class="col-sm-12 col-md-9 col-lg-8 text-center">
+            <div class="form-group">
+                <button type="button" ng-disabled="studentFormSearch.$invalid" class="btn btn-primary btn-xs" ng-click="getcategoryList()">
+                    <i class="fa fa-floppy-o"></i> Lưu</button>
+                <button type="button" class="btn btn-primary btn-xs" ng-click="reset()">
+                    <i class="fa fa-plus"></i> Lưu & Tìm thêm vật khác</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -15,6 +15,14 @@ angular.module('findLostObject').config(['$stateProvider', '$urlRouterProvider',
                 url: '/config/category',
                 templateUrl: 'templates/category.html'
             })
+            .state('lost', {
+                url: '/lost',
+                templateUrl: 'templates/lost.html'
+            })
+            .state('found', {
+                url: '/found',
+                templateUrl: 'templates/found.html'
+            })
             .state('404', {
                 url: '/404',
                 templateUrl: 'templates/404.html'
