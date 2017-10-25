@@ -14,11 +14,7 @@ const Note = sequelize.define('Note', {
     },
     user_id: {
         type: Sequelize.INTEGER(11),
-        allowNull: false,
-        references: {
-            model: 'User',
-            key: 'pk_id'
-        }
+        allowNull: false
     },
     item_id: {
         type: Sequelize.INTEGER(11),

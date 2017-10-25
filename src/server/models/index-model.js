@@ -8,7 +8,8 @@ const sequelize = new Sequelize(config.nameDB, config.userDB, config.passwordDB,
     define: {
         freezeTableName: true,
         timestamps: false
-    }
+    },
+    operatorsAliases: false   
 });
 
 export { sequelize, Sequelize };

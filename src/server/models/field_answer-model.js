@@ -14,23 +14,18 @@ const FieldAnswer = sequelize.define('FieldAnswer', {
     },
     field_id: {
         type: Sequelize.INTEGER(11),
-        allowNull: false,
-        references: {
-            model: 'FieldDefine',
-            key: 'pk_id'
-        }
+        allowNull: false
     },
     item_id: {
         type: Sequelize.INTEGER(11),
-        allowNull: false,
-        references: {
-            model: 'Item',
-            key: 'pk_id'
-        }
+        allowNull: false
     }
 });
 
 Item.hasMany(FieldAnswer, { foreignKey: 'pk_id', sourceKey: 'item_id' });
 FieldAnswer.belongsTo(Item, { foreignKey: 'pk_id', targetKey: 'item_id' });
+
+FieldDefine.hasMany(FieldAnswer, { foreignKey: 'pk_id', sourceKey: 'field_id' });
+FieldAnswer.belongsTo(FieldDefine, { foreignKey: 'pk_id', targetKey: 'field_id' });
 
 export default FieldAnswer;
