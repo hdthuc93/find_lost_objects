@@ -5,14 +5,15 @@ body {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     font-family: 'Muli', "Helvetica", Arial, sans-serif;
-
 }
 
 
 
-.input-error{
-    box-shadow: rgba(0, 0, 0, 0.075) 0px 1px 1px inset, rgb(179, 0, 0) 0px 0px 8px !important;
-    border-color: rgb(177, 0, 0) !important;
+.has-error{
+    border-color: rgba(247, 17, 17, 0.84);
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 2px rgba(230, 38, 38, 0.75);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 2px rgba(230, 38, 38, 0.75);
 }
 .input-sm{
     font-size: 12.5px;
@@ -42,10 +43,10 @@ textarea.input-sm{
     text-align: right!important;
 }
 .form-control:focus {
-    border-color: #b38864;
+    border-color: rgba(102, 113, 8, 0.75);
     outline: 0;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgb(214, 166, 125);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgb(214, 166, 125);
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 2px rgba(102, 113, 8, 0.72);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 2px rgba(102, 113, 8, 0.72);
 }
 button, textarea, input, select{
     outline: none!important;
