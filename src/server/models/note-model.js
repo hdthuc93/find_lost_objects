@@ -22,10 +22,10 @@ const Note = sequelize.define('Note', {
     }
 });
 
-Item.hasMany(Note, { foreignKey: 'pk_id', sourceKey: 'item_id' });
-Note.belongsTo(Item, { foreignKey: 'pk_id', targetKey: 'item_id' });
+Item.hasMany(Note, { foreignKey: 'item_id', sourceKey: 'pk_id' });
+Note.belongsTo(Item, { foreignKey: 'item_id', targetKey: 'pk_id' });
 
-User.hasMany(Note, { foreignKey: 'pk_id', sourceKey: 'user_id' });
-Note.belongsTo(User, { foreignKey: 'pk_id', targetKey: 'user_id' });
+User.hasMany(Note, { foreignKey: 'user_id', sourceKey: 'pk_id' });
+Note.belongsTo(User, { foreignKey: 'user_id', targetKey: 'pk_id' });
 
 export default Note;

@@ -1,5 +1,6 @@
 import { sequelize, Sequelize } from './index-model';
 import Item from './item-model';
+import FieldDefine from './field_define-model';
 
 const FieldAnswer = sequelize.define('FieldAnswer', {
     pk_id: {
@@ -22,10 +23,10 @@ const FieldAnswer = sequelize.define('FieldAnswer', {
     }
 });
 
-Item.hasMany(FieldAnswer, { foreignKey: 'pk_id', sourceKey: 'item_id' });
-FieldAnswer.belongsTo(Item, { foreignKey: 'pk_id', targetKey: 'item_id' });
+Item.hasMany(FieldAnswer, { foreignKey: 'item_id', sourceKey: 'pk_id' });
+FieldAnswer.belongsTo(Item, { foreignKey: 'item_id', targetKey: 'pk_id' });
 
-FieldDefine.hasMany(FieldAnswer, { foreignKey: 'pk_id', sourceKey: 'field_id' });
-FieldAnswer.belongsTo(FieldDefine, { foreignKey: 'pk_id', targetKey: 'field_id' });
+FieldDefine.hasMany(FieldAnswer, { foreignKey: 'field_id', sourceKey: 'pk_id' });
+FieldAnswer.belongsTo(FieldDefine, { foreignKey: 'field_id', targetKey: 'pk_id' });
 
 export default FieldAnswer;

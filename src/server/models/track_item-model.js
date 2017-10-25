@@ -31,10 +31,10 @@ const TrackItem = sequelize.define('TrackItem', {
     }
 });
 
-Item.hasMany(TrackItem, { foreignKey: 'pk_id', sourceKey: 'item_id' });
-TrackItem.belongsTo(Item, { foreignKey: 'pk_id', targetKey: 'item_id' });
+Item.hasMany(TrackItem, { foreignKey: 'item_id', sourceKey: 'pk_id' });
+TrackItem.belongsTo(Item, { foreignKey: 'item_id', targetKey: 'pk_id' });
 
-Note.hasMany(TrackItem, { foreignKey: 'pk_id', sourceKey: 'note_id' });
-TrackItem.belongsTo(Note, { foreignKey: 'pk_id', targetKey: 'note_id' });
+Note.hasMany(TrackItem, { foreignKey: 'note_id', sourceKey: 'pk_id' });
+TrackItem.belongsTo(Note, { foreignKey: 'note_id', targetKey: 'pk_id' });
 
 export default TrackItem;

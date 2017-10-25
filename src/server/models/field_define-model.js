@@ -30,7 +30,7 @@ const FieldDefine = sequelize.define('FieldDefine', {
     }
 });
 
-Category.hasMany(FieldDefine, { foreignKey: 'pk_id', sourceKey: 'category_id' });
-FieldDefine.belongsTo(Category, { foreignKey: 'pk_id', targetKey: 'category_id' });
+Category.hasMany(FieldDefine, { foreignKey: 'category_id', sourceKey: 'pk_id' });
+FieldDefine.belongsTo(Category, { foreignKey: 'category_id', targetKey: 'pk_id' });
 
 export default FieldDefine;

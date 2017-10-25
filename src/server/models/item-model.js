@@ -1,7 +1,7 @@
 import { sequelize, Sequelize } from './index-model';
 import StorageLocation from './storage_location-model';
 import Category from './category-model';
-import Location from './location-model';
+import Locations from './location-model';
 
 const Item = sequelize.define('Item', {
     pk_id: {
@@ -68,13 +68,13 @@ const Item = sequelize.define('Item', {
     }
 });
 
-StorageLocation.hasMany(Item, { foreignKey: 'pk_id', sourceKey: 'storege_location_id' });
-Item.belongsTo(StorageLocation, { foreignKey: 'pk_id', targetKey: 'storege_location_id' });
+StorageLocation.hasMany(Item, { foreignKey: 'storege_location_id', sourceKey: 'pk_id' });
+Item.belongsTo(StorageLocation, { foreignKey: 'storege_location_id', targetKey: 'pk_id' });
 
-Category.hasMany(Item, { foreignKey: 'pk_id', sourceKey: 'category_id' });
-Item.belongsTo(Category, { foreignKey: 'pk_id', targetKey: 'category_id' });
+Category.hasMany(Item, { foreignKey: 'category_id', sourceKey: 'pk_id' });
+Item.belongsTo(Category, { foreignKey: 'category_id', targetKey: 'pk_id' });
 
-Location.hasMany(Item, { foreignKey: 'pk_id', sourceKey: 'location_id' });
-Item.belongsTo(Location, { foreignKey: 'pk_id', targetKey: 'location_id' });
+Locations.hasMany(Item, { foreignKey: 'location_id', sourceKey: 'pk_id' });
+Item.belongsTo(Locations, { foreignKey: 'location_id', targetKey: 'pk_id' });
 
 export default Item;
