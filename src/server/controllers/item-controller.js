@@ -19,23 +19,34 @@ function insertLostItem(req, res) {
         create_time: new Date()
     };
 
-    let insertFieldAnswerObj = {
-        answer_text: req.body.answerText,
-        field_id: req.body.fieldId,
-        item_id: -1
-    };
-
+    let fieldAnswersPool = req.body.fieldAnswersPool;
+    let itemId = -1;
     return sequelize.transaction().then((t) => {
         Item.create(insertItemObj, { transaction: t })
         .then((result) => {
             if(result && result.pk_id) {
-                insertFieldAnswerObj.item_id = result.pk_id;
-                return FieldAnswer.create(insertFieldAnswerObj, { transaction: t });
+                itemId = result.pk_id
+                let insertFieldAnswerObj = [];
+
+                for(let i = 0; i < fieldAnswersPool.length; ++i) {
+                    insertFieldAnswerObj.push({
+                        field_id: fieldAnswersPool[i].fieldId,
+                        item_id: result.pk_id,
+                        answer_text: fieldAnswersPool[i].answerText
+                    });
+                }
+                return FieldAnswer.bulkCreate(insertFieldAnswerObj, { transaction: t });
             } else
                 return Promise.resolve(false);
         })
         .then((result) => {
-            if(result && result.pk_id) {
+            if(result === false)
+                return Promise.resolve(false);
+            else
+                return Promise.resolve(true);
+        })
+        .then((result) => {
+            if(result) {
                 t.commit();
                 return res.status(200).json({
                     success: true,
@@ -45,7 +56,7 @@ function insertLostItem(req, res) {
                 t.rollback();
                 return res.status(200).json({
                     success: false,
-                    message: "No record to insert lost item"
+                    message: "No record lost item inserted"
                 });
             }
         })
