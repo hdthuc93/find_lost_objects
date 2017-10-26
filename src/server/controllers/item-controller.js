@@ -1,10 +1,11 @@
+import { sequelize, Sequelize } from '../models/index-model';
 import Item from '../models/item-model';
+import FieldAnswer from '../models/field_answer-model';
 
 function insertLostItem(req, res) {
     // type(0: lost, 1: found)
     // status(0: active, 1: returned, -1: expired)
-    console.log(req.body);
-    let insertObj = {
+    let insertItemObj = {
         category_id: Number(req.body.categoryId),
         location_id: Number(req.body.locationId),
         other_details: req.body.otherDetails,
@@ -18,24 +19,43 @@ function insertLostItem(req, res) {
         create_time: new Date()
     };
 
-    Item.create(insertObj)
-    .then((result) => {
-        if(result && result.pk_id)
-            return res.status(200).json({
-                success: true,
-                message: "Insert lost item successfully"
-            });
-        else
-            return res.status(200).json({
+    let insertFieldAnswerObj = {
+        answer_text: req.body.answerText,
+        field_id: req.body.fieldId,
+        item_id: -1
+    };
+
+    return sequelize.transaction().then((t) => {
+        Item.create(insertItemObj, { transaction: t })
+        .then((result) => {
+            if(result && result.pk_id) {
+                insertFieldAnswerObj.item_id = result.pk_id;
+                return FieldAnswer.create(insertFieldAnswerObj, { transaction: t });
+            } else
+                return Promise.resolve(false);
+        })
+        .then((result) => {
+            if(result && result.pk_id) {
+                t.commit();
+                return res.status(200).json({
+                    success: true,
+                    message: "Insert lost item successfully"
+                });
+            } else {
+                t.rollback();
+                return res.status(200).json({
+                    success: false,
+                    message: "No record to insert lost item"
+                });
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+            t.rollback();
+            return res.status(500).json({
                 success: false,
-                message: "No record to insert lost item"
+                message: "Failed to insert lost item"
             });
-    })
-    .catch((err) => {
-        console.log(err);
-        return res.status(500).json({
-            success: false,
-            message: "Failed to insert lost item"
         });
     });
 }
