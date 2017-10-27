@@ -54,8 +54,7 @@ function lostItemCtrl($scope, $rootScope, $http, helper) {
     }
 
     $scope.save = function () {
-        console.log($scope.lostItemForm);
-        if ($scope.lostItemForm.$error.required.length > 0) {
+        if ($scope.lostItemForm.$error.required && $scope.lostItemForm.$error.required.length > 0) {
             $scope.lostItemForm[$scope.lostItemForm.$error.required[0].$name].$touched = true;
             return false;
         }
