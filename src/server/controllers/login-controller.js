@@ -30,8 +30,6 @@ function Login(req, res) {
             message: "Failed to get user"
         });
     });
-
-
 }
 
 function Register(req, res) {
