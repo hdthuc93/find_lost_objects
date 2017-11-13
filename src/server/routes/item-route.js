@@ -6,6 +6,14 @@ const router = express.Router();
 router.route('/')
     .post(
         itemCtrl.insertLostItem
-    );
+    )
+    .get(
+    	itemCtrl.getAll
+    )
+
+router.route('/:itemId')
+	.get(
+		itemCtrl.getById
+	)
 
 export default router;

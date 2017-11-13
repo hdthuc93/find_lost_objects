@@ -9,4 +9,9 @@ router.route('/')
         categoryCtrl.getAll
     )
 
+router.route('/:catId')
+	.get(
+		categoryCtrl.getById
+	);
+
 export default router;

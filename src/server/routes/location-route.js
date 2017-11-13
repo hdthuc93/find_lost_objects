@@ -9,4 +9,9 @@ router.route('/')
         locationCtrl.getAll
     )
 
+router.route('/:locId')
+	.get(
+		locationCtrl.getById
+	);
+
 export default router;

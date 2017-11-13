@@ -30,4 +30,39 @@ function getAll(req, res) {
     });
 }
 
-export default { getAll };
+function getById(req, res) {
+    let outData = [];
+    let locId = req.params['locId'];
+
+    Locations.findAll({
+        where: {
+            pk_id: locId
+        }
+    })
+    .then((locationPool) => {
+        let len = locationPool.length;
+
+        for(let i = 0; i < len; ++i) {
+            outData.push({
+                locationId: locationPool[i]['pk_id'],
+                name: locationPool[i]['name'],
+                description: locationPool[i]['description'],
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Get locations successfully",
+            data: outData
+        });
+    })
+    .catch((err) => {
+        console.log(err);
+        return res.status(500).json({
+            success: false,
+            message: "Failed to get locations"
+        });
+    });
+}
+
+export default { getById, getAll };
