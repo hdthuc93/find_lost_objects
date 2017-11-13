@@ -1,0 +1,86 @@
+<div class="items" ng-controller="listLostItemCtrl">
+    <a class="item box box-default" ng-repeat="lost in listLostItem" href="#/track?item={{ lost.itemId }}">
+        <div class="box-body">
+            <div class="row">
+                <div class="col-sm-2 col-md-4 col-lg-2">
+                    <p>
+                        <input type="checkbox" name="itemIds[5a07b93225db1c00851c7cd9]" value="1">
+                        <span class="small text-muted">Ref</span> {{ lost.itemId }}
+
+                    </p>
+                    <div class="image-wrapper">
+                        <span class="primary-image">
+                
+            </span>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-8 col-lg-6 item-details">
+                    <h4>{{ lost.category.value[0].categoryName }}</h4>
+                    <div class="table-responsive">
+                        <table class="table table-condensed">
+                            <colgroup>
+                                <col width="30%">
+                                    <col>
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <th>Colour</th>
+                                    <td>Pink</td>
+                                </tr>
+                                <tr>
+                                    <th>IMEI Number</th>
+                                    <td>792139446563183</td>
+                                </tr>
+                                <tr>
+                                    <th>Serial Number</th>
+                                    <td>UKSWV4RBAC7Q</td>
+                                </tr>
+                                <tr>
+                                    <th>Make</th>
+                                    <td>LG</td>
+                                </tr>
+                                <tr>
+                                    <th>Model</th>
+                                    <td>Nexus 5</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-md-12 col-lg-4">
+                    <ul class="list-unstyled hidden-xs">
+                        <li>Status: <span class="item-status bg-warning">New</span>
+                        </li>
+                        <li>
+                            <span class="item-type bg-orange">Lost</span> {{ lost.lost_at | date:'HH:mm:ss dd-MM-yyyy' }}
+                        </li>
+                        <li>Lost in <span class="item-location bg-info">{{ lost.location.value[0].name }}</span>
+                        </li>
+                        <li class="owner" title="Item's owner">
+                            <i class="fa fa-user-o"></i> {{ lost.first_name + ' ' + lost.last_name }}
+                        </li>
+                        <li class="owner-email" title="Item owner's email address">
+                            <i class="fa fa-envelope-o"></i> {{ lost.email_address }}
+                        </li>
+                    </ul>
+
+                    <ul class="list-inline visible-xs">
+                        <li>Status: <span class="item-status bg-warning">New</span>
+                        </li>
+                        <li>
+                            <span class="item-type bg-orange">Lost</span> {{ lost.lost_at | date:'HH:mm:ss dd-MM-yyyy' }}
+                        </li>
+                        <li>Lost in <span class="item-location bg-info">{{ lost.location.value[0].name }}</span>
+                        </li>
+                        <li class="owner" title="Item's owner">
+                            <i class="fa fa-user-o"></i> {{ lost.first_name + ' ' + lost.last_name }}
+                        </li>
+                        <li class="owner-email" title="Item owner's email address">
+                            <i class="fa fa-envelope-o"></i> {{ lost.email_address }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </a>
+</div>

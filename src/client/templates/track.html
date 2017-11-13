@@ -1,0 +1,111 @@
+<form role='form' name='noteItemForm' id='noteItemForm'>
+	<div class="row" ng-controller="trackItemCtrl">
+		<h1>Item Ref. {{ itemOwn.value[0].itemId }}</h1>
+
+		<div class="col-md-6 col-print-sm-6">
+			<div class="box box-default actions">
+			    <div class="box-header">
+			        <h3 class="box-title"><i class="fa fa-check-square-o"></i>&nbsp; Actions</h3>
+			    </div>
+			    <div class="box-body text-center">
+			        <a class="btn btn-sm btn-success mark-as return-item" href="#">
+			            <i class="fa fa-exchange"></i> Mark as Returned
+			        </a>
+			        <a class="btn btn-sm btn-danger mark-as dispose-item" href="#">
+			            <i class="fa fa-trash"></i> Mark as Disposed
+			        </a>
+			        <a class="btn btn-sm btn-warning mark-as donate-item" href="#">
+			            <i class="fa fa-gift"></i> Mark as Donated
+			        </a>
+
+			        <a class="btn btn-sm btn-default mark-as archive-item" href="#">
+			            <i class="fa fa-archive"></i> Archive
+			        </a>
+			    </div>
+			</div>
+
+			<div class="box box-info owner-details">
+			    <div class="box-header">
+			        <h3 class="box-title"><i class="fa fa-user"></i>&nbsp; Owner Details</h3>
+			    </div>
+			    <div class="box-body">
+
+			        <div class="table-responsive">
+			            <table class="table">
+			                <tbody>
+			                    <tr>
+			                        <th class="nobr">Name</th>
+			                        <td>{{ itemOwn.value[0].first_name + ' ' + itemOwn.value[0].last_name }}</td>
+			                    </tr>
+			                    <tr>
+			                        <th class="nobr">Email Address</th>
+			                        <td>{{ itemOwn.value[0].email_address }}</td>
+			                    </tr>
+			                    <tr>
+			                        <th class="nobr">Contact Phone No.</th>
+			                        <td>{{ itemOwn.value[0].contact_phone_no }}</td>
+			                    </tr>
+			                </tbody>
+			            </table>
+			        </div>
+
+			    </div>
+			</div>
+
+			<div class="box box-default notes">
+			    <div class="box-header">
+			        <h3 class="box-title"><i class="fa fa-file-text-o"></i>&nbsp; Notes</h3> </div>
+			    <div class="box-body">
+			        <blockquote class="note" ng-repeat="track in trackList">
+			            <p>{{ track.note.value[0].text }}</p> <small>{{ track.note.value[0].text }} at {{ track.log_time | date:'HH:mm:ss dd-MM-yyyy' }}</small> 
+			        </blockquote>
+			        <hr>
+			        <form role="form" method="post" action="" class="form">
+			            <div class="row">
+			                <div class="col-sm-8">
+			                    <textarea ng-model='item.text' required="required" placeholder="Add a new note here..." class="form-control form-control"></textarea>
+			                </div>
+			                <div class="col-sm-4">
+			                    <button type="submit" class="btn btn-info btn-block" ng-click="save()"><i class="fa fa-plus"></i> Add Note</button>
+			                </div>
+			            </div>
+			        </form>
+			    </div>
+			</div>
+		</div>
+
+		<div class="col-md-6 col-print-sm-6">
+		    <div class="box box-default">
+		        <div class="box-header">
+		            <h3 class="box-title"><i class="fa fa-history"></i>&nbsp; Timeline</h3> </div>
+		    </div>
+		    <div class="timeline-wrapper">
+		        <ul class="timeline">
+		            <li class="time-label">
+		            	<span class="bg-aqua">{{ itemOwn.value[0].create_time | date:'dd LLLL yyyy' }}</span>
+		            </li>
+		            <li>
+		            	<i class="fa fa-plus bg-orange"></i>
+		                <div class="timeline-item"> <span class="time"><i class="fa fa-clock-o"></i> {{ itemOwn.value[0].create_time | date:'HH:mm' }}</span>
+		                    <h3 class="timeline-header no-border">{{ itemOwn.value[0].first_name + ' ' + itemOwn.value[0].last_name + ' reported item as Lost' }}</h3>
+		                </div>
+		            </li>
+
+		            <li ng-repeat='track in trackList'>
+		            	<span class="bg-aqua">{{ itemOwn.value[0].create_time | date:'dd LLLL yyyy' }}</span>
+		            	<!--<i class="fa fa-file-text-o bg-gray"></i>-->
+		                <div class="timeline-item"> <span class="time"><i class="fa fa-clock-o"></i> {{ track.log_time | date:'HH:mm' }}</span>
+		                    <h3 class="timeline-header">
+		                        {{ track.note.user.value[0].first_name + ' ' + track.note.user.value[0].last_name }} added a note
+		                    </h3>
+		                    <div class="timeline-body">
+		                        <blockquote class="note no-margin">{{ track.note.value[0].text }}</blockquote>
+		                    </div>
+		                </div>
+		            </li>
+		            <li> <i class="fa fa-ellipsis-h"></i> </li>
+		        </ul>
+		    </div>
+		</div>
+	</div>
+</form>
