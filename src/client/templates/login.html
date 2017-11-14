@@ -9,13 +9,16 @@
                     <form role="form" id="login-form" name="loginForm">
                         <fieldset>
                             <div class="form-group">
-                                <input class="form-control" placeholder="Tên đăng nhập" name="email" ng-model="email" autofocus>
+                                <input class="form-control" placeholder="Email" name="email" ng-model="email" autofocus
+                                ng-class="{'input-error': loginForm.email.$invalid }"
+                                title="Địa chỉ Email là bắt buộc"
+                                required>
                             </div>
                             <div class="form-group">
                                 <input class="form-control" placeholder="Mật khẩu" name="password" type="password" ng-model="password" value="" maxlength="30"
-                                ng-class="{'input-error': loginForm.email.$touched && loginForm.email.$invalid }"
-                                title="Tên đăng nhập là bắt buộc"
-                                >
+                                ng-class="{'input-error': loginForm.password.$invalid }"
+                                title="Mật khẩu là bắt buộc"
+                                required>
                             </div>
                             <div class="checkbox">
                                 <label>
