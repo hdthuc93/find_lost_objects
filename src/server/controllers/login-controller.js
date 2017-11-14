@@ -16,7 +16,7 @@ function Login(req, res) {
                     if(isValid) {
                         let cert = config.secret;
                         let tokenJWT = jwt.sign({data : user}, cert);
-                        res.send({ success: false,msg: "Login success", token: tokenJWT });
+                        res.send({ success: true,msg: "Login success", token: tokenJWT });
                     }
                     else {
                         res.send({success: false, msg: 'Authentication failed. Wrong password.'});
@@ -33,17 +33,15 @@ function Login(req, res) {
 }
 
 function Register(req, res) {
-
-
+    console.log(req.body);
     Users.findOne({ where: {email: req.body.email} })
         .then((user) => {
             let userInsert = {
-                first_name: req.body.FirsName,
+                first_name: req.body.FirstName,
                 last_name: req.body.LastName,
                 user_type: req.body.Type,
                 email: req.body.Email,
                 password: req.body.Pass
-
             };
             if (!user) {
                Users.create(userInsert)
