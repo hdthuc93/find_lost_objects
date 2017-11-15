@@ -21,7 +21,7 @@ function loginCtrl($scope, $cookieStore, $http, $rootScope, $timeout, $location,
       if (res.data.success) {
         var data = res.data;
         var expireDate = new Date();
-        expireDate.setDate(expireDate.getDate() + 7);
+        expireDate.setDate(expireDate.getDate() + 732);
         // Setting a cookie
         $rootScope.masterToken = data.token;
         $cookieStore.put(
@@ -48,10 +48,11 @@ function loginCtrl($scope, $cookieStore, $http, $rootScope, $timeout, $location,
       helper.popup.info({ title: "Lỗi", message: "Xảy ra lỗi trong quá trình thực hiện, vui lòng thử lại.", close: function () { location.reload(); return; } })
     });
   }
+  $scope.logout = function () {
+    $cookieStore.put('userdata', {});
+    $location.path('/login');
+  }
 }
 
-// $scope.logout = function(){
-//     $cookieStore.put('userdata', {});
-//     $location.path('/login');
-// }
+
 
