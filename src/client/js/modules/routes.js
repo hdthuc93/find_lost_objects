@@ -27,5 +27,9 @@ angular.module('findLostObject').config(['$stateProvider', '$urlRouterProvider',
                 url: '/404',
                 templateUrl: 'templates/404.html'
             })
+            .state('login', {
+                url: '/login',
+                templateUrl: 'templates/login.html'
+            })
     }
 ]);
