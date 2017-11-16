@@ -6,8 +6,20 @@ body {
     -webkit-font-smoothing: antialiased;
     font-family: 'Muli', "Helvetica", Arial, sans-serif;
 }
+.login-page{
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background-color: white;
+    z-index: 999999;
+}
 
-
+.login-panel{
+    width: 300px;
+    margin: 100px auto;
+}
 
 .has-error{
     border-color: rgba(247, 17, 17, 0.84);
