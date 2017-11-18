@@ -13,7 +13,7 @@ body {
     bottom: 0;
     top: 0;
     background-color: white;
-    z-index: 999999;
+    z-index: 9998;
 }
 
 .login-panel{

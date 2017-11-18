@@ -13,11 +13,11 @@ angular.module('findLostObject').config(['$stateProvider', '$urlRouterProvider',
             })
             .state('lost', {
                 url: '/lost',
-                templateUrl: 'templates/lost.html'
+                templateUrl: 'templates/add-item-lost.html'
             })
             .state('found', {
                 url: '/found',
-                templateUrl: 'templates/found.html'
+                templateUrl: 'templates/add-item-found.html'
             })
             .state('404', {
                 url: '/404',
@@ -38,6 +38,22 @@ angular.module('findLostObject').config(['$stateProvider', '$urlRouterProvider',
             .state('itemsfound', {
                 url: '/itemsfound',
                 templateUrl: 'templates/item-found-list.html'
+            })
+            .state('location', {
+                url: '/location',
+                templateUrl: 'templates/config-location.html'
+            })
+            .state('storage', {
+                url: '/storage',
+                templateUrl: 'templates/config-storage.html'
+            })
+            .state('category', {
+                url: '/category',
+                templateUrl: 'templates/config-category.html'
+            })
+            .state('user', {
+                url: '/user',
+                templateUrl: 'templates/config-user.html'
             })
     }
 ]);

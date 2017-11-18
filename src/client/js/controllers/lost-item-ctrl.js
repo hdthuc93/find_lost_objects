@@ -17,7 +17,6 @@ function lostItemCtrl($scope, $rootScope, $http, helper) {
             locationId: "",
             lostAt: "",
             otherDetails: "",
-            type: 0,
             fieldAnswersPool:[]
         };
         getCategoryList();
@@ -69,11 +68,9 @@ function lostItemCtrl($scope, $rootScope, $http, helper) {
             return;
         }
         $scope.item.fieldAnswersPool = $scope.category;
-        console.log(212121,$scope.item);
         var param = $scope.item;
         $http.post("/api/items", param)
             .then(function (response) {
-                console.log(21211, response);
                 var msg = response.data.success ? "Thêm vật thất lạc thành công." : "Thêm vật thất lạc thất bại, vui lòng kiểm tra lại";
                 helper.popup.info({ title: "Thông báo", message: msg, close: function () { return; } })
             });
