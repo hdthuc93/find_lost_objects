@@ -73,8 +73,17 @@ function insertLostItem(req, res) {
 
 function getAll(req, res) {
     let outData = [];
+    let typeStr = req.params.type;
+    let cond = {};
 
-    Item.findAll()
+    if(typeStr) {
+        if(typeStr === "lost")
+            cond = { where: { type: 0 } };
+        else if(typeStr === "found")
+        cond = { where: { type: 1 } };
+    }
+
+    Item.findAll(cond)
     .then((itemPool) => {
         let len = itemPool.length;
 
