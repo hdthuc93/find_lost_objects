@@ -14,14 +14,16 @@ function itemListCtrl($scope, $rootScope, $http, helper) {
         enableColumnResizing: true,
         selectionRowHeaderWidth: 35,
         columnDefs: [
-            { field: 'no', displayName: 'STT', minWidth: 50, maxWidth: 70 },
-            { field: 'className', displayName: 'Lớp', minWidth: 50, maxWidth: 70 }
+            { field: 'category_name', displayName: 'Tên vật phẩm', minWidth: 150 },
+            { field: 'type', displayName: 'Loại', minWidth: 80,
+            cellTemplate: '<div class="ui-grid-cell-contents">{{row.entity.type==1?"Tìm thấy":"Thất lạc"}}</div>'},
+            { field: 'lost_or_found_at', displayName: 'Mất/Tìm thấy lúc', minWidth: 120 },
+            { field: 'location_name', displayName: 'Địa điểm', minWidth: 150 },
+            { field: 'fullName', displayName: 'Người liên quan', minWidth: 150 }
         ],
         onRegisterApi: function (gridApi) {
             $scope.gridApi = gridApi;
             // gridApi.selection.on.rowSelectionChanged($scope, function (row) {
-            //     $scope.showHandleArea = false;
-            //     $scope.action = "";
             //     if (row.isSelected) {
             //         $scope.selectedRow = row.entity;
             //     } else {
@@ -33,13 +35,10 @@ function itemListCtrl($scope, $rootScope, $http, helper) {
 
     $http.get("/api/items")
     .then(function (response) {
-        console.log("Item list", response);
         if(response.data.success){
-            $scope.itemList = response.data.data;
+            $scope.itemList.data = response.data.data;
+        }else{
+            $scope.itemList.data = response.data.data;
         }
-        // var msg = response.data.success ? "Thêm vật thất lạc thành công." : "Thêm vật thất lạc thất bại, vui lòng kiểm tra lại";
-        // helper.popup.info({ title: "Thông báo", message: msg, close: function () { return; } })
     });
-
-
 }

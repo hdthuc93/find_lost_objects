@@ -5,7 +5,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-12 col-md-9 col-lg-8">
+        <div class="col-sm-12 col-lg-9">
             <div class="col-md-3 col-xs-6">
                     <div class="form-group">
                         <label class="control-label">Thể loại</label>
@@ -37,7 +37,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-12 col-md-9 col-lg-8">
+        <div class="col-sm-12 col-lg-9">
             <div class="form-group">
                 <div class="btn-group">
                     <button type="button" class="btn btn-primary btn-xs" ng-click="" ng-disabled="!selectedRow">
@@ -45,8 +45,8 @@
                 </div>
             </div>
             <div class="form-group">
-                <div id="itemFoundList" ui-grid-selection ui-grid-resize-columns ui-grid="itemFoundList" class="grid">
-                    <span ng-show="itemFoundList.data.length==0" class="grid-status">Không có dữ liệu</span>
+                <div id="itemList" ui-grid-selection ui-grid-resize-columns ui-grid="itemList" class="grid">
+                    <span ng-show="itemList.data.length==0" class="grid-status">Không có dữ liệu</span>
                 </div>
             </div>
         </div>
