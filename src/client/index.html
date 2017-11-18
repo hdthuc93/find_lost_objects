@@ -69,7 +69,9 @@
     <script type="text/javascript" src="js/controllers/category-ctrl.js"></script>
     <script type="text/javascript" src="js/controllers/lost-item-ctrl.js"></script>
     <script type="text/javascript" src="js/controllers/login-ctrl.js"></script>
-
+    <script type="text/javascript" src="js/controllers/item-list-ctrl.js"></script>
+    <script type="text/javascript" src="js/controllers/item-found-list-ctrl.js"></script>
+    <script type="text/javascript" src="js/controllers/item-lost-list-ctrl.js"></script>
 </head>
 
 <body>
@@ -147,17 +149,21 @@
                         </li>
                         <li>
                             <a href="#">
-                                <i class="fa fa-bar-chart-o fa-fw"></i> Cài đặt
-                                <span class="fa arrow"></span>
-                            </a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="#/config/category">Thể loại</a>
-                                </li>
-                                <li>
-                                    <a href="#/config/position">Địa điểm</a>
-                                </li>
-                            </ul>
+                                    <i class="fa fa-list fa-fw"></i> Danh sách vật phẩm
+                                    <span class="fa arrow"></span>
+                                </a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="#/items">Tất cả vật phẩm</a>
+                                    </li>
+                                    <li>
+                                        <a href="#/itemslost">Vật phẩm mất</a>
+                                    </li>
+                                    <li>
+                                        <a href="#/itemsfound">Vật phẩm tìm thấy</a>
+                                    </li>
+                                </ul>
+                        </li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
