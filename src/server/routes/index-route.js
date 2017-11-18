@@ -8,10 +8,10 @@ import register from './register-route';
 
 const router = express.Router();
 
-router.use('/category', categoryRoute);
-router.use('/field_define', fieldDefineRoute);
-router.use('/location', locationRoute);
-router.use('/item', itemRoute);
-router.use('/login', login);
-router.use('/register', register);
+router.use('/categories', categoryRoute);
+router.use('/field_defines', fieldDefineRoute);
+router.use('/locations', locationRoute);
+router.use('/items', itemRoute);
+router.use('/logins', login);
+router.use('/registers', register);
 export default router;
