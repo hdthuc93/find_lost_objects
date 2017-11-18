@@ -1,6 +1,10 @@
 import { sequelize, Sequelize } from '../models/index-model';
 import Item from '../models/item-model';
+import Locations from '../models/location-model';
+import Category from '../models/category-model';
+import StorageLocation from '../models/storage_location-model';
 import FieldAnswer from '../models/field_answer-model';
+import dateUtils from '../utilities/date_times';
 
 function insertItem(req, res) {
     // type(0: lost, 1: found)
@@ -87,42 +91,56 @@ function getAll(req, res) {
         cond = { where: { type: 1 } };
     }
 
+    cond.include = [{ 
+        model: Locations,
+        required: true 
+    }, { 
+        model: Category,
+        required: true 
+    }, { 
+        model: StorageLocation,
+        // required: true 
+    }];
+
+    cond.order = [["lost_at", "DESC"]];
+
     Item.findAll(cond)
     .then((itemPool) => {
         let len = itemPool.length;
-            for (let i = 0; i < len; ++i) {
-                outData.push({
-                    itemId: itemPool[i]['pk_id'],
-                    category_id: itemPool[i]['category_id'],
-                    location_id: itemPool[i]['location_id'],
-                    other_details: itemPool[i]['other_details'],
-                    lost_at: itemPool[i]['lost_at'],
-                    first_name: itemPool[i]['first_name'],
-                    last_name: itemPool[i]['last_name'],
-                    email_address: itemPool[i]['email_address'],
-                    contact_phone_no: itemPool[i]['contact_phone_no'],
-                    status: itemPool[i]['status'],
-                    image: itemPool[i]['image'],
-                    type: itemPool[i]['type'],
-                    create_time: itemPool[i]['create_time'],
-                    match_item_id: itemPool[i]['match_item_id'],
-                    storege_location_id: itemPool[i]['storege_location_id'],
-                });
-            }
+        for(let i = 0; i < len; ++i) {
+            let temp = {
+                itemId: itemPool[i]['pk_id'],
+                category_id: itemPool[i]['category_id'],
+                category_name: itemPool[i]['Category']['name'],
+                location_id: itemPool[i]['location_id'],
+                location_name: itemPool[i]['location']['name'],
+                lost_or_found_at: dateUtils.changeToDDMMYYYY(itemPool[i]['lost_at'].toString()),
+                fullName: itemPool[i]['last_name'] + " " + itemPool[i]['first_name'],
+                status: itemPool[i]['status'],
+                type: itemPool[i]['type'],
+                storage_location_id: itemPool[i]['storege_location_id'],
+                storage_location_name: "",
+            };
 
-            return res.status(200).json({
-                success: true,
-                message: "Get items successfully",
-                data: outData
-            });
-        })
-        .catch((err) => {
-            console.log(err);
-            return res.status(500).json({
-                success: false,
-                message: "Failed to get items"
-            });
+            if(temp.storage_location_id)
+                temp.storage_location_name = itemPool[i]['StorageLocation']['name'];
+
+            outData.push(temp);
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Get items successfully",
+            data: outData
         });
+    })
+    .catch((err) => {
+        console.log(err);
+        return res.status(500).json({
+            success: false,
+            message: "Failed to get items"
+        });
+    });
 }
 
 function getById(req, res) {
