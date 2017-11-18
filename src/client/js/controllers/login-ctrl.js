@@ -17,7 +17,7 @@ function loginCtrl($scope, $cookieStore, $http, $rootScope, $timeout, $location,
       "Email": $scope.email || null,
       "Pass": $scope.password || null
     }
-    $http.post('/api/login', body).then(function successCallBack(res) {
+    $http.post('/api/logins', body).then(function successCallBack(res) {
       if (res.data.success) {
         var data = res.data;
         var expireDate = new Date();

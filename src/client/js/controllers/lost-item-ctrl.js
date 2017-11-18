@@ -25,21 +25,21 @@ function lostItemCtrl($scope, $rootScope, $http, helper) {
     init();
 
     function getCategoryList() {
-        $http.get("/api/category")
+        $http.get("/api/categories")
             .then(function (response) {
                 $scope.categoryList = response.data.data;
             });
     }
 
     function getLocationList() {
-        $http.get("/api/location")
+        $http.get("/api/locations")
             .then(function (response) {
                 $scope.locationList = response.data.data;
             });
     }
 
     function getCategory(id) {
-        $http.get("/api/field_define/catid/" + id)
+        $http.get("/api/field_defines/catid/" + id)
             .then(function (response) {
                 $scope.category = response.data.data;
             });
@@ -70,7 +70,7 @@ function lostItemCtrl($scope, $rootScope, $http, helper) {
         $scope.item.fieldAnswersPool = $scope.category;
         console.log(212121,$scope.item);
         var param = $scope.item;
-        $http.post("/api/item", param)
+        $http.post("/api/items", param)
             .then(function (response) {
                 console.log(21211, response);
                 var msg = response.data.success ? "Thêm vật thất lạc thành công." : "Thêm vật thất lạc thất bại, vui lòng kiểm tra lại";
