@@ -6,18 +6,34 @@ body {
     -webkit-font-smoothing: antialiased;
     font-family: 'Muli', "Helvetica", Arial, sans-serif;
 }
+.login-page{
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background-color: white;
+    z-index: 999999;
+}
 
-
+.login-panel{
+    width: 300px;
+    margin: 100px auto;
+}
 
 .has-error{
     border-color: rgba(247, 17, 17, 0.84);
     outline: 0;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 2px rgba(230, 38, 38, 0.75);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 2px rgba(230, 38, 38, 0.75);
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 2px rgba(255, 36, 36, 0.82);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 1px rgba(239, 32, 32, 0.87);
 }
 .input-sm{
     font-size: 12.5px;
     height: 26px!important;
+}
+.input-error{
+    box-shadow: rgba(0, 0, 0, 0.075) 0px 1px 1px inset, rgb(179, 0, 0) 0px 0px 8px !important;
+    border-color: rgb(177, 0, 0) !important;
 }
 input[type=radio] {
     margin: 1px 0 0;
@@ -84,7 +100,7 @@ button, textarea, input, select{
 }
 .ui-grid-top-panel {
     text-shadow: 0px 1px 2px rgba(119, 187, 118, 0.76);
-    background: #11983b;  
+    background: #11983b;
     background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #8dc383), color-stop(1, #11983b))!important;
 }
 .ui-grid-pinned-container.ui-grid-pinned-container-left .ui-grid-header-cell:last-child {
@@ -137,7 +153,7 @@ button.btn-primary {
     background-color: #bb6820!important;
     border-color: #94541d!important;
 }
-.btn-primary.active, .btn-primary:active, .open>.dropdown-toggle.btn-primary, 
+.btn-primary.active, .btn-primary:active, .open>.dropdown-toggle.btn-primary,
 .btn-primary.focus, .btn-primary:focus {
     color: #e7f3c7;;
     background-color: #9c571c!important;
@@ -207,14 +223,14 @@ button.btn-primary {
     max-width: 300px;
     border-radius: 5px;
     display: inline-block;
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075); 
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
 }
 .main-login-form {
     position: relative;
 }
 .login-form-1 .form-control {
-    border: 0; 
-    box-shadow: 0 0 0 ; 
+    border: 0;
+    box-shadow: 0 0 0 ;
     border-radius: 0;
     background: transparent;
     color: #555555;

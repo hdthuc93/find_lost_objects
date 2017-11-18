@@ -68,7 +68,10 @@
     <script type="text/javascript" src="js/controllers/main-ctrl.js"></script>
     <script type="text/javascript" src="js/controllers/category-ctrl.js"></script>
     <script type="text/javascript" src="js/controllers/lost-item-ctrl.js"></script>
-
+    <script type="text/javascript" src="js/controllers/login-ctrl.js"></script>
+    <script type="text/javascript" src="js/controllers/item-list-ctrl.js"></script>
+    <script type="text/javascript" src="js/controllers/item-found-list-ctrl.js"></script>
+    <script type="text/javascript" src="js/controllers/item-lost-list-ctrl.js"></script>
 </head>
 
 <body>
@@ -76,7 +79,7 @@
     <div id="wrapper">
 
         <!-- Navigation -->
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
+        <nav ng-show="isLoggedIn" class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
@@ -84,7 +87,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Hệ thống tìm vật thất lạc</a>
+                <a class="navbar-brand" href="#">Hệ thống tìm vật thất lạc</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -102,22 +105,22 @@
                 <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i>
+                        <i class="fa fa-user fa-fw"></i>{{masterUserName}}
                         <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li>
+                        <!-- <li>
                             <a href="#">
-                                <i class="fa fa-user fa-fw"></i> User Profile</a>
+                                <i class="fa fa-user fa-fw"></i> Thông tin</a>
                         </li>
                         <li>
                             <a href="#">
-                                <i class="fa fa-gear fa-fw"></i> Settings</a>
+                                <i class="fa fa-gear fa-fw"></i> Cài đặt</a>
                         </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="login.html">
-                                <i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li class="divider"></li> -->
+                        <li ng-controller="loginCtrl">
+                            <a href="#" ng-click="logout()">
+                                <i class="fa fa-sign-out fa-fw"></i> Đăng xuất</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -146,17 +149,41 @@
                         </li>
                         <li>
                             <a href="#">
-                                <i class="fa fa-bar-chart-o fa-fw"></i> Cài đặt
-                                <span class="fa arrow"></span>
-                            </a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="#/config/category">Thể loại</a>
-                                </li>
-                                <li>
-                                    <a href="#/config/position">Địa điểm</a>
-                                </li>
-                            </ul>
+                                    <i class="fa fa-list fa-fw"></i> Danh sách vật phẩm
+                                    <span class="fa arrow"></span>
+                                </a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="#/items">Tất cả vật phẩm</a>
+                                    </li>
+                                    <li>
+                                        <a href="#/itemslost">Vật phẩm mất</a>
+                                    </li>
+                                    <li>
+                                        <a href="#/itemsfound">Vật phẩm tìm thấy</a>
+                                    </li>
+                                </ul>
+                        </li>
+                        <li>
+                            <a href="#">
+                                    <i class="fa fa-cog fa-fw"></i> Cài đặt hệ thống
+                                    <span class="fa arrow"></span>
+                                </a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="#">Địa điểm</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Kho cất giữ</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Thể loại vật phẩm</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Người dùng</a>
+                                    </li>
+                                </ul>
+                        </li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->

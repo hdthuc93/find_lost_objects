@@ -30,9 +30,9 @@ function insertLostItem(req, res) {
 
                 for(let i = 0; i < fieldAnswersPool.length; ++i) {
                     insertFieldAnswerObj.push({
-                        field_id: fieldAnswersPool[i].fieldId,
+                        field_id: fieldAnswersPool[i].fieldDefineId,
                         item_id: result.pk_id,
-                        answer_text: fieldAnswersPool[i].answerText
+                        answer_text: fieldAnswersPool[i].helpText
                     });
                 }
                 return FieldAnswer.bulkCreate(insertFieldAnswerObj, { transaction: t });

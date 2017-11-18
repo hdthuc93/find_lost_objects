@@ -1,4 +1,5 @@
 import { sequelize, Sequelize } from './index-model';
+import bcrypt from "bcrypt";
 
 const User = sequelize.define('User', {
     pk_id: {
@@ -28,5 +29,22 @@ const User = sequelize.define('User', {
         allowNull: false
     }
 });
+
+User.beforeCreate((user, options) => {
+
+    return bcrypt.hash(user.password, bcrypt.genSaltSync(8))
+        .then(hash => {
+            user.password = hash;
+        })
+        .catch(err => { 
+            console.log(err);
+        });
+});
+
+User.prototype.validPassword = async function(password, callback) {
+    console.log(password);
+    console.log(this.password);
+  return bcrypt.compare(password, this.password, callback);
+};
 
 export default User;

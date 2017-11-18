@@ -1,0 +1,30 @@
+<div class="login-page" ng-controller="loginCtrl">
+    <div class="row">
+        <div class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Vui lòng đăng nhập</h3>
+            </div>
+            <div class="panel-body">
+                <form role="form" id="login-form" name="loginForm">
+                    <fieldset>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="Email" name="email" ng-model="email" autofocus ng-class="{'input-error': loginForm.email.$invalid }"
+                                title="Địa chỉ Email là bắt buộc" required>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="Mật khẩu" name="password" type="password" ng-model="password" value="" maxlength="30"
+                                ng-class="{'input-error': loginForm.password.$invalid }" title="Mật khẩu là bắt buộc" required>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input name="remember" type="checkbox" value="Remember Me">Nhớ mật khẩu
+                            </label>
+                        </div>
+                        <!-- Change this to a button or input when using this as a form -->
+                        <button ng-click="login()" class="btn btn-lg btn-success btn-block">Đăng nhập</button>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

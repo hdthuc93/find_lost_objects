@@ -2,7 +2,7 @@ import Locations from '../models/location-model';
 
 function getAll(req, res) {
     let outData = [];
-
+    
     Locations.findAll()
     .then((LocationsPool) => {
         let len = LocationsPool.length;
