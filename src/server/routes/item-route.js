@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.route('/')
     .post(
-        itemCtrl.insertLostItem
+        itemCtrl.insertItem
     )
     .get(
     	itemCtrl.getAll
