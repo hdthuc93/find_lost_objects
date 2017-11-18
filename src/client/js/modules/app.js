@@ -32,9 +32,12 @@ module.run(['$rootScope', '$location', 'Auth', function ($rootScope, $location, 
     $rootScope.$on('$locationChangeStart', function (event) {
        if (!Auth.isLoggedIn()) {
            $location.path('/login');
+           $rootScope.isLoggedIn = false;
        }
        else {
-           $rootScope.masterUserName = Auth.getUser().name;
+           $rootScope.masterUserName = Auth.getUser().name || "Người dùng";
+           $rootScope.isLoggedIn = true;
+           console.log(2222)
            //$location.path('/');
        }
    });
