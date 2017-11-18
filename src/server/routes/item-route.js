@@ -11,6 +11,11 @@ router.route('/')
     	itemCtrl.getAll
     )
 
+router.route('/:type')
+    .get(
+    	itemCtrl.getAll
+    )
+
 router.route('/:itemId')
 	.get(
 		itemCtrl.getById
