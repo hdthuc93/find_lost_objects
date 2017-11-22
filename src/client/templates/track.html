@@ -60,7 +60,7 @@
 			        <h3 class="box-title"><i class="fa fa-file-text-o"></i>&nbsp; Notes</h3> </div>
 			    <div class="box-body">
 			        <blockquote class="note" ng-repeat="track in trackList">
-			            <p>{{ track.note.value[0].text }}</p> <small>{{ track.note.value[0].text }} at {{ track.log_time | date:'HH:mm:ss dd-MM-yyyy' }}</small> 
+			            <p>{{ track.note.value[0].text }}</p> <small>{{ track.note.user.value[0].first_name + ' ' + track.note.user.value[0].last_name }} at {{ track.log_time | date:'HH:mm:ss dd-MM-yyyy' }}</small> 
 			        </blockquote>
 			        <hr>
 			        <form role="form" method="post" action="" class="form">
