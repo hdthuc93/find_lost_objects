@@ -41,7 +41,7 @@
                     <!-- <input required name="itemLostAt" ng-model="item.lostAt" placeholder="yyyy-mm-dd" type="text" class="form-control input-sm"
                         ng-class="{'has-error': lostItemForm.itemLostAt.$touched && lostItemForm.itemLostAt.$invalid}"> -->
                     <p class="input-group sm">
-                        <input required name="itemLostAt" placeholder="yyyy-mm-dd" type="text" class="form-control input-sm" uib-datepicker-popup="yyyy-MM-dd" 
+                        <input required readonly name="itemLostAt" placeholder="yyyy-mm-dd" type="text" class="form-control input-sm" uib-datepicker-popup="yyyy-MM-dd" 
                         ng-model="item.lostAt" is-open="openDatePicker" datepicker-options="dateOptions" close-text="Đóng"
                         ng-class="{'has-error': lostItemForm.itemLostAt.$touched && lostItemForm.itemLostAt.$invalid}" />
                         <span class="input-group-btn">
