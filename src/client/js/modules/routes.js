@@ -35,6 +35,10 @@ angular.module('findLostObject').config(['$stateProvider', '$urlRouterProvider',
                 url: '/itemslost',
                 templateUrl: 'templates/item-lost-list.html'
             })
+            .state('listlost', {
+                url: '/listlost',
+                templateUrl: 'templates/listlost.html'
+            })
             .state('itemsfound', {
                 url: '/itemsfound',
                 templateUrl: 'templates/item-found-list.html'
@@ -54,6 +58,10 @@ angular.module('findLostObject').config(['$stateProvider', '$urlRouterProvider',
             .state('user', {
                 url: '/user',
                 templateUrl: 'templates/config-user.html'
+            })
+            .state('track', {
+                url: '/track',
+                templateUrl: 'templates/track.html'
             })
     }
 ]);

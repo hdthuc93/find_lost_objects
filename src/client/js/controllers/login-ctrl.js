@@ -29,6 +29,7 @@ function loginCtrl($scope, $cookieStore, $http, $rootScope, $timeout, $location,
           {
             loggedIn: true,
             name: data.name,
+            user_id: data.user_id,
             token: data.token
           },
           {
@@ -36,6 +37,7 @@ function loginCtrl($scope, $cookieStore, $http, $rootScope, $timeout, $location,
           });
         $location.path('/');
       } else {
+        console.log('fail');
         helper.popup.info({
           title: "Đăng nhập thất bại",
           message: "Tên đăng nhập hoặc mật khẩu không đúng, vui lòng thử lại.",

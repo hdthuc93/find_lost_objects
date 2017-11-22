@@ -6,7 +6,8 @@ const Note = sequelize.define('Note', {
     pk_id: {
         type: Sequelize.INTEGER(11),
         allowNull: false,
-        primaryKey: true
+        primaryKey: true,
+        autoIncrement: true
     },
     text: {
         type: Sequelize.STRING(50),

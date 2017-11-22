@@ -16,7 +16,7 @@ router.route('/:type')
     	itemCtrl.getAll
     )
 
-router.route('/:itemId')
+router.route('/id/:itemId')
 	.get(
 		itemCtrl.getById
 	)

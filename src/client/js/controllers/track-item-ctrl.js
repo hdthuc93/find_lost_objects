@@ -11,7 +11,7 @@ function trackItemCtrl($scope, $rootScope, $http, helper) {
 
 		$scope.item = {
 			text: '',
-			user_id: 1, //chưa có tính năng login nên gán cứng
+			user_id: $rootScope.user_id,
 			item_id: itemId,
 			action: 0,
 		};
@@ -52,7 +52,7 @@ function trackItemCtrl($scope, $rootScope, $http, helper) {
 	}
 
 	function getItemById(id) {
-		var res = $http.get('/api/item/' + id).then(function(response) {
+		var res = $http.get('/api/items/id/' + id).then(function(response) {
 			return response.data.data;
 		});
 		
