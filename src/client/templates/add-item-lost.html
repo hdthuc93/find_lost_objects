@@ -38,8 +38,16 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label">Thời điểm thất lạc *</label>
-                    <input required name="itemLostAt" ng-model="item.lostAt" placeholder="yyyy-mm-dd" type="text" class="form-control input-sm"
-                        ng-class="{'has-error': lostItemForm.itemLostAt.$touched && lostItemForm.itemLostAt.$invalid}">
+                    <!-- <input required name="itemLostAt" ng-model="item.lostAt" placeholder="yyyy-mm-dd" type="text" class="form-control input-sm"
+                        ng-class="{'has-error': lostItemForm.itemLostAt.$touched && lostItemForm.itemLostAt.$invalid}"> -->
+                    <p class="input-group sm">
+                        <input required name="itemLostAt" placeholder="yyyy-mm-dd" type="text" class="form-control input-sm" uib-datepicker-popup="yyyy-MM-dd" 
+                        ng-model="item.lostAt" is-open="openDatePicker" datepicker-options="dateOptions" close-text="Đóng"
+                        ng-class="{'has-error': lostItemForm.itemLostAt.$touched && lostItemForm.itemLostAt.$invalid}" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="openDP()"><i class="fa fa-calendar"></i></button>
+                        </span>
+                    </p>
                     <p class="help-block">Theo giờ Việt Nam</p>
                 </div>
             </div>

@@ -21,6 +21,10 @@ function lostItemCtrl($scope, $rootScope, $http, helper) {
         };
         getCategoryList();
         getLocationList();
+        $scope.openDatePicker = false;
+        $scope.dateOptions = {
+
+        }
     }
     init();
 
@@ -68,14 +72,16 @@ function lostItemCtrl($scope, $rootScope, $http, helper) {
             return;
         }
         $scope.item.fieldAnswersPool = $scope.category;
-        var param = $scope.item;
+        var param = angular.copy($scope.item);
+        param.lostAt = helper.convertDate($scope.item.lostAt);
         $http.post("/api/items", param)
             .then(function (response) {
                 var msg = response.data.success ? "Thêm vật thất lạc thành công." : "Thêm vật thất lạc thất bại, vui lòng kiểm tra lại";
                 helper.popup.info({ title: "Thông báo", message: msg, close: function () { return; } })
             });
-
-        
     }
 
+    $scope.openDP = function(){
+        $scope.openDatePicker = true;
+    }
 }

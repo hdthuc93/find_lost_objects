@@ -31,6 +31,10 @@ body {
     font-size: 12.5px;
     height: 26px!important;
 }
+.input-group.sm .input-group-btn .btn{
+    height: 26px;
+    padding: 2px 10px;
+}
 .input-error{
     box-shadow: rgba(0, 0, 0, 0.075) 0px 1px 1px inset, rgb(179, 0, 0) 0px 0px 8px !important;
     border-color: rgb(177, 0, 0) !important;
@@ -406,3 +410,8 @@ table{
     font-style: italic;
     color: gray;
 }
+/* Datepicker - START*/
+.uib-daypicker{
+outline: none;
+}
+/* Datepicker - END*/
