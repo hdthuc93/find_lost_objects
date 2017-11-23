@@ -9,16 +9,21 @@ router.route('/')
     )
     .get(
     	itemCtrl.getAll
-    )
+    );
 
 router.route('/:type')
     .get(
     	itemCtrl.getAll
-    )
+    );
 
 router.route('/id/:itemId')
 	.get(
 		itemCtrl.getById
-	)
+	);
+
+router.route('/matching/:itemId')
+	.get(
+		itemCtrl.recommendMatchingItems
+    );
 
 export default router;

@@ -190,4 +190,39 @@ function getById(req, res) {
         });
 }
 
-export default { insertItem, getAll, getById };
+function recommendMatchingItems(req, res) {
+    let lostItemId = req.params['itemId'];
+    let sqlStr = `SELECT i2.pk_id as itemId
+                    FROM Item as i1
+                        INNER JOIN Item i2 ON i1.category_id = i2.category_id AND
+                                                i1.location_id = i2.location_id AND
+                                                i2.type = 1 AND
+                                                i2.status = 0
+                    WHERE i1.pk_id = ?
+                    ORDER BY i2.lost_at DESC`;
+    
+    sequelize.query(sqlStr, {
+        replacements: [lostItemId],
+        type: sequelize.QueryTypes.SELECT
+    })
+    .then(item => {
+        // let outData = [];
+        // for(let i = 0; i < item.length; ++i)
+        //     outData.push({ itemId: item[i].pk_id });
+
+        return res.status(200).json({
+            success: true,
+            message: "Get matching items successfully",
+            data: item
+        });
+    })
+    .catch(err => {
+        console.log(err);
+        return res.status(500).json({
+            success: false,
+            message: "Failed to matching item"
+        });
+    });
+}
+
+export default { insertItem, getAll, getById, recommendMatchingItems };

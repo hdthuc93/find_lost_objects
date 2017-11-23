@@ -7,6 +7,6 @@ const router = express.Router();
 router.route('/')
     .get(
         storageCtrl.getAll
-    )
+    );
 
 export default router;

@@ -7,6 +7,6 @@ const router = express.Router();
 router.route('/itemid/:itemId')
     .get(
         trackItemCtrl.getByItemId
-    )
+    );
 
 export default router;

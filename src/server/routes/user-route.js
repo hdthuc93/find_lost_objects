@@ -7,7 +7,7 @@ const router = express.Router();
 router.route('/')
     .get(
         userCtrl.getAll
-    )
+    );
 
 router.route('/:userId')
 	.get(

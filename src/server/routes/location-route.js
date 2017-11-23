@@ -7,7 +7,7 @@ const router = express.Router();
 router.route('/')
     .get(
         locationCtrl.getAll
-    )
+    );
 
 router.route('/:locId')
 	.get(
