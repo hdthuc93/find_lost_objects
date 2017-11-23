@@ -14,7 +14,7 @@ function itemListCtrl($scope, $rootScope, $http, helper) {
         enableColumnResizing: true,
         selectionRowHeaderWidth: 35,
         columnDefs: [
-            { field: 'no', displayName: 'STT', minWidth: 40 },
+            { field: 'no', displayName: 'STT', width: 40 },
             { field: 'category_name', displayName: 'Tên vật phẩm', minWidth: 120 },
             {
                 field: 'type', displayName: 'Loại', minWidth: 70,

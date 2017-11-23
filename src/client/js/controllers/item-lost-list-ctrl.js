@@ -14,7 +14,7 @@ function itemLostListCtrl($scope, $rootScope, $http, helper) {
         enableColumnResizing: true,
         selectionRowHeaderWidth: 35,
         columnDefs: [
-            { field: 'no', displayName: 'STT', minWidth: 40 },
+            { field: 'no', displayName: 'STT', width: 40 },
             { field: 'category_name', displayName: 'Tên vật phẩm', minWidth: 120 },
             { field: 'type', displayName: 'Loại', minWidth: 70,
             cellTemplate: '<div class="ui-grid-cell-contents">{{row.entity.type==1?"Tìm thấy":"Thất lạc"}}</div>'},
