@@ -26,4 +26,10 @@ router.route('/matching/:itemId')
 		itemCtrl.recommendMatchingItems
     );
 
+
+router.route('/matched')
+    .post(
+        itemCtrl.matchedItems
+    );
+
 export default router;

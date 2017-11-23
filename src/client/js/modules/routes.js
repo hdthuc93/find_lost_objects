@@ -63,5 +63,9 @@ angular.module('findLostObject').config(['$stateProvider', '$urlRouterProvider',
                 url: '/track',
                 templateUrl: 'templates/track.html'
             })
+            .state('matched', {
+                url: '/matched',
+                templateUrl: 'templates/matched.html'
+            })
     }
 ]);
