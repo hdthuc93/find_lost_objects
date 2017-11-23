@@ -20,7 +20,11 @@ function itemFoundListCtrl($scope, $rootScope, $http, helper) {
             cellTemplate: '<div class="ui-grid-cell-contents">{{row.entity.type==1?"Tìm thấy":"Thất lạc"}}</div>'},
             { field: 'lost_or_found_at', displayName: 'Tìm thấy lúc', minWidth: 120 },
             { field: 'location_name', displayName: 'Địa điểm', minWidth: 150 },
-            { field: 'fullName', displayName: 'Người liên quan', minWidth: 150 }
+            { field: 'fullName', displayName: 'Người liên quan', minWidth: 150 },
+            {
+                field: 'action', displayName: 'Chức năng', minWidth: 100,
+                cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" style="padding: 0px 5px;" class="btn btn-default" ng-click="grid.appScope.viewItem(row.entity)"><i class="fa fa-eye"></i></button></div>'
+            }
         ],
         onRegisterApi: function (gridApi) {
             $scope.gridApi = gridApi;
@@ -48,10 +52,14 @@ function itemFoundListCtrl($scope, $rootScope, $http, helper) {
         }
     });
 
-    $scope.viewItem = function(){
-        if($scope.selectedRow && $scope.selectedRow.itemId){
-            location.href = "#/track?item="+$scope.selectedRow.itemId;
-        }else{
+    $scope.viewItem = function (row) {
+        var data = $scope.selectedRow || null;
+        if (row) {
+            data = row;
+        }
+        if (data && data.itemId) {
+            location.href = "#/track?item=" + data.itemId;
+        } else {
             helper.popup.info({ title: "Thông báo", message: "Vật phẩm này không tồn tại", close: function () { return; } })
         }
     }
