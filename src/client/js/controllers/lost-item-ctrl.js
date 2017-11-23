@@ -17,6 +17,7 @@ function lostItemCtrl($scope, $rootScope, $http, helper) {
             locationId: "",
             lostAt: "",
             otherDetails: "",
+            type: 0,
             fieldAnswersPool:[]
         };
         getCategoryList();
