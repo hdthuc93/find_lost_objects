@@ -17,7 +17,11 @@ function itemMatchedListCtrl($scope, $rootScope, $http, helper) {
             { field: 'no', displayName: 'STT', width: 40 },
             {
                 field: 'category_name', displayName: 'Tên vật phẩm', minWidth: 140,
-                cellTemplate: '<div class="ui-grid-cell-contents">{{row.entity.category_name}} - <b>Ref: {{row.entity.itemId}}</b></div>'
+                cellTemplate: '<div class="ui-grid-cell-contents">{{row.entity.category_name}} - <b>Mã: {{row.entity.itemId}}</b></div>'
+            },
+            {
+                field: 'match_item_id', displayName: 'Vật phẩm khớp', minWidth: 140,
+                cellTemplate: '<div class="ui-grid-cell-contents"><b>Mã: {{row.entity.match_item_id}}</b>&nbsp;&nbsp;&nbsp;<button type="button" style="padding: 0px 5px;" class="btn btn-default pull-right" ng-click="grid.appScope.viewItem(row.entity.match_item_id)"><i class="fa fa-eye"></i></button></div>'
             },
             {
                 field: 'type', displayName: 'Loại', minWidth: 70,
@@ -47,7 +51,7 @@ function itemMatchedListCtrl($scope, $rootScope, $http, helper) {
         }
     };
 
-    $http.get("/api/items/matched")
+    $http.get("/api/items/lost?matched=true")
         .then(function (response) {
             if (response.data.success) {
                 var data = response.data.data;
