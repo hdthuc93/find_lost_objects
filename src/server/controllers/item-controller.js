@@ -120,6 +120,7 @@ function getAll(req, res) {
                 type: itemPool[i]['type'],
                 storage_location_id: itemPool[i]['storege_location_id'],
                 storage_location_name: "",
+                match_item_id: itemPool[i]['match_item_id'] 
             };
 
             if(temp.storage_location_id)
