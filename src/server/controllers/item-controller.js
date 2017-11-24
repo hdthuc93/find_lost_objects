@@ -82,6 +82,7 @@ function insertItem(req, res) {
 function getAll(req, res) {
     let outData = [];
     let typeStr = req.params.type;
+    let matched = req.query.matched;
     let cond = {};
 
     if(typeStr) {
@@ -89,6 +90,13 @@ function getAll(req, res) {
             cond = { where: { type: 0 } };
         else if(typeStr === "found")
         cond = { where: { type: 1 } };
+    }
+
+    if(matched && matched === "true") {
+        if(cond.where)
+            cond.where.status = 1;
+        else
+            cond = { where: { status: 1 } };
     }
 
     cond.include = [{ 
