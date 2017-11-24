@@ -17,7 +17,7 @@ function itemFoundListCtrl($scope, $rootScope, $http, helper) {
             { field: 'no', displayName: 'STT', width: 40 },
             {
                 field: 'category_name', displayName: 'Tên vật phẩm', minWidth: 140,
-                cellTemplate: '<div class="ui-grid-cell-contents">{{row.entity.category_name}} - <b>Ref: {{row.entity.itemId}}</b></div>'
+                cellTemplate: '<div class="ui-grid-cell-contents">{{row.entity.category_name}} - <b>Mã: {{row.entity.itemId}}</b></div>'
             },
             {
                 field: 'type', displayName: 'Loại', minWidth: 70,
