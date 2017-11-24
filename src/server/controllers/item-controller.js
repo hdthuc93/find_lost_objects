@@ -87,17 +87,12 @@ function getAll(req, res) {
     let cond = {};
 
     if(typeStr) {
-        if(typeStr === "lost")
+        if(typeStr === "lost") {
             cond = { where: { type: 0 } };
-        else if(typeStr === "found")
-        cond = { where: { type: 1 } };
-    }
-
-    if(matched && matched === "true") {
-        if(cond.where)
+            if(matched && matched === "true")
             cond.where.status = 1;
-        else
-            cond = { where: { status: 1 } };
+        } else if(typeStr === "found")
+            cond = { where: { type: 1 } };
     }
 
     cond.include = [{ 
