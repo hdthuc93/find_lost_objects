@@ -4,7 +4,8 @@ app.controller("trackItemCtrl", ['$scope', '$rootScope', '$http', 'helper', trac
 function trackItemCtrl($scope, $rootScope, $http, helper) {
 	function init() {
 		$scope.itemOwn = [];
-		$scope.trackList = [];
+		$scope.timeLine = [];
+		$scope.itemMatching = [];
 		
 		var params = new URL(window.location.href.replace('/#', '')).searchParams;
 		var itemId = params.get('item');
@@ -17,6 +18,7 @@ function trackItemCtrl($scope, $rootScope, $http, helper) {
 		};
 
 		getTrackByItemId(itemId);
+		getRecommendMatch(itemId);
 		$scope.itemOwn = getItemById(itemId);
 	}
 
@@ -24,10 +26,10 @@ function trackItemCtrl($scope, $rootScope, $http, helper) {
 
 	function getTrackByItemId(id) {
 		$http.get('/api/track/itemid/' + id).then(function(response) {
-			$scope.trackList = response.data.data;
+			$scope.timeLine = response.data.data;
 
-			for(i in $scope.trackList) {
-			 	$scope.trackList[i].note = getNoteById($scope.trackList[i].note_id);
+			for (i in $scope.timeLine) {
+			 	$scope.timeLine[i].note = getNoteById($scope.timeLine[i].note_id);
 			}
 		});
 	}
@@ -53,10 +55,54 @@ function trackItemCtrl($scope, $rootScope, $http, helper) {
 
 	function getItemById(id) {
 		var res = $http.get('/api/items/id/' + id).then(function(response) {
+			if (response.data.data[0].match_item_id != null) {
+				res.$$state.item_matched = _getItemMathed(response.data.data[0].match_item_id);
+			}
+
 			return response.data.data;
 		});
 		
 		return res.$$state;
+	}
+
+	function _getItemMathed(id) {
+		var res = $http.get('/api/items/id/' + id).then(function(response) {
+			res.$$state.category = getCategoryById(response.data.data[0].category_id);
+			res.$$state.location = getLocationById(response.data.data[0].location_id);
+
+			return response.data.data;
+		});
+		
+		return res.$$state;
+	}
+
+	function getCategoryById(id) {
+		var res = $http.get('/api/categories/' + id).then(function(response) {
+			return response.data.data;
+		});
+		
+		return res.$$state;
+	}
+
+	function getLocationById(id) {
+		var res = $http.get('/api/locations/' + id).then(function(response) {
+			return response.data.data;
+		});
+		
+		return res.$$state;
+	}
+
+
+	function getRecommendMatch(id) {
+		$http.get('/api/items/matching/' + id).then(function(response) {
+			$scope.itemMatching = response.data.data;
+
+			for (i in $scope.itemMatching) {
+				$scope.itemMatching[i].item = getItemById($scope.itemMatching[i].itemId);
+				$scope.itemMatching[i].item.category = getCategoryById($scope.itemMatching[i].categoryId);
+				$scope.itemMatching[i].item.location = getLocationById($scope.itemMatching[i].locationId);
+			}
+		});
 	}
 
 	$scope.save = function () {

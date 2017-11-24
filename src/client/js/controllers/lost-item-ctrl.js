@@ -24,7 +24,8 @@ function lostItemCtrl($scope, $rootScope, $http, helper) {
         getLocationList();
         $scope.openDatePicker = false;
         $scope.dateOptions = {
-
+            startingDay: 1,
+            maxDate: new Date()
         }
     }
     init();
