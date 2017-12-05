@@ -15,15 +15,24 @@ function itemFoundListCtrl($scope, $rootScope, $http, helper) {
         selectionRowHeaderWidth: 35,
         columnDefs: [
             { field: 'no', displayName: 'STT', width: 40 },
-            { field: 'category_name', displayName: 'Tên vật phẩm', minWidth: 120 },
-            { field: 'type', displayName: 'Loại', minWidth: 70,
-            cellTemplate: '<div class="ui-grid-cell-contents">{{row.entity.type==1?"Tìm thấy":"Thất lạc"}}</div>'},
+            {
+                field: 'category_name', displayName: 'Tên vật phẩm', minWidth: 140,
+                cellTemplate: '<div class="ui-grid-cell-contents">{{row.entity.category_name}} - <b>Mã: {{row.entity.itemId}}</b></div>'
+            },
+            {
+                field: 'type', displayName: 'Loại', minWidth: 70,
+                cellTemplate: '<div class="ui-grid-cell-contents">{{row.entity.type==1?"Tìm thấy":"Thất lạc"}}</div>'
+            },
+            {
+                field: 'status', displayName: 'Trạng thái', minWidth: 80,
+                cellTemplate: '<div class="ui-grid-cell-contents" ng-style="{ \'color\' : (row.entity.status == \'0\') ? \'green\' : (row.entity.status == \'1\') ? \'orange\' : \'gray\' }"><b>{{row.entity.status==0?"Mới":(row.entity.status==1?"Tìm thấy":"Đã đóng")}}</b></div>'
+            },
             { field: 'lost_or_found_at', displayName: 'Tìm thấy lúc', minWidth: 120 },
             { field: 'location_name', displayName: 'Địa điểm', minWidth: 150 },
             { field: 'fullName', displayName: 'Người liên quan', minWidth: 150 },
             {
                 field: 'action', displayName: 'Chức năng', minWidth: 100,
-                cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" style="padding: 0px 5px;" class="btn btn-default" ng-click="grid.appScope.viewItem(row.entity)"><i class="fa fa-eye"></i></button></div>'
+                cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" style="padding: 0px 5px;" class="btn btn-default" ng-click="grid.appScope.viewItem(row.entity.itemId)"><i class="fa fa-eye"></i></button></div>'
             }
         ],
         onRegisterApi: function (gridApi) {
@@ -39,26 +48,22 @@ function itemFoundListCtrl($scope, $rootScope, $http, helper) {
     };
 
     $http.get("/api/items/found")
-    .then(function (response) {
-        if(response.data.success){
-            var data = response.data.data;
-            data.forEach(function (e, i) {
-                data[i] = e;
-                data[i].no = i + 1;
-            });
-            $scope.itemList.data = data;
-        }else{
-            $scope.itemList.data = [];
-        }
-    });
+        .then(function (response) {
+            if (response.data.success) {
+                var data = response.data.data;
+                data.forEach(function (e, i) {
+                    data[i] = e;
+                    data[i].no = i + 1;
+                });
+                $scope.itemList.data = data;
+            } else {
+                $scope.itemList.data = [];
+            }
+        });
 
-    $scope.viewItem = function (row) {
-        var data = $scope.selectedRow || null;
-        if (row) {
-            data = row;
-        }
-        if (data && data.itemId) {
-            location.href = "#/track?item=" + data.itemId;
+    $scope.viewItem = function (id) {
+        if (id) {
+            location.href = "#/track?item=" + id;
         } else {
             helper.popup.info({ title: "Thông báo", message: "Vật phẩm này không tồn tại", close: function () { return; } })
         }

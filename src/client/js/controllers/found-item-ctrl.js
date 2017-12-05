@@ -26,7 +26,8 @@ function foundItemCtrl($scope, $rootScope, $http, helper) {
         getStorageList();
         $scope.openDatePicker = false;
         $scope.dateOptions = {
-
+            startingDay: 1,
+            maxDate: new Date()
         }
     }
     init();

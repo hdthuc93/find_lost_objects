@@ -83,13 +83,16 @@ function insertItem(req, res) {
 function getAll(req, res) {
     let outData = [];
     let typeStr = req.params.type;
+    let matched = req.query.matched;
     let cond = {};
 
     if(typeStr) {
-        if(typeStr === "lost")
+        if(typeStr === "lost") {
             cond = { where: { type: 0 } };
-        else if(typeStr === "found")
-        cond = { where: { type: 1 } };
+            if(matched && matched === "true")
+            cond.where.status = 1;
+        } else if(typeStr === "found")
+            cond = { where: { type: 1 } };
     }
 
     cond.include = [{ 
@@ -121,6 +124,7 @@ function getAll(req, res) {
                 type: itemPool[i]['type'],
                 storage_location_id: itemPool[i]['storege_location_id'],
                 storage_location_name: "",
+                match_item_id: itemPool[i]['match_item_id'] 
             };
 
             if(temp.storage_location_id)

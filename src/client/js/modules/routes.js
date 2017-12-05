@@ -43,6 +43,10 @@ angular.module('findLostObject').config(['$stateProvider', '$urlRouterProvider',
                 url: '/itemsfound',
                 templateUrl: 'templates/item-found-list.html'
             })
+            .state('itemsmatched', {
+                url: '/itemsmatched',
+                templateUrl: 'templates/item-matched-list.html'
+            })
             .state('location', {
                 url: '/location',
                 templateUrl: 'templates/config-location.html'
