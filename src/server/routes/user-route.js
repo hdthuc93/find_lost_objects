@@ -7,6 +7,9 @@ const router = express.Router();
 router.route('/')
     .get(
         userCtrl.getAll
+    )
+    .put(
+    	userCtrl.updateUser
     );
 
 router.route('/:userId')

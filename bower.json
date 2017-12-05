@@ -24,7 +24,8 @@
     "angular-ui-grid": "^4.0.7",
     "jquery": "^3.2.1",
     "metisMenu": "^2.7.0",
-    "morris.js": "morrisjs#^0.5.1"
+    "morris.js": "morrisjs#^0.5.1",
+    "chart.js": "^2.7.1",
   },
   "private": true
 }

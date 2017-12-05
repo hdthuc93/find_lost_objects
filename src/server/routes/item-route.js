@@ -32,4 +32,9 @@ router.route('/matched')
         itemCtrl.matchedItems
     );
 
+router.route('/report')
+    .post(
+        itemCtrl.getItemReportByDay
+    );
+
 export default router;

@@ -1,7 +1,87 @@
-<div ng-controller="userCtrl">
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header">Người dùng</h3>
-        </div>
-    </div>
+<link href="lib/custom/custom.css" rel="stylesheet">
+
+<div ng-controller="userCtrl" class="row">
+	<h3 class="page-header">Chỉnh sửa người dùng</h3>
+	<form role="form" class="form">
+		<div class="row">
+			<div class="col-md-8 col-lg-6 col-lg-push-3">
+				<div class="box box-default">
+					<div class="box-body clearfix">
+						<div class="row">
+							<div class="col-xs-6">
+								<div class="form-group ">
+									<label class="control-label required" for="control_panel_user_firstName">Họ</label>
+									<input type="text" class="form-control" ng-model='item.last_name'></div>
+							</div>
+							<div class="col-xs-6">
+								<div class="form-group ">
+									<label class="control-label required" for="control_panel_user_lastName">Tên</label>
+									<input type="text" class="form-control" ng-model='item.first_name'></div>
+							</div>
+						</div>
+						<div class="form-group ">
+							<label class="control-label required" for="control_panel_user_email">Email</label>
+							<input type="email" class="form-control" ng-model='item.email'>
+						</div>
+					</div>
+				</div>
+				<div class="box box-default">
+					<div class="box-body clearfix">
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="form-group ">
+									<label class="control-label" for="control_panel_user_newPassword_first">Mật khẩu mới</label>
+									<input type="password" class="form-control" ng-model='item.newpassword'><span class="help-block small">Chỉ nhập mật khẩu mới khi bạn muốn thay đổi mật khẩu, nếu không để trống.</span> </div>
+							</div>
+							<div class="col-lg-6">
+								<div class="form-group ">
+									<label class="control-label" for="control_panel_user_newPassword_second">Nhập lại mật khẩu mới</label>
+									<input type="password" class="form-control" ng-model='item.renewpassword'><span class="help-block small" ng-model='item.email'>Nhập lại lần nữa để chắc chắn</span> </div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="box box-success">
+					<div class="box-body">
+						<div class="text-center">
+							<button type="submit" class="btn btn-success" ng-click='save()'><i class="fa fa-check"></i>&nbsp; Lưu Thay Đổi</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--
+			<div class="col-md-4 col-lg-4 col-lg-push-2">
+				<div class="box box-default">
+					<div class="box-header">
+						<h4 class="box-title"><i class="fa fa-question-circle"></i> Trợ giúp</h4> </div>
+					<div class="box-body">
+						<h5>User Type</h5>
+						<ul>
+							<li><strong>Lost Item Reporter</strong> users have extremely basic privileges to: report lost items only.</li>
+							<li><strong>Found Item Reporter</strong> users have extremely basic privileges to: report found items only.</li>
+							<li><strong>Standard</strong> users have basic privileges to: manage items, and view reports.</li>
+							<li><strong>Admin</strong> users have full privileges to: manage everything, including billing.</li>
+						</ul>
+						<h5>Timezone</h5>
+						<ul>
+							<li>The timezone changes how times throughout the Control Panel are displayed to you.</li>
+						</ul>
+						<h5>Passwords</h5>
+						<ul>
+							<li>Enter a password <strong>only</strong> if you want to change it. Otherwise leave blank to ensure password stays unchanged.</li>
+							<li>Passwords are entered twice to ensure no accidental mistakes are made.</li>
+						</ul>
+						<h5>Password Complexity Rules</h5>
+						<ul>
+							<li>At least 8 characters long</li>
+							<li>Contain both upper and lower case letters</li>
+							<li>Contain at least 1 letter</li>
+							<li>Contain at least 1 number</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			-->
+		</div>
+	</form>
 </div>

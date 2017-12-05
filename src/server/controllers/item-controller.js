@@ -293,4 +293,53 @@ function matchedItems(req, res) {
     });
 }
 
-export default { insertItem, getAll, getById, recommendMatchingItems, matchedItems };
+function getItemReportByDay(req, res) {
+    let day = req.body.day;
+    let month = req.body.month;
+    let year = req.body.year;
+    console.log(1);
+    let szQuery = `SELECT (COUNT(action) / 2) AS item_match FROM trackitem
+                    WHERE DAY(log_time) = ? AND MONTH(log_time) = ? AND YEAR(log_time) = ? AND action = 1
+                    GROUP BY action`;
+    
+    let result = {
+        item_lost: 0,
+        item_found: 0,
+        item_match: 0,
+    }
+
+    sequelize.query(szQuery, {
+        replacements: [day, month, year],
+        type: sequelize.QueryTypes.SELECT
+    })
+    .then(item => {
+        if (item[0] != null && item[0].item_match != null) {
+            result.item_match = Math.floor(item[0].item_match);
+        }
+
+        szQuery = `SELECT type, count(pk_id) as count FROM item
+                    WHERE DAY(create_time) = ? AND MONTH(create_time) = ? AND YEAR(create_time) = ?
+                    GROUP BY type`;
+        sequelize.query(szQuery, {
+            replacements: [day, month, year],
+            type: sequelize.QueryTypes.SELECT
+        })
+        .then((item) => {
+            if (item[0] != null &&  item[0].count != null) {
+                result.item_lost = item[0].count;
+            }
+            
+            if (item[1] != null && item[1].count != null) {
+                result.item_found = item[1].count;
+            }
+
+            return res.status(200).json({
+                success: true,
+                data: result,
+            });
+        });
+        
+    });
+}
+
+export default { insertItem, getAll, getById, recommendMatchingItems, matchedItems, getItemReportByDay };

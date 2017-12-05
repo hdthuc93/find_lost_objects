@@ -55,7 +55,7 @@
     <script type="text/javascript" src="angular-cookies/angular-cookies.min.js"></script>
     <script type="text/javascript" src="angular-ui-router/release/angular-ui-router.min.js"></script>
     <script type="text/javascript" src="angular-ui-grid/ui-grid.min.js"></script>
-
+    <script src="chart.js/dist/Chart.min.js"></script>
     <!-- MY SOURCE CODE -->
     <!--1 components-->
     <script type="text/javascript" src="js/modules/helper.js"></script>
@@ -75,6 +75,8 @@
     <script type="text/javascript" src="js/controllers/item-lost-list-ctrl.js"></script>
     <script type="text/javascript" src="js/controllers/track-item-ctrl.js"></script>
     <script type="text/javascript" src="js/controllers/matched-ctrl.js"></script>
+    <script type="text/javascript" src="js/controllers/user-ctrl.js"></script>
+    <script type="text/javascript" src="js/controllers/item-report.js"></script>
 </head>
 
 <body>
@@ -183,9 +185,14 @@
                                         <a href="#">Thể loại vật phẩm</a>
                                     </li>
                                     <li>
-                                        <a href="#">Người dùng</a>
+                                        <a href="#/listuser">Người dùng</a>
                                     </li>
                                 </ul>
+                        </li>
+                        <li>
+                            <a href="#/report">
+                                <i class="fa fa-pie-chart" aria-hidden="true"></i> Thống kê
+                            </a>
                         </li>
                     </ul>
                 </div>
