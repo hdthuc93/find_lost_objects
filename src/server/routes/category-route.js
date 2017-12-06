@@ -12,6 +12,9 @@ router.route('/')
 router.route('/:catId')
 	.get(
 		categoryCtrl.getById
-	);
+    )
+    .put(
+        categoryCtrl.insertCategory
+    );
 
 export default router;
