@@ -24,6 +24,11 @@ function foundItemCtrl($scope, $rootScope, $http, helper) {
         getCategoryList();
         getLocationList();
         getStorageList();
+        $scope.openDatePicker = false;
+        $scope.dateOptions = {
+            startingDay: 1,
+            maxDate: new Date()
+        }
     }
     init();
 
@@ -78,11 +83,10 @@ function foundItemCtrl($scope, $rootScope, $http, helper) {
             return;
         }
         $scope.item.fieldAnswersPool = $scope.category;
-        console.log(212121,$scope.item);
-        var param = $scope.item;
+        var param = angular.copy($scope.item);
+        param.lostAt = helper.convertDate($scope.item.lostAt);
         $http.post("/api/items", param)
             .then(function (response) {
-                console.log(21211, response);
                 var msg = response.data.success ? "Thêm vật nhặt được thành công." : "Thêm vật nhặt được thất bại, vui lòng kiểm tra lại";
                 helper.popup.info({ title: "Thông báo", message: msg, close: function () { return; } })
             });
@@ -90,4 +94,7 @@ function foundItemCtrl($scope, $rootScope, $http, helper) {
         
     }
 
+    $scope.openDP = function(){
+        $scope.openDatePicker = true;
+    }
 }

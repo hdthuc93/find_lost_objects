@@ -15,8 +15,8 @@ function Login(req, res) {
                     }
                     if (isValid) {
                         let cert = config.secret;
-                        let tokenJWT = jwt.sign({ data: user }, cert);
-                        res.send({ success: true, msg: "Login success", token: tokenJWT });
+                        let tokenJWT = jwt.sign({data : user}, cert);
+                        res.send({ success: true,msg: "Login success", token: tokenJWT, name: user['first_name'] ,user_id: user['pk_id'] });
                     }
                     else {
                         res.send({ success: false, msg: 'Authentication failed. Wrong password.' });

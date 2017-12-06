@@ -1,0 +1,130 @@
+<div id='itemReport' ng-controller='itemReportCtrl'>
+	<div class="row">
+		<div class="col-sm-12 col-md-9 col-lg-8 col-lg-push-2">
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label class="control-label">Tháng</label>
+					<select id='month' class="form-control input-sm"></select>
+				</div>
+			</div>
+
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label class="control-label">Năm</label>
+					<select id='year' class="form-control input-sm"></select>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <canvas id="myChart" width="800" height="450" ></canvas>
+</div>
+
+<script>
+	let date = new Date();
+
+	function initSel() {
+		for (let i = 1; i <= 12; i++) {
+			var sel = new Option(i, i);
+
+			if (i == date.getMonth() + 1) sel.selected = true;
+			
+			$('#month').append(sel);
+		}
+
+		for (let i = 2015; i <= date.getFullYear(); i++) {
+			var sel = new Option(i, i);
+
+			if (i == date.getFullYear()) sel.selected = true;
+			
+			$('#year').append(sel);
+		}
+	}
+
+	$(function() {
+		initSel();
+		initChart();
+	});
+
+	function getDay() {
+		if (date.getMonth() + 1 == $('#month').val()  && date.getFullYear() == $('#year').val()) {
+			return date.getUTCDate();
+		}
+		
+		let aDay = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+		if ($('#year').val() % 4 == 0 && $('#year').val() % 100 != 0) {
+			aDay[1] = 29;
+		}
+
+		return aDay[$('#month').val() - 1];
+	}
+
+	$(function() {
+		$('#month').change(function() {
+			initChart();
+		});
+	});
+
+	$(function() {
+		$('#year').change(function() {
+			initChart();
+		});
+	});
+
+	function initChart() {
+		var ctx = document.getElementById("myChart").getContext('2d');
+		var chartData = {
+		    type: 'line',
+			data: {
+			    labels: [],
+			    datasets: [ { 
+						data: [],
+						label: "Vật Phẩm Mất",
+						borderColor: "#c45850",
+						fill: false
+					}, { 
+						data: [],
+						label: "Vật Tìm Thấy",
+						borderColor: "#3e95cd",
+						fill: false
+					}, { 
+						data: [],
+						label: "Đã Trả Về",
+						borderColor: "#3cba9f",
+						fill: false
+					}, 
+			    ]
+			},
+			options: {
+			    title: {
+			      display: true,
+			      text: 'Thống kê vật phẩm trong tháng ' + $('#month').val(),
+			    }
+			}
+		}
+
+		for (let i = 1; i <= getDay(); i++) {
+			//Đưa ngày vào cột X
+			chartData.data.labels.push('Ngày: ' + i);
+		}
+		
+		var aReport = angular.element(document.getElementById('itemReport')).scope().getreport(getDay(), $('#month').val(), $('#year').val());
+
+		setTimeout(function() {
+			aReport.forEach(function(el) {
+			   for (let i = 0; i < 3; i++) {
+			   		if (i == 0) {
+			   			chartData.data.datasets[i].data.push(el.item_lost);
+			   		} else if (i == 1) {
+			   			chartData.data.datasets[i].data.push(el.item_found);
+			   		} else {
+			   			chartData.data.datasets[i].data.push(el.item_match);
+			   		}
+			   }
+			});
+
+			var myChart = new Chart(ctx, chartData);
+		}, 2000);
+	}
+</script>

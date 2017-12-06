@@ -36,8 +36,9 @@ module.run(['$rootScope', '$location', 'Auth', function ($rootScope, $location, 
        }
        else {
            $rootScope.masterUserName = Auth.getUser().name || "Người dùng";
+           $rootScope.user_id = Auth.getUser().user_id || null;
            $rootScope.isLoggedIn = true;
-           console.log(2222)
+           //console.log(Auth)
            //$location.path('/');
        }
    });

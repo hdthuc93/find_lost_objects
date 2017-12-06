@@ -1,4 +1,6 @@
+import { sequelize, Sequelize } from '../models/index-model';
 import Users from '../models/user-model';
+import bcrypt from "bcrypt";
 
 function getAll(req, res) {
     let outData = [];
@@ -71,4 +73,57 @@ function getById(req, res) {
     });
 }
 
-export default { getById, getAll };
+function updateUser(req, res) {
+    let uId = req.body.userId;
+    let obj = {
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        email: req.body.email,
+        user_type: req.body.user_type,
+        password: req.body.password,
+    };
+
+    if (req.body.action == 'band') {
+        if (obj.user_type == 0) obj.user_type = -1;
+        else if (obj.user_type == -1) obj.user_type = 0;
+    } else if (req.body.action == 'changepw') {
+        var salt = bcrypt.genSaltSync(10);
+        obj.password = bcrypt.hashSync(obj.password, salt);
+    }
+
+    let szQuery = `SELECT * FROM user WHERE email = ? AND pk_id <> ?`;
+    
+    sequelize.query(szQuery, {
+        replacements: [obj.email, uId],
+        type: sequelize.QueryTypes.SELECT
+    })
+    .then((result) => {
+            if (result.length == 0) {
+                sequelize.transaction().then((t) => {
+                    Users.update(obj, {where: { pk_id: uId } }, { transaction: t })
+                    .then((result) => {
+                        t.commit();
+                        return res.status(200).json({
+                            success: true,
+                            message: "Cập nhật thông tin thành công"
+                        });
+                    })
+                    .catch((err) => {
+                        t.rollback();
+                        return res.status(500).json({
+                            success: false,
+                            message: "Update User Fail"
+                        });
+                    })
+                });
+            } else {
+                return res.status(200).json({
+                    sucess: false,
+                    message: "Email đã có người sử dụng"
+                });
+            }
+        });
+        
+}
+
+export default { getById, getAll, updateUser };

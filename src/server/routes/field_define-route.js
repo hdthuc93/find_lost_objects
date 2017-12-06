@@ -7,6 +7,6 @@ const router = express.Router();
 router.route('/catid/:catId')
     .get(
         fieldDefineCtrl.getByCatId
-    )
+    );
 
 export default router;

@@ -114,6 +114,13 @@ module.factory('helper', ['$uibModal', '$interval',
                 }
             }, 500, 30);
         }
+
+        service.convertDate = function(inputFormat) {
+            function pad(s) { return (s < 10) ? '0' + s : s; }
+            var d = new Date(inputFormat);
+            return [pad(d.getFullYear()), pad(d.getMonth()+1), d.getDate()].join('-');
+        }
+
         return service;
     }]);
 
