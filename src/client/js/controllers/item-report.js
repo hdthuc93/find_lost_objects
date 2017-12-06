@@ -7,7 +7,7 @@ function itemReportCtrl($scope, $q, $rootScope, $http, helper) {
 	}
 
 	$scope.getreport = function(day, month, year) {
-		let arr = []
+		let arr = [];
 
 		for (let i = 1; i <= day; i++) {
 			let param = {

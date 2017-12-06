@@ -21,8 +21,9 @@
 </div>
 
 <script>
+	let date = new Date();
+
 	function initSel() {
-		let date = new Date();
 		for (let i = 1; i <= 12; i++) {
 			var sel = new Option(i, i);
 
@@ -44,6 +45,20 @@
 		initSel();
 		initChart();
 	});
+
+	function getDay() {
+		if (date.getMonth() + 1 == $('#month').val()  && date.getFullYear() == $('#year').val()) {
+			return date.getUTCDate();
+		}
+		
+		let aDay = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+		if ($('#year').val() % 4 == 0 && $('#year').val() % 100 != 0) {
+			aDay[1] = 29;
+		}
+
+		return aDay[$('#month').val() - 1];
+	}
 
 	$(function() {
 		$('#month').change(function() {
@@ -89,13 +104,12 @@
 			}
 		}
 
-		let date = new Date();
-		for (let i = 1; i <= date.getUTCDate(); i++) {
+		for (let i = 1; i <= getDay(); i++) {
 			//Đưa ngày vào cột X
 			chartData.data.labels.push('Ngày: ' + i);
 		}
 		
-		var aReport = angular.element(document.getElementById('itemReport')).scope().getreport(date.getUTCDate(), $('#month').val(), $('#year').val());
+		var aReport = angular.element(document.getElementById('itemReport')).scope().getreport(getDay(), $('#month').val(), $('#year').val());
 
 		setTimeout(function() {
 			aReport.forEach(function(el) {
