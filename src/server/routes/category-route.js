@@ -7,14 +7,17 @@ const router = express.Router();
 router.route('/')
     .get(
         categoryCtrl.getAll
+    )
+    .put(
+        categoryCtrl.insertCategory
     );
 
 router.route('/:catId')
 	.get(
 		categoryCtrl.getById
     )
-    .put(
-        categoryCtrl.insertCategory
-    );
-
+    .delete(
+        categoryCtrl.deleteCategory
+    )
+    
 export default router;

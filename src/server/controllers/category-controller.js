@@ -65,14 +65,6 @@ function getById(req, res) {
     });
 }
 function insertCategory(req, res) {
-    /*let insertCategoryObj = {
-        fieldDefineId: Number(req.body.fieldDefineId),
-        field_label: req.body.fieldLabel,
-        help_text: req.body.helpText,
-        is_required: Number(req.body.isRequired),
-        category_id: Number(req.body.categoryId),
-        display_order: Number(req.body.displayOrder)
-    };*/
 
     let insertCategoryObj = {
        name: req.body.name
@@ -86,9 +78,6 @@ function insertCategory(req, res) {
 
                     for (let i = 0; i < fieldDefinePool.length; ++i) {
                         insertFieldDefineObj.push({
-                   /*         field_id: fieldDefinePool[i].fieldDefineId,
-                            item_id: result.pk_id,
-                            answer_text: fieldDefinePool[i].helpText*/
                             field_label: fieldDefinePool[i].fieldLabel,
                             help_text: fieldDefinePool[i].helpText,
                             is_required: fieldDefinePool[i].isRequired,
@@ -132,4 +121,33 @@ function insertCategory(req, res) {
     });
 }
 
-export default { getById, getAll, insertCategory };
+function deleteCategory(req, res) {
+
+    let catId = req.params['catId'];
+
+    FieldDefine.destroy({
+        where: {
+            category_id: catId
+        }
+    })
+    .then(() => {
+        Category.destroy({
+            where: {
+                pk_id: catId
+            }
+        })
+        return res.status(200).json({
+            success: true,
+            message: "Delete categories successfully",
+        });
+    })
+    .catch((err) => {
+        console.log(err);
+        return res.status(500).json({
+            success: false,
+            message: "Failed to delete categories"
+        });
+    });
+}
+
+export default { getById, getAll, insertCategory, deleteCategory };
