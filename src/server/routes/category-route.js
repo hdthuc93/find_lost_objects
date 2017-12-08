@@ -19,5 +19,8 @@ router.route('/:catId')
     .delete(
         categoryCtrl.deleteCategory
     )
+    .put(
+        categoryCtrl.updateCategory
+    );
     
 export default router;
