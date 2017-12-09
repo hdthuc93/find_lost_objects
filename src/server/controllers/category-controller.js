@@ -6,29 +6,29 @@ function getAll(req, res) {
     let outData = [];
 
     Category.findAll()
-    .then((categoriesPool) => {
-        let len = categoriesPool.length;
+        .then((categoriesPool) => {
+            let len = categoriesPool.length;
 
-        for(let i = 0; i < len; ++i) {
-            outData.push({
-                categoryId: categoriesPool[i]['pk_id'],
-                categoryName: categoriesPool[i]['name'],
+            for (let i = 0; i < len; ++i) {
+                outData.push({
+                    categoryId: categoriesPool[i]['pk_id'],
+                    categoryName: categoriesPool[i]['name'],
+                });
+            }
+
+            return res.status(200).json({
+                success: true,
+                message: "Get categories successfully",
+                data: outData
             });
-        }
-
-        return res.status(200).json({
-            success: true,
-            message: "Get categories successfully",
-            data: outData
+        })
+        .catch((err) => {
+            console.log(err);
+            return res.status(500).json({
+                success: false,
+                message: "Failed to get categories"
+            });
         });
-    })
-    .catch((err) => {
-        console.log(err);
-        return res.status(500).json({
-            success: false,
-            message: "Failed to get categories"
-        });
-    });
 }
 
 function getById(req, res) {
@@ -40,34 +40,34 @@ function getById(req, res) {
             pk_id: catId
         }
     })
-    .then((categoriesPool) => {
-        let len = categoriesPool.length;
+        .then((categoriesPool) => {
+            let len = categoriesPool.length;
 
-        for(let i = 0; i < len; ++i) {
-            outData.push({
-                categoryId: categoriesPool[i]['pk_id'],
-                categoryName: categoriesPool[i]['name'],
+            for (let i = 0; i < len; ++i) {
+                outData.push({
+                    categoryId: categoriesPool[i]['pk_id'],
+                    categoryName: categoriesPool[i]['name'],
+                });
+            }
+
+            return res.status(200).json({
+                success: true,
+                message: "Get categories successfully",
+                data: outData
             });
-        }
-
-        return res.status(200).json({
-            success: true,
-            message: "Get categories successfully",
-            data: outData
+        })
+        .catch((err) => {
+            console.log(err);
+            return res.status(500).json({
+                success: false,
+                message: "Failed to get categories"
+            });
         });
-    })
-    .catch((err) => {
-        console.log(err);
-        return res.status(500).json({
-            success: false,
-            message: "Failed to get categories"
-        });
-    });
 }
 function insertCategory(req, res) {
 
     let insertCategoryObj = {
-       name: req.body.name
+        name: req.body.name
     };
     let fieldDefinePool = req.body.fieldDefinePool;
     return sequelize.transaction().then((t) => {
@@ -130,24 +130,86 @@ function deleteCategory(req, res) {
             category_id: catId
         }
     })
-    .then(() => {
-        Category.destroy({
-            where: {
-                pk_id: catId
-            }
+        .then(() => {
+            Category.destroy({
+                where: {
+                    pk_id: catId
+                }
+            })
+            return res.status(200).json({
+                success: true,
+                message: "Delete categories successfully",
+            });
         })
-        return res.status(200).json({
-            success: true,
-            message: "Delete categories successfully",
+        .catch((err) => {
+            console.log(err);
+            return res.status(500).json({
+                success: false,
+                message: "Failed to delete categories"
+            });
         });
-    })
-    .catch((err) => {
-        console.log(err);
-        return res.status(500).json({
-            success: false,
-            message: "Failed to delete categories"
-        });
+}
+function updateCategory(req, res) {
+
+    let updateCategoryObj = {
+        name: req.body.name
+    };
+    let fieldDefinePool = req.body.fieldDefinePool;
+    return sequelize.transaction().then((t) => {
+        Category.update(updateCategoryObj, {
+            where: {
+                pk_id: req.params['catId']
+            }
+        }, { transaction: t })
+            .then((result) => {
+                if (result) {
+                    let updateFieldDefineObj = [];
+                    for (let i = 0; i < fieldDefinePool.length; ++i) {
+                        updateFieldDefineObj.push({
+                            pk_id: fieldDefinePool[i].pk_id,
+                            field_label: fieldDefinePool[i].fieldLabel,
+                            help_text: fieldDefinePool[i].helpText,
+                            is_required: fieldDefinePool[i].isRequired,
+                            display_order: fieldDefinePool[i].displayOrder
+                        });
+                    }
+                    let promise = [];
+                    for (let element of updateFieldDefineObj) {
+                        promise.push(FieldDefine.update(element, {
+                            where: {
+                                category_id: req.params['catId'],
+                                pk_id: element.pk_id
+                            }
+                        }, { transaction: t }));
+                    }
+                    return Promise.all(promise);
+                } else
+                    return Promise.resolve(false);
+            })
+            .then((result) => {
+                if (result) {
+                    t.commit();
+                    return res.status(200).json({
+                        success: true,
+                        message: "update category successfully"
+                    });
+                } else {
+                    t.rollback();
+                    return res.status(200).json({
+                        success: false,
+                        message: "No record category update"
+                    });
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                t.rollback();
+                return res.status(500).json({
+                    success: false,
+                    message: "Failed to update category"
+                });
+            });
     });
 }
 
-export default { getById, getAll, insertCategory, deleteCategory };
+export default { getById, getAll, insertCategory, deleteCategory, updateCategory };
