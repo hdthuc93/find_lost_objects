@@ -3,3 +3,5 @@ node_modules
 
 #info file config
 /src/server/configs/const.js
+/src/server/configs/aws_const.json
+/src/server/tmp/*

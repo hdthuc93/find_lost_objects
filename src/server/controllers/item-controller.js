@@ -5,6 +5,10 @@ import Category from '../models/category-model';
 import StorageLocation from '../models/storage_location-model';
 import FieldAnswer from '../models/field_answer-model';
 import dateUtils from '../utilities/date_times';
+import AWS from 'aws-sdk';
+import fs from 'fs';
+
+AWS.config.loadFromPath('./src/server/configs/aws_const.json');
 
 function insertItem(req, res) {
     // type(0: lost, 1: found)
@@ -20,8 +24,13 @@ function insertItem(req, res) {
         contact_phone_no: req.body.contactPhoneNo,
         status: 0,
         type: Number(req.body.type),
-        create_time: new Date()
+        create_time: new Date(),
+        image: ''
     };
+
+    if(req.file && uploadImg(req)) {
+        insertItemObj.image = 'https://s3-ap-southeast-1.amazonaws.com/find-lost-object-img/' + req.file.filename;
+    }
 
     if (insertItemObj.type == 1) {
         insertItemObj.storege_location_id = req.body.storageId;
@@ -114,6 +123,7 @@ function getAll(req, res) {
                 category_name: itemPool[i]['Category']['name'],
                 location_id: itemPool[i]['location_id'],
                 location_name: itemPool[i]['location']['name'],
+                image_link: itemPool[i]['image'],
                 lost_or_found_at: dateUtils.changeToDDMMYYYY(itemPool[i]['lost_at'].toString()),
                 fullName: itemPool[i]['last_name'] + " " + itemPool[i]['first_name'],
                 status: itemPool[i]['status'],
@@ -221,6 +231,29 @@ function recommendMatchingItems(req, res) {
         return res.status(500).json({
             success: false,
             message: "Failed to matching item"
+        });
+    });
+}
+
+function uploadImg(req) {
+    let img = req.file;
+    let imgName = img.filename;
+    let imgPath = img.path;
+    let s3Bucket = new AWS.S3({ params: { Bucket: 'find-lost-object-img' }});
+
+    return fs.readFile(imgPath, (err, data) => {
+        if(err) {
+            console.log(err);
+            return false;
+        }
+
+        s3Bucket.putObject({ Key: imgName, Body: data }, (err, data) => {
+            if(err) {
+                console.log(err);
+                return false;
+            } else {
+                return true;
+            }
         });
     });
 }
