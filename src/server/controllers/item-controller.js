@@ -8,10 +8,12 @@ import dateUtils from '../utilities/date_times';
 import TrackItem from '../models/track_item-model';
 import AWS from 'aws-sdk';
 import fs from 'fs';
+import crypto from 'crypto';
+import mime from 'mime'
 
 AWS.config.loadFromPath('./src/server/configs/aws_const.json');
 
-function insertItem(req, res) {
+async function insertItem(req, res) {
     // type(0: lost, 1: found)
     // status(0: active, 1: returned, -1: expired)
     let insertItemObj = {
@@ -29,8 +31,11 @@ function insertItem(req, res) {
         image: ''
     };
 
-    if(req.file && uploadImg(req)) {
-        insertItemObj.image = 'https://s3-ap-southeast-1.amazonaws.com/find-lost-object-img/' + req.file.filename;
+    // console.log(req, req.);
+    if(req.body.image) {
+        let result = await uploadImg(req);
+        if(result)
+            insertItemObj.image = 'https://s3-ap-southeast-1.amazonaws.com/find-lost-object-img/' + result;
     }
 
     if (insertItemObj.type == 1) {
@@ -242,7 +247,6 @@ function recommendMatchingItems(req, res) {
     });
 }
 
-<<<<<<< HEAD
 function matchedItems(req, res) {
     let item_src = req.body.item_src;
     let item_des = req.body.item_des;
@@ -357,30 +361,21 @@ function getItemReportByDay(req, res) {
     });
 }
 
-export default { insertItem, getAll, getById, recommendMatchingItems, matchedItems, getItemReportByDay };
-=======
-function uploadImg(req) {
-    let img = req.file;
-    let imgName = img.filename;
-    let imgPath = img.path;
-    let s3Bucket = new AWS.S3({ params: { Bucket: 'find-lost-object-img' }});
-
-    return fs.readFile(imgPath, (err, data) => {
-        if(err) {
-            console.log(err);
-            return false;
-        }
-
-        s3Bucket.putObject({ Key: imgName, Body: data }, (err, data) => {
-            if(err) {
-                console.log(err);
-                return false;
-            } else {
-                return true;
-            }
-        });
-    });
+async function uploadImg(req) {
+    try {
+        let img = req.body.image;
+        let s3Bucket = new AWS.S3({ params: { Bucket: 'find-lost-object-img' }});
+        let imageExtension = img.split(';')[0].split(':')[1];
+        imageExtension = mime.getExtension(imageExtension);
+        let buffer = new Buffer(img.replace(/^data:image\/\w+;base64,/, ""), 'base64');
+        let t_name = await crypto.pseudoRandomBytes(16);
+        let imgName = t_name.toString('hex') + Date.now() + '.' + imageExtension;
+        let result = await s3Bucket.putObject({ Key: imgName, Body: buffer }).promise();
+        return imgName;
+    } catch(err) {
+        console.log(err);
+        return false;
+    }
 }
 
-export default { insertItem, getAll, getById, recommendMatchingItems };
->>>>>>> server_side
+export default { insertItem, getAll, getById, recommendMatchingItems, matchedItems, getItemReportByDay };
