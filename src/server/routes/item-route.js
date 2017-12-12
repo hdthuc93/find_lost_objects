@@ -10,6 +10,9 @@ router.route('/')
     )
     .get(
     	itemCtrl.getAll
+    )
+    .put(
+        itemCtrl.updateItem
     );
 
 router.route('/:type')
