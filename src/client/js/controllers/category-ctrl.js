@@ -5,6 +5,10 @@ function categoryCtrl($scope, $rootScope, helper, $http) {
 
     function init() {
         getCategoryList();
+        $scope.isCreate = true;
+        $scope.isEdit = false;
+        $scope.isView = false;
+
         $scope.category = {
             name: "",
             fieldDefinePool: [
@@ -19,8 +23,47 @@ function categoryCtrl($scope, $rootScope, helper, $http) {
     }
     init();
 
-    function getCategoryList() {
+    $scope.viewCategory = function (id) {
+        $scope.isCreate = false;
+        $scope.isView = true;
+        $http.get("/api/categories/" + id)
+            .then(function (response) {
+                console.log(response);
+            });
+    }
 
+    $scope.editCategory = function (id) {
+        $scope.isCreate = false;
+        $scope.isEdit = true;
+        $scope.isView = false;
+    }
+
+    $scope.createNew = function (id) {
+        $scope.category = {
+            name: "",
+            fieldDefinePool: [
+                {
+                    fieldLabel: "",
+                    helpText: "",
+                    isRequired: "",
+                    displayOrder: ""
+                }
+            ]
+        }
+        $scope.isCreate = true;
+        $scope.isEdit = false;
+        $scope.isView = false;
+    }
+
+    function getCategoryList() {
+        $http.get("/api/categories")
+            .then(function (response) {
+                if (response.data.success) {
+                    $scope.categoryList.data = response.data.data;
+                } else {
+                    $scope.categoryList.data = [];
+                }
+            });
     }
 
     $scope.addFielDefine = function () {
@@ -52,7 +95,7 @@ function categoryCtrl($scope, $rootScope, helper, $http) {
         }
     }
 
-    $scope.addCategory = function () {
+    $scope.save = function () {
         if ($scope.formAddCat.$error.required && $scope.formAddCat.$error.required.length > 0) {
             $scope.formAddCat[$scope.formAddCat.$error.required[0].$name].$touched = true;
             return false;
@@ -69,6 +112,8 @@ function categoryCtrl($scope, $rootScope, helper, $http) {
             data.fieldDefinePool[i]['isRequired'] = $scope.category.fieldDefinePool[i]['isRequired'] == true ? 1 : 0;
         }
 
+        //is edit or create
+
         $http.put("/api/categories", data)
             .then(function (response) {
                 if (response.data.success) {
@@ -82,6 +127,7 @@ function categoryCtrl($scope, $rootScope, helper, $http) {
             });
     }
 
+
     $scope.categoryList = {
         minRowsToShow: 15,
         enableSorting: false,
@@ -90,9 +136,13 @@ function categoryCtrl($scope, $rootScope, helper, $http) {
         enableColumnResizing: true,
         selectionRowHeaderWidth: 35,
         columnDefs: [
-            { field: 'name', displayName: 'Tên loại', minWidth: 200 },
+            { field: 'categoryId', displayName: 'Mã loại', width: 100 },
+            { field: 'categoryName', displayName: 'Tên loại', minWidth: 200 },
+            {
+                field: 'action', displayName: 'Chức năng', minWidth: 100,
+                cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" style="padding: 0px 5px;" class="btn btn-default" ng-click="grid.appScope.viewCategory(row.entity.categoryId)"><i class="fa fa-eye"></i></button> <button type="button" style="padding: 0px 5px;" class="btn btn-default" ng-click="grid.appScope.editCategory(row.entity.categoryId)"><i class="fa fa-pencil"></i></button></div>'
+            }
         ],
-        data: [{ name: "demo" }, { name: "demo 2" }],
         onRegisterApi: function (gridApi) {
             $scope.gridApi = gridApi;
             gridApi.selection.on.rowSelectionChanged($scope, function (row) {
