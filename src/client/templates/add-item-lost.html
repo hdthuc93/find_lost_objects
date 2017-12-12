@@ -15,7 +15,7 @@
                         <option value="{{cat.categoryId}}" ng-repeat="cat in categoryList">{{cat.categoryName}}</option>
                     </select>
                 </div>
-                <div ng-repeat="field in category | orderBy: filed.displayOrder" class="form-group">
+                <div ng-repeat="field in category | orderBy: field.displayOrder" class="form-group">
                     <label class="control-label">{{field.label}}
                         <span ng-if="field.isRequired"> *</span>
                     </label>

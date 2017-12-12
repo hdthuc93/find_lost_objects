@@ -20,6 +20,7 @@ function trackItemCtrl($scope, $rootScope, $http, helper) {
 		getTrackByItemId(itemId);
 		getRecommendMatch(itemId);
 		$scope.itemOwn = getItemById(itemId);
+		console.log(1111, $scope.itemOwn);
 	}
 
 	init();
@@ -56,8 +57,10 @@ function trackItemCtrl($scope, $rootScope, $http, helper) {
 	function getItemById(id) {
 		var res = $http.get('/api/items/id/' + id).then(function(response) {
 			if (response.data.data[0].match_item_id != null) {
-				res.$$state.item_matched = _getItemMathed(response.data.data[0].match_item_id);
+				res.$$state.item_matched = _getItemMathed(response.data.data[0].match_item_id);				
 			}
+			res.$$state.category = getCategoryById(response.data.data[0].category_id);
+			res.$$state.location = getLocationById(response.data.data[0].location_id);
 
 			return response.data.data;
 		});
@@ -69,7 +72,7 @@ function trackItemCtrl($scope, $rootScope, $http, helper) {
 		var res = $http.get('/api/items/id/' + id).then(function(response) {
 			res.$$state.category = getCategoryById(response.data.data[0].category_id);
 			res.$$state.location = getLocationById(response.data.data[0].location_id);
-
+			
 			return response.data.data;
 		});
 		
@@ -128,5 +131,19 @@ function trackItemCtrl($scope, $rootScope, $http, helper) {
         });
 
         console.log($scope.item)
-    }
+	}
+	
+	$scope.$watch('file', function () {
+        if($scope.file){
+            if($scope.file.size > 1024*1024*5){
+                helper.popup.info({ title: "Lỗi", message: "Kích thước ảnh tối đa là 5MB", close: function () { return; } });
+                $scope.file = null;
+                return;
+            }
+            fileReader.readAsDataUrl($scope.file, $scope)
+            .then(function(result) {
+                $scope.itemOwn.value[0].image = result;
+            });
+        }
+    });
 };

@@ -87,7 +87,6 @@ function foundItemCtrl($scope, $rootScope, $http, helper, fileReader) {
         param.lostAt = helper.convertDate($scope.item.lostAt);
         $http.post("/api/items", param)
             .then(function (response) {
-                console.log(11222211,response);
                 var msg = response.data.success ? "Thêm vật nhặt được thành công." : "Thêm vật nhặt được thất bại, vui lòng kiểm tra lại";
                 helper.popup.info({ title: "Thông báo", message: msg, close: function () { return; } });
             });

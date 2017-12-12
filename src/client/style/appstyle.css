@@ -441,3 +441,10 @@ outline: none;
     max-height: 100%;
     max-width: 200px;
 }
+
+.field-area{
+    border: 1px solid #a0a0a0;
+    padding: 10px;
+    background-color: #e9f1e8;
+    margin-bottom: 10px;
+}
