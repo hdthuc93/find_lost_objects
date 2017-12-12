@@ -20,6 +20,10 @@ function storageCtrl($scope, $rootScope, $http, helper) {
         cellTemplate: '<div class="ui-grid-cell-contents">{{row.entity.name}} - <b>Mã: {{row.entity.storageId}}</b></div>'
       },
       { field: 'description', displayName: 'Mô tả', minWidth: 120 },
+      {
+        field: 'action', displayName: 'Chức năng', minWidth: 100,
+        cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" style="padding: 0px 5px;" class="btn btn-default" ng-click="grid.appScope.editStorage(row.entity.storageId)"><i class="fa fa-eye"></i></button></div>'
+      }
     ],
     onRegisterApi: function (gridApi) {
       $scope.gridApi = gridApi;
@@ -45,4 +49,11 @@ function storageCtrl($scope, $rootScope, $http, helper) {
         $scope.storageList.data = [];
       }
     });
+  $scope.editStorage = function (id) {
+    if (id) {
+      location.href = "#/storage/edit?loc=" + id;
+    } else {
+      helper.popup.info({ title: "Thông báo", message: "Kho này không tồn tại", close: function () { return; } })
+    }
+  }
 }

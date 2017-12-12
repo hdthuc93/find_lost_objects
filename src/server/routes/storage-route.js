@@ -6,7 +6,13 @@ const router = express.Router();
 
 router.route('/')
     .get(
-        storageCtrl.getAll
+    storageCtrl.getAll
+    )
+    .put(
+    storageCtrl.updateStorage
     );
-
+router.route('/:locId')
+    .get(
+    storageCtrl.getById
+    );
 export default router;
