@@ -51,6 +51,10 @@ angular.module('findLostObject').config(['$stateProvider', '$urlRouterProvider',
                 url: '/location',
                 templateUrl: 'templates/config-location.html'
             })
+            .state('locationEdit', {
+                url: '/location/edit',
+                templateUrl: 'templates/config-location-edit.html'
+            })
             .state('storage', {
                 url: '/storage',
                 templateUrl: 'templates/config-storage.html'

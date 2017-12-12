@@ -19,6 +19,10 @@ function locationCtrl($scope, $rootScope, $http, helper) {
         cellTemplate: '<div class="ui-grid-cell-contents">{{row.entity.name}} - <b>Mã: {{row.entity.locationId}}</b></div>'
       },
       { field: 'description', displayName: 'Mô tả', minWidth: 120 },
+      {
+        field: 'action', displayName: 'Chức năng', minWidth: 100,
+        cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" style="padding: 0px 5px;" class="btn btn-default" ng-click="grid.appScope.editLocation(row.entity.locationId)"><i class="fa fa-eye"></i></button></div>'
+    }
     ],
     onRegisterApi: function (gridApi) {
       $scope.gridApi = gridApi;
@@ -44,4 +48,11 @@ function locationCtrl($scope, $rootScope, $http, helper) {
         $scope.locationList.data = [];
       }
     });
+    $scope.editLocation = function (id) {
+      if (id) {
+          location.href = "#/location/edit?loc=" + id;
+      } else {
+          helper.popup.info({ title: "Thông báo", message: "Địa điểm này không tồn tại", close: function () { return; } })
+      }
+  }
 }

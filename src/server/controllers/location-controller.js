@@ -2,7 +2,7 @@ import Locations from '../models/location-model';
 
 function getAll(req, res) {
     let outData = [];
-    
+
     Locations.findAll()
     .then((LocationsPool) => {
         let len = LocationsPool.length;
@@ -65,4 +65,27 @@ function getById(req, res) {
     });
 }
 
-export default { getById, getAll };
+function updateLocation(req, res) {
+    let locationId = req.body.locationId;
+    let obj = {
+        name: req.body.name,
+        description: req.body.description,
+    };
+    Locations.update(obj, {where: { pk_id: locationId } })
+    .then((result) => {
+        return res.status(200).json({
+            success: true,
+            message: "Cập nhật thông tin địa điểm thành công"
+        });
+    })
+    .catch((err) => {
+        t.rollback();
+        return res.status(500).json({
+            success: false,
+            message: "Cập nhật thông tin địa điểm thất bại"
+        });
+    })
+
+}
+
+export default { getById, getAll,updateLocation };
