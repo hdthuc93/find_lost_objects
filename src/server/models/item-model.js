@@ -47,7 +47,7 @@ const Item = sequelize.define('Item', {
         allowNull: false
     },
     image: {
-        type: "LONGBLOB",
+        type: Sequelize.STRING(50),
         allowNull: true
     },
     type: {

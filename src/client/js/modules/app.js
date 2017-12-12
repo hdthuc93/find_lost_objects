@@ -8,7 +8,8 @@ var app = angular.module("findLostObject", [
     'ui.grid.edit',
     'ui.grid.rowEdit',
     'ui.grid.cellNav',
-    'mod.helper']);
+    'mod.helper',
+    'ngFileUpload']);
 module.factory('Auth',['$cookieStore','$rootScope',function($cookieStore,$rootScope){
     var user;
     return{

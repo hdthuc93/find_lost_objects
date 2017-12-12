@@ -10,7 +10,9 @@ const app = express();
 app.use(morgan('dev'))
 app.use('/', express.static('./src/client'));
 app.use('/', express.static('./bower_components'));
-app.use(bodyParser.json());
+app.use(bodyParser.json({
+    limit: '5mb'
+}));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(passport.initialize());

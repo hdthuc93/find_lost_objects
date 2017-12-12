@@ -26,6 +26,8 @@
     "metisMenu": "^2.7.0",
     "morris.js": "morrisjs#^0.5.1",
     "chart.js": "^2.7.1",
+    "angular-file-upload": "^2.5.0",
+    "ng-file-upload": "^12.2.13"
   },
   "private": true
 }

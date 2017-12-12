@@ -6,8 +6,14 @@ import StorageLocation from '../models/storage_location-model';
 import FieldAnswer from '../models/field_answer-model';
 import dateUtils from '../utilities/date_times';
 import TrackItem from '../models/track_item-model';
+import AWS from 'aws-sdk';
+import fs from 'fs';
+import crypto from 'crypto';
+import mime from 'mime'
 
-function insertItem(req, res) {
+AWS.config.loadFromPath('./src/server/configs/aws_const.json');
+
+async function insertItem(req, res) {
     // type(0: lost, 1: found)
     // status(0: active, 1: returned, -1: expired)
     let insertItemObj = {
@@ -21,8 +27,16 @@ function insertItem(req, res) {
         contact_phone_no: req.body.contactPhoneNo,
         status: 0,
         type: Number(req.body.type),
-        create_time: new Date()
+        create_time: new Date(),
+        image: ''
     };
+
+    // console.log(req, req.);
+    if(req.body.image) {
+        let result = await uploadImg(req);
+        if(result)
+            insertItemObj.image = 'https://s3-ap-southeast-1.amazonaws.com/find-lost-object-img/' + result;
+    }
 
     if (insertItemObj.type == 1) {
         insertItemObj.storege_location_id = req.body.storageId;
@@ -118,6 +132,7 @@ function getAll(req, res) {
                 category_name: itemPool[i]['Category']['name'],
                 location_id: itemPool[i]['location_id'],
                 location_name: itemPool[i]['location']['name'],
+                image_link: itemPool[i]['image'],
                 lost_or_found_at: dateUtils.changeToDDMMYYYY(itemPool[i]['lost_at'].toString()),
                 fullName: itemPool[i]['last_name'] + " " + itemPool[i]['first_name'],
                 status: itemPool[i]['status'],
@@ -344,6 +359,23 @@ function getItemReportByDay(req, res) {
         });
         
     });
+}
+
+async function uploadImg(req) {
+    try {
+        let img = req.body.image;
+        let s3Bucket = new AWS.S3({ params: { Bucket: 'find-lost-object-img' }});
+        let imageExtension = img.split(';')[0].split(':')[1];
+        imageExtension = mime.getExtension(imageExtension);
+        let buffer = new Buffer(img.replace(/^data:image\/\w+;base64,/, ""), 'base64');
+        let t_name = await crypto.pseudoRandomBytes(16);
+        let imgName = t_name.toString('hex') + Date.now() + '.' + imageExtension;
+        let result = await s3Bucket.putObject({ Key: imgName, Body: buffer }).promise();
+        return imgName;
+    } catch(err) {
+        console.log(err);
+        return false;
+    }
 }
 
 export default { insertItem, getAll, getById, recommendMatchingItems, matchedItems, getItemReportByDay };

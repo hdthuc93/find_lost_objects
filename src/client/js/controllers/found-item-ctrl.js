@@ -1,7 +1,7 @@
 var app = angular.module("findLostObject");
 
-app.controller("foundItemCtrl", ['$scope', '$rootScope', '$http', 'helper', foundItemCtrl]);
-function foundItemCtrl($scope, $rootScope, $http, helper) {
+app.controller("foundItemCtrl", ['$scope', '$rootScope', '$http', 'helper', 'fileReader', foundItemCtrl]);
+function foundItemCtrl($scope, $rootScope, $http, helper, fileReader) {
     $scope.emailPattern = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
     function init() {
         $scope.categoryList = [];
@@ -87,14 +87,27 @@ function foundItemCtrl($scope, $rootScope, $http, helper) {
         param.lostAt = helper.convertDate($scope.item.lostAt);
         $http.post("/api/items", param)
             .then(function (response) {
+                console.log(11222211,response);
                 var msg = response.data.success ? "Thêm vật nhặt được thành công." : "Thêm vật nhặt được thất bại, vui lòng kiểm tra lại";
-                helper.popup.info({ title: "Thông báo", message: msg, close: function () { return; } })
+                helper.popup.info({ title: "Thông báo", message: msg, close: function () { return; } });
             });
-
-        
     }
 
     $scope.openDP = function(){
         $scope.openDatePicker = true;
     }
+
+    $scope.$watch('file', function () {
+        if($scope.file){
+            if($scope.file.size > 1024*1024*5){
+                helper.popup.info({ title: "Lỗi", message: "Kích thước ảnh tối đa là 5MB", close: function () { return; } });
+                $scope.file = null;
+                return;
+            }
+            fileReader.readAsDataUrl($scope.file, $scope)
+            .then(function(result) {
+                $scope.item.image = result;
+            });
+        }
+    });
 }
