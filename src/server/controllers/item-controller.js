@@ -378,4 +378,62 @@ async function uploadImg(req) {
     }
 }
 
-export default { insertItem, getAll, getById, recommendMatchingItems, matchedItems, getItemReportByDay };
+async function updateItem(req, res) {
+    // type(0: lost, 1: found)
+    // status(0: active, 1: returned, -1: expired)
+    let itemId = req.body.itemId;
+    let updateItemObj = {};
+
+    if(req.body.categoryId)
+        updateItemObj.category_id = Number(req.body.categoryId);
+
+    if(req.body.locationId)
+        updateItemObj.location_id = Number(req.body.locationId);
+    
+    if(req.body.otherDetails)
+        updateItemObj.other_details = req.body.otherDetails;
+    
+    if(req.body.lostAt)
+        updateItemObj.lost_at = new Date(req.body.lostAt);
+    
+    if(req.body.firstName)
+        updateItemObj.first_name = req.body.firstName;
+
+    if(req.body.lastName)
+        updateItemObj.last_name = req.body.lastName;
+
+    if(req.body.emailAddress)
+        updateItemObj.email_address = req.body.emailAddress;
+
+    if(req.body.contactPhoneNo)
+        updateItemObj.contact_phone_no = req.body.contactPhoneNo;
+
+    if(req.body.status)
+        updateItemObj.status = Number(req.body.status);
+
+    if(req.body.type)
+        updateItemObj.type = Number(req.body.type);
+
+    if(req.body.image) {
+        let result = await uploadImg(req);
+        if(result)
+            updateItemObj.image = 'https://s3-ap-southeast-1.amazonaws.com/find-lost-object-img/' + result;
+    }
+
+    Item.update(updateItemObj, { where: { pk_id: itemId }})
+    .then(result => {
+        return res.status(200).json({
+            success: true,
+            message: "Update an item successfully"
+        });
+    })
+    .catch(err => {
+        console.log(err);
+        return res.status(500).json({
+            success: false,
+            message: "Fail to update an item"
+        });
+    });
+}
+
+export default { insertItem, getAll, getById, recommendMatchingItems, matchedItems, getItemReportByDay, updateItem };
