@@ -33,13 +33,34 @@ function getAll(req, res) {
 
 function getById(req, res) {
     let outData = [];
+    let FieldDefineObj = [];
     let catId = req.params['catId'];
 
-    Category.findAll({
+    FieldDefine.findAll({
         where: {
-            pk_id: catId
+            category_id: catId
         }
     })
+        .then((fieldDefinesPool) => {
+            let len = fieldDefinesPool.length;
+            for (let i = 0; i < len; ++i) {
+                FieldDefineObj.push({
+                    fieldDefineId: fieldDefinesPool[i]['pk_id'],
+                    label: fieldDefinesPool[i]['field_label'],
+                    helpText: fieldDefinesPool[i]['help_text'],
+                    isRequired: fieldDefinesPool[i]['is_required'],
+                    catId: fieldDefinesPool[i]['category_id'],
+                    displayOrder: fieldDefinesPool[i]['display_order'],
+                });
+            }
+        })
+        .then(() => {
+            return Category.findAll({
+                where: {
+                    pk_id: catId
+                }
+            })
+        })
         .then((categoriesPool) => {
             let len = categoriesPool.length;
 
@@ -47,6 +68,7 @@ function getById(req, res) {
                 outData.push({
                     categoryId: categoriesPool[i]['pk_id'],
                     categoryName: categoriesPool[i]['name'],
+                    fieldDefinesPool: FieldDefineObj
                 });
             }
 
