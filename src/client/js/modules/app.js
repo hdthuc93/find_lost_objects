@@ -21,7 +21,7 @@ module.factory('Auth', ['$cookieStore', '$rootScope', function ($cookieStore, $r
                 console.log(78787878, $cookieStore.get('userdata'));
                 if ($cookieStore.get('userdata')) {
                     $rootScope.masterToken = $cookieStore.get('userdata').token;
-                    $rootScope.masterUserRole = $cookieStore.get('userdata').token;
+                    $rootScope.masterUserRole = $cookieStore.get('userdata').user_type;
                     return $cookieStore.get('userdata').loggedIn;
                 }
                 return false;
