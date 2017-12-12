@@ -82,9 +82,8 @@ function categoryCtrl($scope, $rootScope, helper, $http) {
             });
     }
 
-
     $scope.categoryList = {
-        minRowsToShow: 50,
+        minRowsToShow: 15,
         enableSorting: false,
         enableRowSelection: true,
         multiSelect: false,

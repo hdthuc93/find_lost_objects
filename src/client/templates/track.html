@@ -37,9 +37,8 @@
 
 					<div class="row">
 						<div class="col-sm-4 col-md-4 images-wrapper">
-							<div class="dropzone" ngf-drop ngf-select ng-model="file" ngf-drag-over-class="'dragover'"
-							 ngf-multiple="false" ngf-allow-dir="true" accept="image/*,application/pdf" ngf-pattern="'image/*,application/pdf'"
-							 id="itemImageUploader">
+							<div class="dropzone" ngf-drop ngf-select ng-model="file" ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="true"
+							 accept="image/*,application/pdf" ngf-pattern="'image/*,application/pdf'" id="itemImageUploader">
 								<div ng-hide="itemOwn.value[0].image" class="dz-message">
 									<i class="fa fa-2x fa-picture-o"></i>
 									<br>
@@ -66,9 +65,13 @@
 										</colgroup>
 										<tbody>
 											<!-- repeat -->
-											<tr>
-												<th>Colour111</th>
-												<td>Silver111</td>
+											<tr ng-repeat="ans in fieldAnswer" ng-if="ans.field_answer_text">
+												<th>{{ans.field_define_text}}</th>
+												<td>{{ans.field_answer_text}}</td>
+											</tr>
+											<tr ng-repeat="ans in fieldAnswer" ng-if="ans.field_answer_text">
+												<th>{{ans.field_define_text}}</th>
+												<td>{{ans.field_answer_text}}</td>
 											</tr>
 										</tbody>
 									</table>
