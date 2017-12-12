@@ -161,45 +161,45 @@
                         </li>
                         <li>
                             <a href="#">
-                                    <i class="fa fa-list fa-fw"></i> Danh sách vật phẩm
-                                    <span class="fa arrow"></span>
-                                </a>
-                                <ul class="nav nav-second-level">
-                                    <li>
-                                        <a href="#/items">Tất cả vật phẩm</a>
-                                    </li>
-                                    <li>
-                                        <a href="#/itemslost">Vật phẩm mất</a>
-                                    </li>
-                                    <li>
-                                        <a href="#/itemsfound">Vật phẩm tìm thấy</a>
-                                    </li>
-                                    <li>
-                                        <a href="#/itemsmatched">Vật phẩm trùng khớp</a>
-                                    </li>
-                                </ul>
+                                <i class="fa fa-list fa-fw"></i> Danh sách vật phẩm
+                                <span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="#/items">Tất cả vật phẩm</a>
+                                </li>
+                                <li>
+                                    <a href="#/itemslost">Vật phẩm mất</a>
+                                </li>
+                                <li>
+                                    <a href="#/itemsfound">Vật phẩm tìm thấy</a>
+                                </li>
+                                <li>
+                                    <a href="#/itemsmatched">Vật phẩm trùng khớp</a>
+                                </li>
+                            </ul>
                         </li>
-                        <li>
+                        <li ng-if="masterUserRole==1">
                             <a href="#">
-                                    <i class="fa fa-cog fa-fw"></i> Cài đặt hệ thống
-                                    <span class="fa arrow"></span>
-                                </a>
-                                <ul class="nav nav-second-level">
-                                    <li>
-                                        <a href="#/location">Địa điểm</a>
-                                    </li>
-                                    <li>
-                                        <a href="#/storage">Kho cất giữ</a>
-                                    </li>
-                                    <li>
-                                        <a href="#/category">Thể loại vật phẩm</a>
-                                    </li>
-                                    <li>
-                                        <a href="#/listuser">Người dùng</a>
-                                    </li>
-                                </ul>
+                                <i class="fa fa-cog fa-fw"></i> Cài đặt hệ thống
+                                <span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="#/location">Địa điểm</a>
+                                </li>
+                                <li>
+                                    <a href="#/storage">Kho cất giữ</a>
+                                </li>
+                                <li>
+                                    <a href="#/category">Thể loại vật phẩm</a>
+                                </li>
+                                <li>
+                                    <a href="#/listuser">Người dùng</a>
+                                </li>
+                            </ul>
                         </li>
-                        <li>
+                        <li ng-if="masterUserRole==1">
                             <a href="#/report">
                                 <i class="fa fa-pie-chart" aria-hidden="true"></i> Thống kê
                             </a>

@@ -30,6 +30,7 @@ function loginCtrl($scope, $cookieStore, $http, $rootScope, $timeout, $location,
             loggedIn: true,
             name: data.name,
             user_id: data.user_id,
+            user_type: data.user_type,
             token: data.token
           },
           {
