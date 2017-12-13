@@ -25,7 +25,10 @@ angular.module('findLostObject').config(['$stateProvider', '$urlRouterProvider',
             })
             .state('login', {
                 url: '/login',
-                templateUrl: 'templates/login.html'
+                templateUrl: 'templates/login.html',
+                data: {
+                    preventLoggedIn: true
+                }
             })
             .state('items', {
                 url: '/items',
@@ -49,31 +52,52 @@ angular.module('findLostObject').config(['$stateProvider', '$urlRouterProvider',
             })
             .state('location', {
                 url: '/location',
-                templateUrl: 'templates/config-location.html'
+                templateUrl: 'templates/config-location.html',
+                data: {
+                    requiresRoleAdmin: true
+                }
             })
             .state('locationEdit', {
                 url: '/location/edit',
-                templateUrl: 'templates/config-location-edit.html'
+                templateUrl: 'templates/config-location-edit.html',
+                data: {
+                    requiresRoleAdmin: true
+                }
             })
             .state('storage', {
                 url: '/storage',
-                templateUrl: 'templates/config-storage.html'
+                templateUrl: 'templates/config-storage.html',
+                data: {
+                    requiresRoleAdmin: true
+                }
             })
             .state('storageEdit', {
                 url: '/storage/edit',
-                templateUrl: 'templates/config-storage-edit.html'
+                templateUrl: 'templates/config-storage-edit.html',
+                data: {
+                    requiresRoleAdmin: true
+                }
             })
             .state('category', {
                 url: '/category',
-                templateUrl: 'templates/config-category.html'
+                templateUrl: 'templates/config-category.html',
+                data: {
+                    requiresRoleAdmin: true
+                }
             })
             .state('listuser', {
                 url: '/listuser',
-                templateUrl: 'templates/list-user.html'
+                templateUrl: 'templates/list-user.html',
+                data: {
+                    requiresRoleAdmin: true
+                }
             })
             .state('user', {
                 url: '/user',
-                templateUrl: 'templates/config-user.html'
+                templateUrl: 'templates/config-user.html',
+                data: {
+                    requiresRoleAdmin: true
+                }
             })
             .state('track', {
                 url: '/track',
@@ -85,11 +109,58 @@ angular.module('findLostObject').config(['$stateProvider', '$urlRouterProvider',
             })
             .state('report', {
                 url: '/report',
-                templateUrl: 'templates/item-report.html'
+                templateUrl: 'templates/item-report.html',
+                data: {
+                    requiresRoleAdmin: true
+                }
             })
             .state('register', {
                 url: '/register',
                 templateUrl: 'templates/register.html'
-            })
+            });
     }
-]);
+]).factory('User', [function () {
+    return {
+        isAuthenticated: false
+    };
+}]).factory('RouteValidator', ['$rootScope', 'Auth', '$state', function ($rootScope, Auth, $state) {
+
+    return {
+        init: init
+    };
+
+    function init() {
+        $rootScope.$on('$stateChangeStart', _onStateChangeStart);
+    }
+
+    function _onStateChangeStart(event, toState, toParams, fromState, fromParams) {
+        var toStateRequiresRoleAdmin = _requiresRoleAdmin(toState);
+        if (!Auth.isLoggedIn) {
+            event.preventDefault();
+            $state.go('login');
+            return;
+        }
+        //role = 0: user, role = 1: admin
+        if ($rootScope.masterUserRole == 0 && toStateRequiresRoleAdmin) {
+            event.preventDefault();
+            $state.go('404');
+            return;
+        }
+        //If logged in & direct to '/login'
+        console.log(Auth.isLoggedIn() , toState.data)
+        if (Auth.isLoggedIn() && toState.data.preventLoggedIn) {
+            event.preventDefault();
+            return;
+        }
+    }
+
+    function _requiresRoleAdmin(toState) {
+        if (angular.isUndefined(toState.data) || !toState.data.requiresRoleAdmin) {
+            return false;
+        }
+        return toState.data.requiresRoleAdmin;
+    }
+
+}]).run(['RouteValidator', function (RouteValidator) {
+    RouteValidator.init();
+}]);

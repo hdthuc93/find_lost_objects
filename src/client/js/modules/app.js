@@ -1,6 +1,6 @@
 var app = angular.module("findLostObject", [
     'ui.bootstrap',
-    'ui.router',
+    'ui.router','ui.router.state.events',
     'ngCookies',
     'ui.grid',
     'ui.grid.selection',
@@ -18,7 +18,6 @@ module.factory('Auth', ['$cookieStore', '$rootScope', function ($cookieStore, $r
         },
         isLoggedIn: function () {
             if ($cookieStore.get('userdata')) {
-                console.log(78787878, $cookieStore.get('userdata'));
                 if ($cookieStore.get('userdata')) {
                     $rootScope.masterToken = $cookieStore.get('userdata').token;
                     $rootScope.masterUserRole = $cookieStore.get('userdata').user_type;

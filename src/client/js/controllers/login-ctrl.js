@@ -3,9 +3,8 @@ app.controller('loginCtrl', ['$scope', '$cookieStore', '$http', '$rootScope', '$
 
 function loginCtrl($scope, $cookieStore, $http, $rootScope, $timeout, $location, helper) {
   function init() {
-    $scope.email = "";
-    $scope.password = "";
-
+    // $scope.email = "";
+    // $scope.password = "";
   }
   init();
 

@@ -25,10 +25,15 @@ function categoryCtrl($scope, $rootScope, helper, $http) {
 
     $scope.viewCategory = function (id) {
         $scope.isCreate = false;
+        $scope.isEdit = false;
         $scope.isView = true;
+
         $http.get("/api/categories/" + id)
             .then(function (response) {
-                console.log(response);
+                $scope.category = {
+                    name: response.data.data[0].categoryName,
+                    fieldDefinePool: response.data.data[0].fieldDefinesPool
+                }
             });
     }
 
@@ -36,6 +41,16 @@ function categoryCtrl($scope, $rootScope, helper, $http) {
         $scope.isCreate = false;
         $scope.isEdit = true;
         $scope.isView = false;
+
+        $http.get("/api/categories/" + id)
+            .then(function (response) {
+                console.log(response);
+                $scope.category = {
+                    name: response.data.data[0].categoryName,
+                    id: response.data.data[0].categoryId,
+                    fieldDefinePool: response.data.data[0].fieldDefinesPool
+                }
+            });
     }
 
     $scope.createNew = function (id) {
@@ -100,31 +115,58 @@ function categoryCtrl($scope, $rootScope, helper, $http) {
             $scope.formAddCat[$scope.formAddCat.$error.required[0].$name].$touched = true;
             return false;
         }
-        var data = {
-            name: angular.copy($scope.category.name),
-            fieldDefinePool: angular.copy($scope.category.fieldDefinePool)
-        };
+        if ($scope.category.id) {
+            //is Edit
+            var id = $scope.category.id;
+            var data = {
+                name: angular.copy($scope.category.name),
+                fieldDefinePool: angular.copy($scope.category.fieldDefinePool)
+            };
 
-        for (var i in $scope.category.fieldDefinePool) {
-            data.fieldDefinePool[i]['displayOrder'] = parseInt(i);
-            data.fieldDefinePool[i]['fieldLabel'] = $scope.category.fieldDefinePool[i]['fieldLabel'];
-            data.fieldDefinePool[i]['helpText'] = $scope.category.fieldDefinePool[i]['helpText'];
-            data.fieldDefinePool[i]['isRequired'] = $scope.category.fieldDefinePool[i]['isRequired'] == true ? 1 : 0;
+            for (var i in $scope.category.fieldDefinePool) {
+                data.fieldDefinePool[i]['displayOrder'] = parseInt(i);
+                data.fieldDefinePool[i]['fieldLabel'] = $scope.category.fieldDefinePool[i]['fieldLabel'];
+                data.fieldDefinePool[i]['helpText'] = $scope.category.fieldDefinePool[i]['helpText'];
+                data.fieldDefinePool[i]['isRequired'] = $scope.category.fieldDefinePool[i]['isRequired'] == true ? 1 : 0;
+            }
+
+            $http.put("/api/categories/" + id, data)
+                .then(function (response) {
+                    if (response.data.success) {
+                        helper.popup.info({ title: "Thông báo", message: "Cập nhật thể loại thành công", close: function () { return; } });
+                        init();
+                        $scope.formAddCat.$setPristine();
+                        $scope.formAddCat.$setUntouched();
+                    } else {
+                        helper.popup.info({ title: "Lỗi", message: "Cập nhật thể loại thất bại, vui lòng kiểm tra lại", close: function () { return; } });
+                    }
+                });
+        } else {
+            //is Create
+            var data = {
+                name: angular.copy($scope.category.name),
+                fieldDefinePool: angular.copy($scope.category.fieldDefinePool)
+            };
+
+            for (var i in $scope.category.fieldDefinePool) {
+                data.fieldDefinePool[i]['displayOrder'] = parseInt(i);
+                data.fieldDefinePool[i]['fieldLabel'] = $scope.category.fieldDefinePool[i]['fieldLabel'];
+                data.fieldDefinePool[i]['helpText'] = $scope.category.fieldDefinePool[i]['helpText'];
+                data.fieldDefinePool[i]['isRequired'] = $scope.category.fieldDefinePool[i]['isRequired'] == true ? 1 : 0;
+            }
+
+            $http.put("/api/categories", data)
+                .then(function (response) {
+                    if (response.data.success) {
+                        helper.popup.info({ title: "Thông báo", message: "Thêm thể loại thành công", close: function () { return; } });
+                        init();
+                        $scope.formAddCat.$setPristine();
+                        $scope.formAddCat.$setUntouched();
+                    } else {
+                        helper.popup.info({ title: "Lỗi", message: "Thêm thể loại thất bại, vui lòng kiểm tra lại", close: function () { return; } });
+                    }
+                });
         }
-
-        //is edit or create
-
-        $http.put("/api/categories", data)
-            .then(function (response) {
-                if (response.data.success) {
-                    helper.popup.info({ title: "Thông báo", message: "Thêm thể loại thành công", close: function () { return; } });
-                    init();
-                    $scope.formAddCat.$setPristine();
-                    $scope.formAddCat.$setUntouched();
-                } else {
-                    helper.popup.info({ title: "Lỗi", message: "Thêm thể loại thất bại, vui lòng kiểm tra lại", close: function () { return; } });
-                }
-            });
     }
 
 

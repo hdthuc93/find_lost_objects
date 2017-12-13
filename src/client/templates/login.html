@@ -2,24 +2,25 @@
     <div class="row">
         <div class="login-panel panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Vui lòng đăng nhập</h3>
+                <p class="panel-title text-center">Đăng nhập</p>
+                <p class="panel-title text-center bold">Hệ thống tìm kiếm vật thất lạc</p>
             </div>
             <div class="panel-body">
                 <form role="form" id="login-form" name="loginForm">
                     <fieldset>
                         <div class="form-group">
-                            <input class="form-control" placeholder="Email" name="email" ng-model="email" autofocus ng-class="{'input-error': loginForm.email.$invalid }"
+                            <input class="form-control" placeholder="Email" name="email" ng-model="email" autofocus ng-class="{'input-error': loginForm.email.$invalid && loginForm.email.$touched }"
                                 title="Địa chỉ Email là bắt buộc" required>
                         </div>
                         <div class="form-group">
-                            <input class="form-control" placeholder="Mật khẩu" name="password" type="password" ng-model="password" value="" maxlength="30"
-                                ng-class="{'input-error': loginForm.password.$invalid }" title="Mật khẩu là bắt buộc" required>
+                            <input class="form-control" placeholder="Mật khẩu" name="password" type="password" ng-model="password" maxlength="30" ng-class="{'input-error': loginForm.password.$invalid && loginForm.password.$touched }"
+                                title="Mật khẩu là bắt buộc" required>
                         </div>
-                        <div class="checkbox">
+                        <!-- <div class="checkbox">
                             <label>
                                 <input name="remember" type="checkbox" value="Remember Me">Nhớ mật khẩu
                             </label>
-                        </div>
+                        </div> -->
                         <!-- Change this to a button or input when using this as a form -->
                         <button ng-click="login()" class="btn btn-lg btn-success btn-block">Đăng nhập</button>
                     </fieldset>

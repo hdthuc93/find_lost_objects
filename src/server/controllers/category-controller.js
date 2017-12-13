@@ -45,11 +45,11 @@ function getById(req, res) {
             let len = fieldDefinesPool.length;
             for (let i = 0; i < len; ++i) {
                 FieldDefineObj.push({
-                    fieldDefineId: fieldDefinesPool[i]['pk_id'],
-                    label: fieldDefinesPool[i]['field_label'],
+                    pk_id: fieldDefinesPool[i]['pk_id'],
+                    fieldLabel: fieldDefinesPool[i]['field_label'],
                     helpText: fieldDefinesPool[i]['help_text'],
                     isRequired: fieldDefinesPool[i]['is_required'],
-                    catId: fieldDefinesPool[i]['category_id'],
+                    category_id: fieldDefinesPool[i]['category_id'],
                     displayOrder: fieldDefinesPool[i]['display_order'],
                 });
             }
