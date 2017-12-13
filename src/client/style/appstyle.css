@@ -451,7 +451,7 @@ outline: none;
 
 .img-preview{
     max-height: 100%;
-    max-width: 200px;
+    max-width: 100%;
 }
 
 .field-area{

@@ -135,11 +135,6 @@ angular.module('findLostObject').config(['$stateProvider', '$urlRouterProvider',
 
     function _onStateChangeStart(event, toState, toParams, fromState, fromParams) {
         var toStateRequiresRoleAdmin = _requiresRoleAdmin(toState);
-        if (!Auth.isLoggedIn) {
-            event.preventDefault();
-            $state.go('login');
-            return;
-        }
         //role = 0: user, role = 1: admin
         if ($rootScope.masterUserRole == 0 && toStateRequiresRoleAdmin) {
             event.preventDefault();
