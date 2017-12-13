@@ -1,7 +1,7 @@
 var app = angular.module("findLostObject");
 
-app.controller("trackItemCtrl", ['$scope', '$rootScope', '$http', 'helper', trackItemCtrl]);
-function trackItemCtrl($scope, $rootScope, $http, helper) {
+app.controller("trackItemCtrl", ['$scope', '$rootScope', '$http', 'helper', 'fileReader', trackItemCtrl]);
+function trackItemCtrl($scope, $rootScope, $http, helper, fileReader) {
 	function init() {
 		$scope.itemOwn = [];
 		$scope.timeLine = [];
@@ -152,6 +152,7 @@ function trackItemCtrl($scope, $rootScope, $http, helper) {
 			fileReader.readAsDataUrl($scope.fileImg, $scope)
 				.then(function (result) {
 					$scope.itemOwn.value[0].image = result;
+					//==> tien hanh up hinh
 				});
 		}
 	});

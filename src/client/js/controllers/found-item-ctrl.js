@@ -96,14 +96,14 @@ function foundItemCtrl($scope, $rootScope, $http, helper, fileReader) {
         $scope.openDatePicker = true;
     }
 
-    $scope.$watch('file', function () {
-        if($scope.file){
-            if($scope.file.size > 1024*1024*5){
+    $scope.$watch('fileImg', function () {
+        if($scope.fileImg){
+            if($scope.fileImg.size > 1024*1024*5){
                 helper.popup.info({ title: "Lỗi", message: "Kích thước ảnh tối đa là 5MB", close: function () { return; } });
-                $scope.file = null;
+                $scope.fileImg = null;
                 return;
             }
-            fileReader.readAsDataUrl($scope.file, $scope)
+            fileReader.readAsDataUrl($scope.fileImg, $scope)
             .then(function(result) {
                 $scope.item.image = result;
             });
