@@ -1,0 +1,30 @@
+<div class="row" ng-controller="userCtrl">
+    <div class="col-md-6 col-md-push-3">
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <p class="lead">Thêm người dùng</p>
+
+                <form role="form" class="form">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group "><label class="control-label required">Họ</label><input type="text" required="required" class="form-control" ng-model='item.last_name'></div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group "><label class="control-label required">Tên</label><input type="text" required="required" class="form-control" ng-model='item.first_name'></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group "><label class="control-label required">Email</label><input type="email" required="required" class="form-control" ng-model='item.email'></div>
+                    <div class="form-group "><label class="control-label required">Password</label><input type="password" required="required" class="form-control" ng-model='item.password'></div>
+
+                    <div class="form-group "><label class="control-label required">Nhập lại Password</label><input type="password" required="required" class="form-control" ng-model='item.repassword'></div>
+
+                    <div class="text-center">
+                        <button class="btn btn-success" ng-click="register()"><i class="fa fa-check"></i> Lưu</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

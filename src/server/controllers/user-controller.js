@@ -126,4 +126,32 @@ function updateUser(req, res) {
         
 }
 
-export default { getById, getAll, updateUser };
+function insertUser(req, res) {
+  console.log(req.body);
+  Users.findOne({ where: { email: req.body.email } })
+    .then((user) => {
+      let userInsert = {
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        user_type: 0,
+        email: req.body.email,
+        password: req.body.password,
+      };
+      console.log(user);
+      if (!user) {
+        Users.create(userInsert)
+          .then((data) => res.send({ success: true, message: 'Thêm mới thành công' }))
+          .catch((err) => {
+            console.log(err);
+            return res.status(500).json({
+              success: false,
+              message: "Failed to insert user"
+            });
+          });
+      } else {
+        res.send({ success: false, message: 'Địa chỉ Email đã tồn tại.' });
+      }
+    })
+}
+
+export default { getById, getAll, updateUser, insertUser };

@@ -10,7 +10,10 @@ router.route('/')
     )
     .put(
     	userCtrl.updateUser
-    );
+    )
+    .post(
+    	userCtrl.insertUser
+    )
 
 router.route('/:userId')
 	.get(

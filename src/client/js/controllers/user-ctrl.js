@@ -19,7 +19,9 @@ function userCtrl($scope, $rootScope, $http, helper) {
 	        password: '',
 		};
 
-		getUserById(userId);
+		if (userId) {
+			getUserById(userId);
+		}
 	}
 
 	init();
@@ -33,6 +35,7 @@ function userCtrl($scope, $rootScope, $http, helper) {
 	function getUserById(id) {
 		var res = $http.get('/api/user/' + id).then(function(response) {
 			let param = response.data.data[0];
+
 			$scope.item.first_name = param.first_name;
 			$scope.item.last_name = param.last_name;
 			$scope.item.email = param.email;
@@ -76,4 +79,20 @@ function userCtrl($scope, $rootScope, $http, helper) {
 	        //if (response.data.success) window.location.reload();
 	    });
 	}
+
+	$scope.register = function() {
+		if ($scope.item.password != undefined && $scope.item.repassword != undefined) {
+			if ($scope.item.password != $scope.item.repassword) {
+				helper.popup.info({ title: "Thông báo", message: "Nhập lại mật khẩu không chính xát.", close: function () { return; } });
+				return;
+			}
+		}
+
+		let param = $scope.item;
+
+		$http.post("api/user", param).then(function (response) {
+			helper.popup.info({ title: "Thông báo", message: response.data.message, close: function () { return; } });
+	        if (response.data.success) window.location.reload();
+	    });
+	};
 }
