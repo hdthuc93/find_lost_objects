@@ -39,10 +39,11 @@ function trackItemCtrl($scope, $rootScope, $http, helper) {
 
 	function getNoteById(id) {
 		var res = $http.get('/api/note/' + id).then(function (response) {
-			res.$$state.user = getUserById(response.data.data[0].user_id);
-			res.$$state.item = getUserById(response.data.data[0].item_id);
-
-			return response.data.data;
+			if (response.data && response.data.data && response.data.data[0]) {
+				res.$$state.user = getUserById(response.data.data[0].user_id);
+				res.$$state.item = getUserById(response.data.data[0].item_id);
+				return response.data.data;
+			}
 		});
 
 		return res.$$state;
@@ -141,14 +142,14 @@ function trackItemCtrl($scope, $rootScope, $http, helper) {
 		console.log($scope.item)
 	}
 
-	$scope.$watch('file', function () {
-		if ($scope.file) {
-			if ($scope.file.size > 1024 * 1024 * 5) {
+	$scope.$watch('fileImg', function () {
+		if ($scope.fileImg) {
+			if ($scope.fileImg.size > 1024 * 1024 * 5) {
 				helper.popup.info({ title: "Lỗi", message: "Kích thước ảnh tối đa là 5MB", close: function () { return; } });
-				$scope.file = null;
+				$scope.fileImg = null;
 				return;
 			}
-			fileReader.readAsDataUrl($scope.file, $scope)
+			fileReader.readAsDataUrl($scope.fileImg, $scope)
 				.then(function (result) {
 					$scope.itemOwn.value[0].image = result;
 				});
