@@ -24,6 +24,15 @@ body {
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 
+.link{
+    color: blue;
+    cursor: pointer;
+}
+
+.link:hover{
+    color: darkblue;
+}
+
 .has-error{
     border-color: rgba(247, 17, 17, 0.84);
     outline: 0;

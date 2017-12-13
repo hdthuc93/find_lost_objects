@@ -2,6 +2,7 @@ var app = angular.module("findLostObject");
 
 app.controller("trackItemCtrl", ['$scope', '$rootScope', '$http', 'helper', 'fileReader', trackItemCtrl]);
 function trackItemCtrl($scope, $rootScope, $http, helper, fileReader) {
+	var itemId = "";
 	function init() {
 		$scope.itemOwn = [];
 		$scope.timeLine = [];
@@ -9,7 +10,7 @@ function trackItemCtrl($scope, $rootScope, $http, helper, fileReader) {
 		$scope.fieldAnswer = [];
 
 		var params = new URL(window.location.href.replace('/#', '')).searchParams;
-		var itemId = params.get('item');
+		itemId = params.get('item');
 
 		$scope.item = {
 			text: '',
@@ -151,8 +152,19 @@ function trackItemCtrl($scope, $rootScope, $http, helper, fileReader) {
 			}
 			fileReader.readAsDataUrl($scope.fileImg, $scope)
 				.then(function (result) {
-					$scope.itemOwn.value[0].image = result;
-					//==> tien hanh up hinh
+					$http.put("/api/items", {
+						itemId: itemId,
+						image: result
+					})
+						.then(function (response) {
+							if (response.data.success) {
+								helper.popup.info({ title: "Thông báo", message: "Thêm hình ảnh thành công", close: function () { return; } });
+
+								$scope.itemOwn.value[0].image = result;
+							} else {
+								helper.popup.info({ title: "Lỗi", message: "Thêm hình ảnh thất bại. Vui lòng kiểm tra lại", close: function () { return; } });
+							}
+						});
 				});
 		}
 	});

@@ -50,9 +50,15 @@ function loginCtrl($scope, $cookieStore, $http, $rootScope, $timeout, $location,
       helper.popup.info({ title: "Lỗi", message: "Xảy ra lỗi trong quá trình thực hiện, vui lòng thử lại.", close: function () { location.reload(); return; } })
     });
   }
+
   $scope.logout = function () {
     $cookieStore.put('userdata', {});
     $location.path('/login');
+  }
+
+  $scope.register = function () {
+    console.log(11111110)
+    $location.path('/register');
   }
 }
 
