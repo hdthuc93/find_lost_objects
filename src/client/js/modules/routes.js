@@ -147,8 +147,7 @@ angular.module('findLostObject').config(['$stateProvider', '$urlRouterProvider',
             return;
         }
         //If logged in & direct to '/login'
-        console.log(Auth.isLoggedIn() , toState.data)
-        if (Auth.isLoggedIn() && toState.data.preventLoggedIn) {
+        if (Auth.isLoggedIn() && toState.data && toState.data.preventLoggedIn) {
             event.preventDefault();
             return;
         }
