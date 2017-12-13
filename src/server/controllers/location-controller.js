@@ -4,30 +4,30 @@ function getAll(req, res) {
     let outData = [];
 
     Locations.findAll()
-    .then((LocationsPool) => {
-        let len = LocationsPool.length;
+        .then((LocationsPool) => {
+            let len = LocationsPool.length;
 
-        for(let i = 0; i < len; ++i) {
-            outData.push({
-                locationId: LocationsPool[i]['pk_id'],
-                name: LocationsPool[i]['name'],
-                description: LocationsPool[i]['description'],
+            for (let i = 0; i < len; ++i) {
+                outData.push({
+                    locationId: LocationsPool[i]['pk_id'],
+                    name: LocationsPool[i]['name'],
+                    description: LocationsPool[i]['description'],
+                });
+            }
+
+            return res.status(200).json({
+                success: true,
+                message: "Get locations successfully",
+                data: outData
             });
-        }
-
-        return res.status(200).json({
-            success: true,
-            message: "Get locations successfully",
-            data: outData
+        })
+        .catch((err) => {
+            console.log(err);
+            return res.status(500).json({
+                success: false,
+                message: "Failed to get locations"
+            });
         });
-    })
-    .catch((err) => {
-        console.log(err);
-        return res.status(500).json({
-            success: false,
-            message: "Failed to get locations"
-        });
-    });
 }
 
 function getById(req, res) {
@@ -39,30 +39,30 @@ function getById(req, res) {
             pk_id: locId
         }
     })
-    .then((locationPool) => {
-        let len = locationPool.length;
+        .then((locationPool) => {
+            let len = locationPool.length;
 
-        for(let i = 0; i < len; ++i) {
-            outData.push({
-                locationId: locationPool[i]['pk_id'],
-                name: locationPool[i]['name'],
-                description: locationPool[i]['description'],
+            for (let i = 0; i < len; ++i) {
+                outData.push({
+                    locationId: locationPool[i]['pk_id'],
+                    name: locationPool[i]['name'],
+                    description: locationPool[i]['description'],
+                });
+            }
+
+            return res.status(200).json({
+                success: true,
+                message: "Get locations successfully",
+                data: outData
             });
-        }
-
-        return res.status(200).json({
-            success: true,
-            message: "Get locations successfully",
-            data: outData
+        })
+        .catch((err) => {
+            console.log(err);
+            return res.status(500).json({
+                success: false,
+                message: "Failed to get locations"
+            });
         });
-    })
-    .catch((err) => {
-        console.log(err);
-        return res.status(500).json({
-            success: false,
-            message: "Failed to get locations"
-        });
-    });
 }
 
 function updateLocation(req, res) {
@@ -71,21 +71,37 @@ function updateLocation(req, res) {
         name: req.body.name,
         description: req.body.description,
     };
-    Locations.update(obj, {where: { pk_id: locationId } })
-    .then((result) => {
-        return res.status(200).json({
-            success: true,
-            message: "Cập nhật thông tin địa điểm thành công"
-        });
-    })
-    .catch((err) => {
-        t.rollback();
-        return res.status(500).json({
-            success: false,
-            message: "Cập nhật thông tin địa điểm thất bại"
-        });
-    })
+    Locations.update(obj, { where: { pk_id: locationId } })
+        .then((result) => {
+            return res.status(200).json({
+                success: true,
+                message: "Cập nhật thông tin địa điểm thành công"
+            });
+        })
+        .catch((err) => {
+            t.rollback();
+            return res.status(500).json({
+                success: false,
+                message: "Cập nhật thông tin địa điểm thất bại"
+            });
+        })
 
 }
 
-export default { getById, getAll,updateLocation };
+function insertLocation(req, res) {
+    let insertLocationObj = {
+        name: req.body.name,
+        description: req.body.description
+    };
+    Locations.create(insertLocationObj)
+        .then((data) => res.send({ success: true, message: 'Insert new Location successfully' }))
+        .catch((err) => {
+            console.log(err);
+            return res.status(500).json({
+                success: false,
+                message: "Insert new Location Unsuccessfully"
+            });
+        });
+}
+
+export default { getById, getAll, updateLocation, insertLocation };

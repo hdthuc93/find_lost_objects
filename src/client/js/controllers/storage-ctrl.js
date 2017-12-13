@@ -5,7 +5,10 @@ function storageCtrl($scope, $rootScope, $http, helper) {
   function init() {
   }
   init();
-
+  $scope.item = {
+    name: '',
+    description: '',
+  };
   $scope.storageList = {
     minRowsToShow: 15,
     enableSorting: false,
@@ -55,5 +58,13 @@ function storageCtrl($scope, $rootScope, $http, helper) {
     } else {
       helper.popup.info({ title: "Thông báo", message: "Kho này không tồn tại", close: function () { return; } })
     }
+  }
+
+  $scope.addStore = function(params) {
+    let param = $scope.item;
+    $http.post("/api/storages", param).then(function (response) {
+      window.location.reload()
+      helper.popup.info({ title: "Thông báo", message: response.data.message, close: function () { return; } });
+      });
   }
 }

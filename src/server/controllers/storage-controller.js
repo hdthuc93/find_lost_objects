@@ -71,20 +71,34 @@ function updateStorage(req, res) {
         name: req.body.name,
         description: req.body.description,
     };
-    Storages.update(obj, {where: { pk_id: storageId } })
-    .then((result) => {
-        return res.status(200).json({
-            success: true,
-            message: "Cập nhật thông tin kho thành công"
-        });
-    })
-    .catch((err) => {
-        t.rollback();
-        return res.status(500).json({
-            success: false,
-            message: "Cập nhật thông tin kho thất bại"
-        });
-    })
+    Storages.update(obj, { where: { pk_id: storageId } })
+        .then((result) => {
+            return res.status(200).json({
+                success: true,
+                message: "Cập nhật thông tin kho thành công"
+            });
+        })
+        .catch((err) => {
+            t.rollback();
+            return res.status(500).json({
+                success: false,
+                message: "Cập nhật thông tin kho thất bại"
+            });
+        })
 }
-
-export default { getAll, updateStorage, getById };
+function insertStorage(req, res) {
+    let insertLocationObj = {
+        name: req.body.name,
+        description: req.body.description
+    };
+    Storages.create(insertLocationObj)
+        .then((data) => res.send({ success: true, message: 'Insert new storage successfully' }))
+        .catch((err) => {
+            console.log(err);
+            return res.status(500).json({
+                success: false,
+                message: "Insert new storage Unsuccessfully"
+            });
+        });
+}
+export default { getAll, updateStorage, getById, insertStorage };

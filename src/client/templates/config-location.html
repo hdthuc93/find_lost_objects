@@ -19,12 +19,12 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Tên địa điểm *</label>
-                <input required name="locName" ng-model="" type="text" class="form-control input-sm" ng-class="{'has-error': formAddLoc.locName.$touched && formAddLoc.locName.$invalid}">
+                <input required name="locName" ng-model="item.name" type="text" class="form-control input-sm" ng-class="{'has-error': formAddLoc.locName.$touched && formAddLoc.locName.$invalid}">
                 <p class="help-block">Ví dụ: Phòng Họp A, Cổng sau,...</p>
             </div>
             <div class="form-group">
                 <label class="control-label">Mô tả</label>
-                <textarea ng-model="locDecs" type="text" class="form-control input-sm"></textarea>
+                <textarea ng-model="item.description" type="text" class="form-control input-sm"></textarea>
                 <p class="help-block">Nhập thêm vài dòng để mô tả chi tiết địa điểm</p>
             </div>
             <div class="form-group text-right">

@@ -10,7 +10,10 @@ router.route('/')
     )
     .put(
     storageCtrl.updateStorage
-    );
+    )
+    .post(
+        storageCtrl.insertStorage
+    )
 router.route('/:locId')
     .get(
     storageCtrl.getById

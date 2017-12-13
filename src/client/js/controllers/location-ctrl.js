@@ -5,6 +5,10 @@ function locationCtrl($scope, $rootScope, $http, helper) {
   function init() {
   }
   init();
+  $scope.item = {
+    name: '',
+    description: '',
+  };
   $scope.locationList = {
     minRowsToShow: 15,
     enableSorting: false,
@@ -22,7 +26,7 @@ function locationCtrl($scope, $rootScope, $http, helper) {
       {
         field: 'action', displayName: 'Chức năng', minWidth: 100,
         cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" style="padding: 0px 5px;" class="btn btn-default" ng-click="grid.appScope.editLocation(row.entity.locationId)"><i class="fa fa-eye"></i></button></div>'
-    }
+      }
     ],
     onRegisterApi: function (gridApi) {
       $scope.gridApi = gridApi;
@@ -54,5 +58,12 @@ function locationCtrl($scope, $rootScope, $http, helper) {
       } else {
           helper.popup.info({ title: "Thông báo", message: "Địa điểm này không tồn tại", close: function () { return; } })
       }
-  }
+    }
+    $scope.addLoc = function(params) {
+      let param = $scope.item;
+      $http.post("/api/locations", param).then(function (response) {
+        window.location.reload()
+        helper.popup.info({ title: "Thông báo", message: response.data.message, close: function () { return; } });
+        });
+    }
 }

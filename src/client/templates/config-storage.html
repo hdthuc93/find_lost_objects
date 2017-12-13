@@ -19,12 +19,12 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Tên *</label>
-                <input required name="storeName" ng-model="" type="text" class="form-control input-sm" ng-class="{'has-error': formAddStore.storeName.$touched && formAddStore.storeName.$invalid}">
+                <input required name="storeName" ng-model="item.name" type="text" class="form-control input-sm" ng-class="{'has-error': formAddStore.storeName.$touched && formAddStore.storeName.$invalid}">
                 <p class="help-block">Ví dụ: Phòng thiết bị</p>
             </div>
             <div class="form-group">
                 <label class="control-label">Mô tả</label>
-                <textarea ng-model="storeDecs" type="text" class="form-control input-sm"></textarea>
+                <textarea ng-model="item.description" type="text" class="form-control input-sm"></textarea>
                 <p class="help-block">Nhập thêm vài dòng để mô tả chi tiết địa điểm lưu trữ</p>
             </div>
             <div class="form-group text-right">

@@ -10,11 +10,14 @@ router.route('/')
 )
 .put(
     locationCtrl.updateLocation
-);
+)
+.post(
+    locationCtrl.insertLocation
+)
 
 router.route('/:locId')
-    .get(
-    locationCtrl.getById
-    );
+.get(
+locationCtrl.getById
+);
 
 export default router;
