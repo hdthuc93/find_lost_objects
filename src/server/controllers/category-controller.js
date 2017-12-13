@@ -192,17 +192,23 @@ function updateCategory(req, res) {
                             field_label: fieldDefinePool[i].fieldLabel,
                             help_text: fieldDefinePool[i].helpText,
                             is_required: fieldDefinePool[i].isRequired,
-                            display_order: fieldDefinePool[i].displayOrder
+                            display_order: fieldDefinePool[i].displayOrder,
+                            category_id: req.params['catId']
                         });
                     }
                     let promise = [];
                     for (let element of updateFieldDefineObj) {
-                        promise.push(FieldDefine.update(element, {
-                            where: {
-                                category_id: req.params['catId'],
-                                pk_id: element.pk_id
-                            }
-                        }, { transaction: t }));
+                        if (element.pk_id == null) {
+                            promise.push(FieldDefine.create(element, { transaction: t }));
+                        }
+                        else {
+                            promise.push(FieldDefine.update(element, {
+                                where: {
+                                    category_id: req.params['catId'],
+                                    pk_id: element.pk_id
+                                }
+                            }, { transaction: t }));
+                        }
                     }
                     return Promise.all(promise);
                 } else
