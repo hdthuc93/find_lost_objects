@@ -104,7 +104,7 @@ function getAll(req, res) {
         if(typeStr === "lost") {
             cond = { where: { type: 0 } };
             if(matched && matched === "true")
-            cond.where.status = 1;
+                cond.where.status = 1;
         } else if(typeStr === "found")
             cond = { where: { type: 1 } };
     }
@@ -121,6 +121,12 @@ function getAll(req, res) {
     }];
 
     cond.order = [["lost_at", "DESC"]];
+
+    if(req.query.localId)
+        cond.include[0].where = { pk_id: req.query.localId }
+
+    if(req.query.catId)
+        cond.include[1].where = { pk_id: req.query.catId }
 
     Item.findAll(cond)
     .then((itemPool) => {
