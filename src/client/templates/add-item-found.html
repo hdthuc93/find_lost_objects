@@ -1,19 +1,21 @@
 <form class="box-2" role="form" name="foundItemForm" id="foundItemForm" ng-controller="foundItemCtrl">
     <div class="col-lg-6 col-md-6 col-xs-12 box-4">
-        <h3 class="page-header">Thêm vật nhặt được</h3>
+        <h3 class="page-header">{{item.itemId?"Chỉnh sửa":"Thêm"}} vật nhặt được</h3>
         <div class="col-lg-6 col-md-12 col-xs-12">
             <div class="form-group">
                 <label class="control-label">Thể loại *</label>
-                <select name="itemType" required ng-change="changeCategory()" ng-model="item.categoryId" type="text" class="form-control input-sm" ng-class="{'has-error': foundItemForm.itemType.$touched && foundItemForm.itemType.$invalid }">
+                <select ng-disabled="item.itemId" name="itemType" required ng-change="changeCategory()" ng-model="item.categoryId" type="text" class="form-control input-sm"
+                    ng-class="{'has-error': foundItemForm.itemType.$touched && foundItemForm.itemType.$invalid }">
                     <option value="" ng-selected="true">Chọn thể loại...</option>
                     <option value="{{cat.categoryId}}" ng-repeat="cat in categoryList">{{cat.categoryName}}</option>
                 </select>
             </div>
-            <div ng-repeat="field in category | orderBy: filed.displayOrder" class="form-group">
+            <div ng-repeat="field in category | orderBy: field.displayOrder" class="form-group">
                 <label class="control-label">{{field.label}}
                     <span ng-if="field.isRequired"> *</span>
                 </label>
-                <input name="field{{$index}}" ng-model="field.helpText" ng-required="field.isRequired" type="text" class="form-control input-sm" ng-class="{'has-error': foundItemForm.field{{$index}}.$touched && foundItemForm.field{{$index}}.$invalid}">
+                <input name="field{{$index}}" placeholder="{{field.helpText}}" ng-model="field.answer"  ng-required="field.isRequired" type="text" class="form-control input-sm"
+                    ng-class="{'has-error': foundItemForm.field{{$index}}.$touched && foundItemForm.field{{$index}}.$invalid}">
             </div>
         </div>
         <div class="col-lg-6 col-md-12 col-xs-12">
@@ -43,10 +45,14 @@
                 <!-- <input required name="itemLostAt" ng-model="item.lostAt" placeholder="yyyy-mm-dd" type="text" class="form-control input-sm"
                         ng-class="{'has-error': foundItemForm.itemLostAt.$touched && foundItemForm.itemLostAt.$invalid}"> -->
                 <p class="input-group sm">
-                    <input required readonly name="itemLostAt" placeholder="yyyy-mm-dd" type="text" class="form-control input-sm" uib-datepicker-popup="yyyy-MM-dd" ng-model="item.lostAt" is-open="openDatePicker" datepicker-options="dateOptions" close-text="Đóng" ng-class="{'has-error': foundItemForm.itemLostAt.$touched && foundItemForm.itemLostAt.$invalid}" />
+                    <input required readonly name="itemLostAt" placeholder="yyyy-mm-dd" type="text" class="form-control input-sm" uib-datepicker-popup="yyyy-MM-dd"
+                        ng-model="item.lostAt" is-open="openDatePicker" datepicker-options="dateOptions" close-text="Đóng" ng-class="{'has-error': foundItemForm.itemLostAt.$touched && foundItemForm.itemLostAt.$invalid}"
+                    />
                     <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" ng-click="openDP()"><i class="fa fa-calendar"></i></button>
-                        </span>
+                        <button type="button" class="btn btn-default" ng-click="openDP()">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </span>
                 </p>
                 <p class="help-block">Theo giờ Việt Nam</p>
             </div>
@@ -61,6 +67,22 @@
         </div>
     </div>
     <div class="col-lg-6 col-md-6 col-xs-12 box-4">
+        <h3 class="page-header" ng-if="!item.itemId">Đăng hình ảnh</h3>
+        <div class="col-xs-12" ng-if="!item.itemId">
+            <div class="dropzone" ngf-drop ngf-select ng-model="fileImg" ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="true"
+                accept="image/*,application/pdf" ngf-pattern="'image/*,application/pdf'" id="itemImageUploader">
+                <div ng-hide="fileImg" class="dz-message">
+                    <i class="fa fa-2x fa-picture-o"></i>
+                    <br>
+                    <span>Bấm vào để lấy hình hoặc kéo thả hình ảnh vào đây
+                    </span>
+                    <span ngf-no-file-drop>
+                        <br>Chức năng kéo thả không hỗ trợ trên trình duyệt này
+                    </span>
+                </div>
+                <img ng-show="fileImg" class="img-preview" ng-src="{{item.image}}" />
+            </div>
+        </div>
         <h3 class="page-header">Thông tin người nhặt được vật</h3>
         <div class="col-lg-6 col-md-12 col-xs-12">
             <div class="form-group">
@@ -69,7 +91,8 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Địa chỉ email *</label>
-                <input required ng-pattern="emailPattern" name="email" ng-model="item.emailAddress" type="text" class="form-control input-sm" ng-class="{'has-error': foundItemForm.email.$touched && foundItemForm.email.$invalid}">
+                <input required ng-pattern="emailPattern" name="email" ng-model="item.emailAddress" type="text" class="form-control input-sm"
+                    ng-class="{'has-error': foundItemForm.email.$touched && foundItemForm.email.$invalid}">
             </div>
         </div>
         <div class="col-lg-6 col-md-12 col-xs-12">
@@ -81,30 +104,11 @@
                 <label class="control-label">Số điện thoại</label>
                 <input ng-model="item.contactPhoneNo" type="text" class="form-control input-sm">
             </div>
-        </div>
-    </div>
-    <div class="col-lg-6 col-md-6 col-xs-12 box-5">
-        <h3 class="page-header">Đăng hình ảnh</h3>
-        <div class="col-xs-12">
-            <div class="dropzone" ngf-drop ngf-select ng-model="fileImg" ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="true" accept="image/*,application/pdf" ngf-pattern="'image/*,application/pdf'" id="itemImageUploader">
-                <div ng-hide="fileImg" class="dz-message">
-                    <i class="fa fa-2x fa-picture-o"></i>
-                    <br>
-                    <span>Bấm vào để lấy hình hoặc kéo thả hình ảnh vào đây
-                            </span>
-                    <span ngf-no-file-drop>
-                                <br>Chức năng kéo thả không hỗ trợ trên trình duyệt này
-                            </span>
-                </div>
-                <img ng-show="fileImg" class="img-preview" ng-src="{{item.image}}" />
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-12 col-lg-12 text-center">
             <div class="form-group">
                 <button type="button" class="btn btn-primary btn-xs" ng-click="save()">
-                    <i class="fa fa-floppy-o"></i> Lưu</button>
+                    <i class="fa fa-floppy-o"></i> Lưu {{item.itemId?"thay đổi":""}}</button>
                 <!-- <button type="button" class="btn btn-primary btn-xs" ng-click="reset()">
-                    <i class="fa fa-plus"></i> Lưu & Tìm thêm vật khác</button> -->
+                        <i class="fa fa-plus"></i> Lưu & Tìm thêm vật khác</button> -->
             </div>
         </div>
     </div>

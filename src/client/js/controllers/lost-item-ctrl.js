@@ -2,9 +2,7 @@ var app = angular.module("findLostObject");
 
 app.controller("lostItemCtrl", ['$scope', '$rootScope', '$http', 'helper', '$location', lostItemCtrl]);
 function lostItemCtrl($scope, $rootScope, $http, helper, $location) {
-
     $scope.emailPattern = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
-
     function init() {
         $scope.categoryList = [];
         $scope.locatonList = [];
@@ -121,7 +119,6 @@ function lostItemCtrl($scope, $rootScope, $http, helper, $location) {
             $scope.item.fieldAnswersPool[i]['helpText'] = $scope.item.fieldAnswersPool[i]['answer'];
         }
         var param = angular.copy($scope.item);
-        console.log(22222, param.lostAt);
         param.lostAt = helper.convertDate($scope.item.lostAt);
         if (param.itemId) {
             //EDIT

@@ -15,11 +15,11 @@ function foundItemCtrl($scope, $rootScope, $http, helper, fileReader) {
             firstName: "",
             lastName: "",
             locationId: "",
-            lostAt: "",
+            lostAt: new Date(),
             otherDetails: "",
             type: 1,
             storageId: "",
-            fieldAnswersPool:[]
+            fieldAnswersPool: []
         };
         getCategoryList();
         getLocationList();
@@ -31,6 +31,48 @@ function foundItemCtrl($scope, $rootScope, $http, helper, fileReader) {
         }
     }
     init();
+
+    var params = new URL(window.location.href.replace('/#', '')).searchParams;
+    var itemId = parseInt(params.get('edit'));
+    if (itemId) {//EDIT ITEM
+        $http.get('/api/items/id/' + itemId).then(function (response) {
+            if (response.data.data.length > 0) {
+                console.log(response.data.data);
+                var _data = response.data.data[0];
+                $scope.item = {
+                    itemId: itemId,
+                    categoryId: _data['category_id'].toString(),
+                    contactPhoneNo: _data['contact_phone_no'],
+                    emailAddress: _data['email_address'],
+                    firstName: _data['first_name'],
+                    lastName: _data['last_name'],
+                    locationId: _data['location_id'].toString(),
+                    lostAt: new Date(_data['lost_at']),
+                    otherDetails: _data['other_details'],
+                    storageId: _data['storege_location_id'].toString(),
+                    type: 0,
+                    fieldAnswersPool: []
+                };
+                getCategory(_data['category_id']);
+                $scope.$on('get_cat_done', function () {
+                    $http.get('/api/field_answers/itemid/' + itemId).then(function (response) {
+                        for (var i in response.data.data) {
+                            for (var j in $scope.category) {
+                                if (response.data.data[i]['field_define_id'] == $scope.category[j]['fieldDefineId']) {
+                                    $scope.category[j]['answer'] = response.data.data[i]['field_answer_text'];
+                                    $scope.category[j]['field_answer_id'] = response.data.data[i]['field_answer_id'];
+                                    break;
+                                }
+                            }
+                        }
+                    });
+                });
+            } else {
+                $location.url($location.path('/404'));
+            }
+        });
+    }
+
 
     function getCategoryList() {
         $http.get("/api/categories")
@@ -57,6 +99,7 @@ function foundItemCtrl($scope, $rootScope, $http, helper, fileReader) {
         $http.get("/api/field_defines/catid/" + id)
             .then(function (response) {
                 $scope.category = response.data.data;
+                $scope.$emit('get_cat_done');
             });
     }
 
@@ -82,31 +125,51 @@ function foundItemCtrl($scope, $rootScope, $http, helper, fileReader) {
             helper.popup.info({ title: "Lỗi", message: "Vui lòng điền thông tin đầy đủ và chính xác.", close: function () { return; } })
             return;
         }
-        $scope.item.fieldAnswersPool = $scope.category;
+        $scope.item.fieldAnswersPool = angular.copy($scope.category);
+        for (var i in $scope.item.fieldAnswersPool) {
+            $scope.item.fieldAnswersPool[i]['helpText'] = $scope.item.fieldAnswersPool[i]['answer'];
+        }
         var param = angular.copy($scope.item);
         param.lostAt = helper.convertDate($scope.item.lostAt);
-        $http.post("/api/items", param)
-            .then(function (response) {
-                var msg = response.data.success ? "Thêm vật nhặt được thành công." : "Thêm vật nhặt được thất bại, vui lòng kiểm tra lại";
-                helper.popup.info({ title: "Thông báo", message: msg, close: function () { return; } });
-            });
+        if (param.itemId) {
+            //EDIT
+            $http.put("/api/items", param)
+                .then(function (response) {
+                    for (var i in param.fieldAnswersPool) {
+                        $http.put("/api/field_answers/" + param.fieldAnswersPool[i]['field_answer_id'], {
+                            answer_text: param.fieldAnswersPool[i]['answer']
+                        }).then(function (response) {
+                        });
+                    }
+                    var msg = response.data.success ? "Cập nhật vật nhặt được thành công." : "Cập nhật vật nhặt được thất bại, vui lòng kiểm tra lại";
+                    helper.popup.info({ title: "Thông báo", message: msg, close: function () { return; } })
+                });
+        } else {
+            //CREATE
+            $http.post("/api/items", param)
+                .then(function (response) {
+                    var msg = response.data.success ? "Thêm vật nhặt được thành công." : "Thêm vật nhặt được thất bại, vui lòng kiểm tra lại";
+                    helper.popup.info({ title: "Thông báo", message: msg, close: function () { return; } });
+                });
+        }
+
     }
 
-    $scope.openDP = function(){
+    $scope.openDP = function () {
         $scope.openDatePicker = true;
     }
 
     $scope.$watch('fileImg', function () {
-        if($scope.fileImg){
-            if($scope.fileImg.size > 1024*1024*5){
+        if ($scope.fileImg) {
+            if ($scope.fileImg.size > 1024 * 1024 * 5) {
                 helper.popup.info({ title: "Lỗi", message: "Kích thước ảnh tối đa là 5MB", close: function () { return; } });
                 $scope.fileImg = null;
                 return;
             }
             fileReader.readAsDataUrl($scope.fileImg, $scope)
-            .then(function(result) {
-                $scope.item.image = result;
-            });
+                .then(function (result) {
+                    $scope.item.image = result;
+                });
         }
     });
 }
