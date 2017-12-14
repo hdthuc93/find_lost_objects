@@ -55,7 +55,7 @@ async function insertItem(req, res) {
                         insertFieldAnswerObj.push({
                             field_id: fieldAnswersPool[i].fieldDefineId,
                             item_id: result.pk_id,
-                            answer_text: fieldAnswersPool[i].helpText
+                            answer_text: fieldAnswersPool[i].helpText||""
                         });
                     }
                     return FieldAnswer.bulkCreate(insertFieldAnswerObj, { transaction: t });
@@ -453,7 +453,7 @@ function getStatisticForIndexPage(req, res) {
     }
 
     Item.findAll({ 
-        order: [ ['lost_at', 'DESC'] ],
+        order: [ ['create_time', 'DESC'] ],
         include: [{
             model: Locations,
             required: true

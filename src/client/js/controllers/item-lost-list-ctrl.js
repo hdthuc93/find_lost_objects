@@ -66,20 +66,23 @@ function itemLostListCtrl($scope, $rootScope, $http, helper, $location) {
             });
         }
     };
-
-    $http.get("/api/items/lost")
-    .then(function (response) {
-        if(response.data.success){
-            var data = response.data.data;
-            data.forEach(function (e, i) {
-                data[i] = e;
-                data[i].no = i + 1;
-            });
-            $scope.itemList.data = data;
-        }else{
-            $scope.itemList.data = [];
-        }
-    });
+    
+    $scope.getList = function(){
+        $http.get("/api/items/lost?localId="+$scope.search.location+"&catId="+$scope.search.category)
+        .then(function (response) {
+            if (response.data.success) {
+                var data = response.data.data;
+                data.forEach(function (e, i) {
+                    data[i] = e;
+                    data[i].no = i + 1;
+                });
+                $scope.itemList.data = data;
+            } else {
+                $scope.itemList.data = [];
+            }
+        });
+    }
+    $scope.getList();
 
     $scope.viewItem = function (id) {
         if (id) {

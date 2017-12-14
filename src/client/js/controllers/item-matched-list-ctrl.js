@@ -71,7 +71,9 @@ function itemMatchedListCtrl($scope, $rootScope, $http, helper, $location) {
         }
     };
 
-    $http.get("/api/items/lost?matched=true")
+    
+    $scope.getList = function(){
+        $http.get("/api/items/lost?matched=true&localId="+$scope.search.location+"&catId="+$scope.search.category)
         .then(function (response) {
             if (response.data.success) {
                 var data = response.data.data;
@@ -84,6 +86,8 @@ function itemMatchedListCtrl($scope, $rootScope, $http, helper, $location) {
                 $scope.itemList.data = [];
             }
         });
+    }
+    $scope.getList();
 
     $scope.viewItem = function (id) {
         if (id) {

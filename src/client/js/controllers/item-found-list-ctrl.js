@@ -67,7 +67,9 @@ function itemFoundListCtrl($scope, $rootScope, $http, helper, $location) {
         }
     };
 
-    $http.get("/api/items/found")
+    
+    $scope.getList = function(){
+        $http.get("/api/items/found?localId="+$scope.search.location+"&catId="+$scope.search.category)
         .then(function (response) {
             if (response.data.success) {
                 var data = response.data.data;
@@ -80,6 +82,8 @@ function itemFoundListCtrl($scope, $rootScope, $http, helper, $location) {
                 $scope.itemList.data = [];
             }
         });
+    }
+    $scope.getList();
 
     $scope.viewItem = function (id) {
         if (id) {
