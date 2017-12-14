@@ -1,7 +1,7 @@
 var app = angular.module("findLostObject");
 
-app.controller("foundItemCtrl", ['$scope', '$rootScope', '$http', 'helper', 'fileReader', foundItemCtrl]);
-function foundItemCtrl($scope, $rootScope, $http, helper, fileReader) {
+app.controller("foundItemCtrl", ['$scope', '$rootScope', '$http', 'helper', 'fileReader', '$stateParams', foundItemCtrl]);
+function foundItemCtrl($scope, $rootScope, $http, helper, fileReader, $stateParams) {
     $scope.emailPattern = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
     function init() {
         $scope.categoryList = [];
@@ -32,8 +32,7 @@ function foundItemCtrl($scope, $rootScope, $http, helper, fileReader) {
     }
     init();
 
-    var params = new URL(window.location.href.replace('/#', '')).searchParams;
-    var itemId = parseInt(params.get('edit'));
+    var itemId = $stateParams.id || null;
     if (itemId) {//EDIT ITEM
         $http.get('/api/items/id/' + itemId).then(function (response) {
             if (response.data.data.length > 0) {
@@ -159,7 +158,8 @@ function foundItemCtrl($scope, $rootScope, $http, helper, fileReader) {
         $scope.openDatePicker = true;
     }
 
-    $scope.$watch('fileImg', function () {
+    $scope.$watch('fileImg', function (data) {
+        console.log(22222222, data)
         if ($scope.fileImg) {
             if ($scope.fileImg.size > 1024 * 1024 * 5) {
                 helper.popup.info({ title: "Lỗi", message: "Kích thước ảnh tối đa là 5MB", close: function () { return; } });

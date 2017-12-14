@@ -156,7 +156,7 @@ function trackItemCtrl($scope, $rootScope, $http, helper, fileReader, $location)
 					})
 						.then(function (response) {
 							if (response.data.success) {
-								helper.popup.info({ title: "Thông báo", message: "Thêm hình ảnh thành công", close: function () { return; } });
+								helper.popup.info({ title: "Thông báo", message: "Cập nhật hình ảnh thành công", close: function () { return; } });
 
 								$scope.itemOwn.value[0].image = result;
 							} else {
@@ -168,12 +168,11 @@ function trackItemCtrl($scope, $rootScope, $http, helper, fileReader, $location)
 	});
 
 	$scope.editItem = function () {
-		// window.location.href = '#/item/edit?id=' + itemId
 		if ($scope.itemOwn.value[0].type == 0) {
-			window.location.href = '#/lost?edit=' + itemId
+			$location.path('/lost/edit/' + itemId)
 		}
 		if ($scope.itemOwn.value[0].type == 1) {
-			window.location.href = '#/found?edit=' + itemId
+			$location.path('/found/edit/' + itemId)
 		}
 	}
 };

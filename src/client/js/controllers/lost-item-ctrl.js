@@ -1,7 +1,7 @@
 var app = angular.module("findLostObject");
 
-app.controller("lostItemCtrl", ['$scope', '$rootScope', '$http', 'helper', '$location', lostItemCtrl]);
-function lostItemCtrl($scope, $rootScope, $http, helper, $location) {
+app.controller("lostItemCtrl", ['$scope', '$rootScope', '$http', 'helper', '$location', '$stateParams', lostItemCtrl]);
+function lostItemCtrl($scope, $rootScope, $http, helper, $location, $stateParams) {
     $scope.emailPattern = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
     function init() {
         $scope.categoryList = [];
@@ -30,8 +30,7 @@ function lostItemCtrl($scope, $rootScope, $http, helper, $location) {
     }
     init();
 
-    var params = new URL(window.location.href.replace('/#', '')).searchParams;
-    var itemId = parseInt(params.get('edit'));
+    var itemId = $stateParams.id || null;
     if (itemId) {//EDIT ITEM
         $http.get('/api/items/id/' + itemId).then(function (response) {
             if (response.data.data.length > 0) {

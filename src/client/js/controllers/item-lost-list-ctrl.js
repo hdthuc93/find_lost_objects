@@ -1,7 +1,7 @@
 var app = angular.module("findLostObject");
 
-app.controller("itemLostListCtrl", ['$scope', '$rootScope', '$http', 'helper', itemLostListCtrl]);
-function itemLostListCtrl($scope, $rootScope, $http, helper) {
+app.controller("itemLostListCtrl", ['$scope', '$rootScope', '$http', 'helper', '$location', itemLostListCtrl]);
+function itemLostListCtrl($scope, $rootScope, $http, helper, $location) {
     function init() {
     }
     init();
@@ -32,7 +32,7 @@ function itemLostListCtrl($scope, $rootScope, $http, helper) {
             { field: 'fullName', displayName: 'Người liên quan', minWidth: 150 },
             {
                 field: 'action', displayName: 'Chức năng', minWidth: 100,
-                cellTemplate: '<div class="ui-grid-cell-contents"><button type="button" style="padding: 0px 5px;" class="btn btn-default" ng-click="grid.appScope.viewItem(row.entity.itemId)"><i class="fa fa-eye"></i></button></div>'
+                cellTemplate: '<div class="ui-grid-cell-contents"><button title="Xem thông tin" type="button" style="padding: 0px 5px;" class="btn btn-default" ng-click="grid.appScope.viewItem(row.entity.itemId)"><i class="fa fa-eye"></i></button>&nbsp;&nbsp;<button title="Chỉnh sửa" type="button" style="padding: 0px 5px;" class="btn btn-success" ng-click="grid.appScope.editItem(row.entity.itemId, row.entity.type)"><i class="fa fa-pencil"></i></button></div>'
             }
         ],
         onRegisterApi: function (gridApi) {
@@ -64,6 +64,19 @@ function itemLostListCtrl($scope, $rootScope, $http, helper) {
     $scope.viewItem = function (id) {
         if (id) {
             location.href = "#/track?item=" + id;
+        } else {
+            helper.popup.info({ title: "Thông báo", message: "Vật phẩm này không tồn tại", close: function () { return; } })
+        }
+    }
+
+    $scope.editItem = function (itemId, itemType) {
+        if (itemId) {
+            if (itemType == 0) {
+                $location.path('/lost/edit/' + itemId)
+            }
+            if (itemType == 1) {
+                $location.path('/found/edit/' + itemId)
+            }
         } else {
             helper.popup.info({ title: "Thông báo", message: "Vật phẩm này không tồn tại", close: function () { return; } })
         }
