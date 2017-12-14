@@ -14,12 +14,19 @@ function Login(req, res) {
                         console.log(err);
                     }
                     if (isValid) {
+                        if (user.user_type == -1) {
+                            return res.status(200).json({
+                                success: false,
+                                msg: 'Tài khoản của bạn đang bị khóa không thể tiến hành login'
+                            });
+                        }
+
                         let cert = config.secret;
                         let tokenJWT = jwt.sign({data : user}, cert);
                         res.send({ success: true,msg: "Login success", token: tokenJWT, name: user['first_name'] ,user_id: user['pk_id'],user_type: user['user_type'] });
                     }
                     else {
-                        res.send({ success: false, msg: 'Authentication failed. Wrong password.' });
+                        res.send({ success: false, msg: '"Tên đăng nhập hoặc mật khẩu không đúng, vui lòng thử lại."' });
                     }
                 })
             }
