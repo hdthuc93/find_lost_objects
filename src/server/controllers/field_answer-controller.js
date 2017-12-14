@@ -43,4 +43,24 @@ function getFieldByItemId(req, res) {
     });
 }
 
-export default { getFieldByItemId };
+function updateField(req, res) {
+    let text = req.body['answer_text'];
+    let fieldId = req.params['field_id'];
+
+    FieldAnswer.update({ answer_text: text }, { where: { pk_id: fieldId }})
+    .then(result => {
+        return res.status(200).json({
+            success: true,
+            message: "Update an field successfully"
+        });
+    })
+    .catch(err => {
+        console.log(err);
+        return res.status(500).json({
+            success: false,
+            message: "Fail to update a field"
+        });
+    });
+}
+
+export default { getFieldByItemId, updateField };
