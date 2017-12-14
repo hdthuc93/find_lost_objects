@@ -1,0 +1,70 @@
+<div ng-controller="categoryCtrl">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">Danh sách thể loại</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-7 col-lg-7">
+            <div class="form-group">
+                <div id="categoryList" ui-grid-selection ui-grid-resize-columns ui-grid="categoryList" class="grid">
+                    <span ng-show="categoryList.data.length==0" class="grid-status">Không có dữ liệu</span>
+                </div>
+            </div>
+        </div>
+        <form name="formAddCat" class="col-sm-8 col-md-5 col-lg-3">
+            <fieldset ng-disabled="isView">
+                <div class="form-group">
+                    <h4 class="page-header">{{isView?"Xem thông tin thể loại":(isEdit?"Chỉnh sửa thể loại":"Thêm mới thể loại")}}</h3>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Tên *</label>
+                    <input required name="catName" ng-model="category.name" type="text" class="form-control input-sm" ng-class="{'has-error': formAddCat.catName.$touched && formAddCat.catName.$invalid}">
+                    <p class="help-block">Ví dụ: Điện thoại, Bút máy,...</p>
+                </div>
+                <div class="form-group">
+                    <h4 class="page-header">Thuộc tính</h3>
+                </div>
+                <div class="field-area" ng-repeat="field in category.fieldDefinePool">
+                    <div class="form-group">
+                        <label class="control-label">Nhãn thuộc tính</label>
+                        <input ng-model="field.fieldLabel" type="text" class="form-control input-sm">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Thêm đề xuất</label>
+                        <input name="" ng-model="field.helpText" type="text" class="form-control input-sm">
+                        <p class="help-block">Giúp người dùng mô tả rõ ràng hơn</p>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" ng-model="field.isRequired" value="">Thuộc tính bắt buộc
+                        </label>
+                        <label class="actions inline pull-right">
+                            <span class="sorting">
+                                <a href="javascript:void(0)" ng-click="moveUp($index)" class="btn btn-xs btn-info up" title="Chuyển lên">
+                                    <i class="fa fa-arrow-up"></i>
+                                </a>
+                                <a href="javascript:void(0)" ng-click="moveDown($index)" class="btn btn-xs btn-info down" title="Chuyển xuống">
+                                    <i class="fa fa-arrow-down"></i>
+                                </a> &nbsp; </span>
+                            <a href="javascript:void(0)" ng-click="removeFielDefine($index)" class="btn btn-xs btn-danger" title="Xoá thuộc tính">
+                                <i class="fa fa-remove"></i>
+                            </a>
+                        </label>
+                    </div>
+            </fieldset>
+            <div class="form-group text-right">
+                <button ng-if="!isView" type="button" class="btn btn-primary btn-xs pull-left" ng-click="addFielDefine()">
+                    <i class="fa fa-plus"></i> Thêm thuộc tính </button>
+                <button ng-if="!isView" type="button" class="btn btn-primary btn-xs" ng-click="save()">
+                    <i class="fa fa-floppy-o"></i> {{isEdit?"Lưu thay đổi":"Lưu"}}</button>
+                <button ng-if="isView" type="button" class="btn btn-primary btn-xs" ng-click="editCategory()">
+                    <i class="fa fa-pencil"></i> Chỉnh sửa</button>
+                <button ng-if="!isCreate" type="button" class="btn btn-primary btn-xs" ng-click="createNew()">
+                    <i class="fa fa-plus"></i> Thêm thể loại khác</button>
+            </div>
+        </form>
+
+        </div>
+    </div>

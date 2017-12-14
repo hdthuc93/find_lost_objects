@@ -1,0 +1,36 @@
+<div ng-controller="locationCtrl">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">Danh sách địa điểm</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-7 col-lg-7">
+            <div class="form-group">
+                <div id="locationList" ui-grid-selection ui-grid-resize-columns ui-grid="locationList" class="grid">
+                    <span ng-show="locationList.data.length==0" class="grid-status">Không có dữ liệu</span>
+                </div>
+            </div>
+        </div>
+        <form name="formAddLoc" class="col-sm-8 col-md-5 col-lg-3">
+            <div class="form-group">
+                <h4 class="page-header">Thêm địa điểm</h3>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Tên địa điểm *</label>
+                <input required name="locName" ng-model="item.name" type="text" class="form-control input-sm" ng-class="{'has-error': formAddLoc.locName.$touched && formAddLoc.locName.$invalid}">
+                <p class="help-block">Ví dụ: Phòng Họp A, Cổng sau,...</p>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Mô tả</label>
+                <textarea ng-model="item.description" type="text" class="form-control input-sm"></textarea>
+                <p class="help-block">Nhập thêm vài dòng để mô tả chi tiết địa điểm</p>
+            </div>
+            <div class="form-group text-right">
+                <button type="button" class="btn btn-primary btn-xs" ng-click="addLoc()">
+                    <i class="fa fa-floppy-o"></i> Lưu</button>
+            </div>
+        </form>
+    </div>
+</div>

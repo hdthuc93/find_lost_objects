@@ -1,0 +1,189 @@
+<link href="lib/custom/custom.css" rel="stylesheet">
+
+<div ng-controller='matchItemCtrl'>
+	<div class="row matching-items">
+		<!--Item Found-->
+	    <div class="col-sm-6">
+	        <div class="box box-default">
+	            <div class="box-body">
+	                <p class="status-bar text-lg">
+	                    Mã:&nbsp;<span class="item-reference pad"><b>{{ itemSrc.value[0].itemId }}</b></span> &nbsp; Tình Trạng:&nbsp;
+	                    <span class="item-type bg-orange pad-sm nowrap" ng-if='itemSrc.value[0].type == 0'>Mất</span>
+	                    <span class="item-type bg-teal pad-sm nowrap" ng-if='itemSrc.value[0].type == 1'>Tìm Thấy</span> &nbsp;&nbsp; Trạng Thái:&nbsp;
+	                    <span class="item-status bg-warning pad-sm nowrap" ng-if='itemSrc.value[0].status == -1'>Đã trả về</span>
+	                    <span class="item-status bg-warning pad-sm nowrap" ng-if='itemSrc.value[0].status == 0'>Mới</span>
+	                    <span class="item-status bg-warning pad-sm nowrap" ng-if='itemSrc.value[0].status == 1'>Đã tìm thấy</span> &nbsp;&nbsp; Tìm thấy &nbsp;tại:&nbsp;
+	                    <span class="item-location bg-info pad-sm nowrap">{{ itemSrc.location.value[0].name }}</span>
+	                </p>
+	            </div>
+	        </div>
+
+	        <div class="box box-default">
+	            <div class="box-header">
+	                <h3 class="box-title"><i class="fa fa-list-alt"></i>&nbsp; Chi Tiết</h3>
+	            </div>
+	            <div class="box-body">
+
+	                <div class="row">
+	                    <div class="col-sm-4 col-md-4 images-wrapper">
+	                        <div class="primary-image">
+
+	                        </div>
+	                    </div>
+
+	                    <div class="col-sm-8 col-md-8 item-wrapper">
+	                        <div class="item">
+	                            <h4>{{ itemSrc.category.value[0].categoryName }}</h4>
+	                            <div class="table-responsive">
+	                                <table class="table table-condensed">
+	                                    <tbody>
+	                                        <tr>
+											    <th>Trạng Thái</th>
+											    <td>
+											        <li style='display: inline;'>
+											            <span class="item-status bg-warning" ng-if='itemSrc.value[0].status == -1'>Đã trả về</span>
+											            <span class="item-status bg-warning" ng-if='itemSrc.value[0].status == 0'>Mới</span>
+											            <span class="item-status bg-warning" ng-if='itemSrc.value[0].status == 1'>Đã tìm thấy</span>
+											        </li>
+											    </td>
+											</tr>
+											<tr>
+											    <th>Thời gian</th>
+											    <td>
+											        <li style='display: inline;' ng-if='itemSrc.value[0].type == 0'><span class="item-type bg-orange pad-sm nowrap">Mất</span> lúc {{ itemSrc.value[0].lost_at | date:'HH:mm dd LLLL yyyy' }}</li>
+											        <li style='display: inline;' ng-if='itemSrc.value[0].type == 1'><span class="item-type bg-teal pad-sm nowrap">Tìm thấy</span> lúc {{ itemSrc.value[0].lost_at | date:'HH:mm dd LLLL yyyy' }}</li>
+											    </td>
+											</tr>
+											<tr>
+											    <th>Địa điểm</th>
+											    <td>
+											        <li style='display: inline;'>Tìm thấy tại <span class="item-location bg-info">{{ itemSrc.location.value[0].name }}</span></li>
+											    </td>
+											</tr>
+	                                    </tbody>
+	                                </table>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+
+	            </div>
+	        </div>
+	        <hr class="visible-xs">
+	    </div>
+	    <!--End Item Src-->
+
+	    <!--Item Des-->
+	    <div class="col-sm-6">
+	        <div class="box box-default">
+	            <div class="box-body">
+	                <p class="status-bar text-lg">
+	                    Mã:&nbsp;<span class="item-reference pad"><b>{{ itemDes.value[0].itemId }}</b></span> &nbsp; Tình Trạng:&nbsp;
+	                    <span class="item-type bg-orange pad-sm nowrap" ng-if='itemDes.value[0].type == 0'>Mất</span>
+	                    <span class="item-type bg-teal pad-sm nowrap" ng-if='itemDes.value[0].type == 1'>Tìm Thấy</span> &nbsp;&nbsp; Trạng Thái:&nbsp;
+	                    <span class="item-status bg-warning pad-sm nowrap" ng-if='itemDes.value[0].status == -1'>Đã trả về</span>
+	                    <span class="item-status bg-warning pad-sm nowrap" ng-if='itemDes.value[0].status == 0'>Mới</span>
+	                    <span class="item-status bg-warning pad-sm nowrap" ng-if='itemDes.value[0].status == 1'>Đã tìm thấy</span> &nbsp;&nbsp; Tìm thấy &nbsp;tại:&nbsp;
+	                    <span class="item-location bg-info pad-sm nowrap">{{ itemDes.location.value[0].name }}</span>
+	                </p>
+	            </div>
+	        </div>
+
+	        <div class="box box-default">
+	            <div class="box-header">
+	                <h3 class="box-title"><i class="fa fa-list-alt"></i>&nbsp; Chi Tiết</h3>
+	            </div>
+	            <div class="box-body">
+
+	                <div class="row">
+	                    <div class="col-sm-4 col-md-4 images-wrapper">
+	                        <div class="primary-image">
+
+	                        </div>
+	                    </div>
+
+	                    <div class="col-sm-8 col-md-8 item-wrapper">
+	                        <div class="item">
+	                            <h4>{{ itemDes.category.value[0].categoryName }}</h4>
+	                            <div class="table-responsive">
+	                                <table class="table table-condensed">
+	                                    <tbody>
+	                                        <tr>
+											    <th>Trạng Thái</th>
+											    <td>
+											        <li style='display: inline;'>
+											            <span class="item-status bg-warning" ng-if='itemDes.value[0].status == -1'>Đã trả về</span>
+											            <span class="item-status bg-warning" ng-if='itemDes.value[0].status == 0'>Mới</span>
+											            <span class="item-status bg-warning" ng-if='itemDes.value[0].status == 1'>Đã tìm thấy</span>
+											        </li>
+											    </td>
+											</tr>
+											<tr>
+											    <th>Thời gian</th>
+											    <td>
+											        <li style='display: inline;' ng-if='itemDes.value[0].type == 0'><span class="item-type bg-orange pad-sm nowrap">Mất</span> lúc {{ itemDes.value[0].lost_at | date:'HH:mm dd LLLL yyyy' }}</li>
+											        <li style='display: inline;' ng-if='itemDes.value[0].type == 1'><span class="item-type bg-teal pad-sm nowrap">Tìm thấy</span> lúc {{ itemDes.value[0].lost_at | date:'HH:mm dd LLLL yyyy' }}</li>
+											    </td>
+											</tr>
+											<tr>
+											    <th>Địa điểm</th>
+											    <td>
+											        <li style='display: inline;'>Tìm thấy tại <span class="item-location bg-info">{{ itemDes.location.value[0].name }}</span></li>
+											    </td>
+											</tr>
+	                                    </tbody>
+	                                </table>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+
+	            </div>
+	        </div>
+	        <hr class="visible-xs">
+	    </div>
+	    <!--End Item Des-->
+	</div>
+
+	<div class="box box-success">
+	    <div class="box-header">
+	        <h3 class="box-title">Bạn có chắc chắn 2 vật phẩm trên trùng khớp với nhau?</h3>
+	    </div>
+	    <div class="box-body">
+	        <p>Vui lòng kiểm tra các mục phía trên để xác nhận rằng 2 vật phẩm này trùng khớp.</p>
+
+	        <form role="form" name="matchedItemForm" id="matchedItemForm" class="form">
+	            <hr>
+
+	            <div class="row">
+	                <div class="col-md-5">
+	                    <h5 class="text-bold">Chủ sở hữu</h5>
+	                    <p>
+	                        Họ Tên: {{ itemSrc.value[0].last_name + ' ' + itemSrc.value[0].first_name }}<br>
+	                        Email: {{ itemSrc.value[0].email_address }}<br> </p>
+	                    <hr class="visible-xs visible-sm">
+	                </div>
+	                <div class="col-md-7">
+
+	                    <div class="form-group">
+	                        <div class="checkbox"><label class="" for="match_items_sendOwnerEmail"><input type="checkbox" id="match_items_sendOwnerEmail" name="match_items[sendOwnerEmail]" class="" value="1" checked="checked">Gửi Email cho chủ sở hữu</label>
+	                        </div>
+	                    </div>
+	                    <div class="form-group "><label class="control-label" for="match_items_ownerMessage">Nội dung</label><textarea id="match_items_ownerMessage" name="match_items[ownerMessage]" class="form-control form-control"></textarea></div>
+
+	                    <p class="text-muted">
+	                        Email sẽ được gửi tới: {{ itemSrc.value[0].email_address }}
+	                    </p>
+	                </div>
+	            </div>
+
+	            <hr>
+
+	            <div class="text-center">
+	                <a class="btn btn-default" href="#"><i class="fa fa-chevron-left"></i>&nbsp; Quay lại</a>
+	                <button type="submit" ng-click="save()" class="btn btn-success">Xác nhận &nbsp;<i class="fa fa-check"></i></button>
+	            </div>
+	        </form>
+	    </div>
+	</div>
+</div>

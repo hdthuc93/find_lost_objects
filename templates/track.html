@@ -1,0 +1,333 @@
+<link href="lib/custom/custom.css" rel="stylesheet">
+
+<form role='form' name='noteItemForm' id='noteItemForm'>
+	<div class="row" ng-controller="trackItemCtrl">
+		<div class="box box-default">
+			<div class="box-body">
+				<p class="status-bar lead">
+					Ref:&nbsp;
+					<span class="item-reference pad">
+						<b>{{ itemOwn.value[0].itemId }}</b>
+					</span> &nbsp; Kiểu vật phẩm:&nbsp;
+					<span class="item-type bg-orange pad nowrap" ng-if='itemOwn.value[0].type == 0'>Mất</span>
+					<span class="item-type bg-teal pad nowrap" ng-if='itemOwn.value[0].type == 1'>Tìm Thấy</span> &nbsp;&nbsp; Trạng Thái:&nbsp;
+					<span class="item-status bg-warning pad nowrap" ng-if='itemOwn.value[0].status == -1'>Đã trả về</span>
+					<span class="item-status bg-warning pad nowrap" ng-if='itemOwn.value[0].status == 0'>Mới</span>
+					<span class="item-status bg-warning pad nowrap" ng-if='itemOwn.value[0].status == 1'>Đã tìm thấy</span>
+					&nbsp; {{itemOwn.value[0].type == 0?"Mất tại":"Tìm thấy tại"}}:&nbsp;
+					<span class="item-status bg-info pad nowrap">{{itemOwn.location.value[0].name}}</span>
+				</p>
+			</div>
+		</div>
+
+		<div class="col-md-6 col-print-sm-6">
+			<!--Thông tin vật phẩm-->
+			<div class="box box-info owner-details">
+				<div class="box-header">
+					<h3 class="box-title">
+						<i class="fa fa-list-alt"></i>&nbsp; Mô tả</h3>
+					<!-- <div class="box-tools pull-right">
+						<a href="javascript:window.print();" class="btn btn-sm btn-default">
+							<i class="fa fa-print"></i>&nbsp; Print</a>
+						<a href="/demo-control-panel/items/edit/5a2df4b60db354002f4059e1/" class="btn btn-sm btn-default">
+							<i class="fa fa-edit"></i>&nbsp; Edit Item</a>
+					</div> -->
+				</div>
+				<div class="box-body">
+
+					<div class="row">
+						<div class="col-sm-4 col-md-4 images-wrapper">
+							<div class="dropzone" ngf-drop ngf-select ng-model="fileImg" ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="true"
+							 accept="image/*,application/pdf" ngf-pattern="'image/*,application/pdf'" id="itemImageUploader">
+								<div ng-hide="itemOwn.value[0].image" class="dz-message">
+									<i class="fa fa-2x fa-picture-o"></i>
+									<br>
+									<span>Bấm vào để lấy hình hoặc kéo thả hình ảnh vào đây
+									</span>
+									<span ngf-no-file-drop>
+										<br>Chức năng kéo thả không hỗ trợ trên trình duyệt này
+									</span>
+								</div>
+								<img class="img-preview" ng-src="{{itemOwn.value[0].image}}" />
+							</div>
+						</div>
+
+						<div class="col-sm-8 col-md-8 item-wrapper">
+							<div class="item">
+								<h4>
+									{{itemOwn.category.value[0].categoryName}}
+								</h4>
+								<div class="table-responsive">
+									<table class="table table-condensed">
+										<colgroup>
+											<col width="30%">
+											<col>
+										</colgroup>
+										<tbody>
+											<!-- repeat -->
+											<tr ng-repeat="ans in fieldAnswer" ng-if="ans.field_answer_text">
+												<th>{{ans.field_define_text}}</th>
+												<td>{{ans.field_answer_text}}</td>
+											</tr>
+											<tr ng-repeat="ans in fieldAnswer" ng-if="ans.field_answer_text">
+												<th>{{ans.field_define_text}}</th>
+												<td>{{ans.field_answer_text}}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<!--End-->
+			<!--
+			<div class="box box-default actions">
+			    <div class="box-header">
+			        <h3 class="box-title"><i class="fa fa-check-square-o"></i>&nbsp; Actions</h3>
+			    </div>
+			    <div class="box-body text-center">
+			        <a class="btn btn-sm btn-success mark-as return-item" href="#">
+			            <i class="fa fa-exchange"></i> Mark as Returned
+			        </a>
+			        <a class="btn btn-sm btn-danger mark-as dispose-item" href="#">
+			            <i class="fa fa-trash"></i> Mark as Disposed
+			        </a>
+			        <a class="btn btn-sm btn-warning mark-as donate-item" href="#">
+			            <i class="fa fa-gift"></i> Mark as Donated
+			        </a>
+
+			        <a class="btn btn-sm btn-default mark-as archive-item" href="#">
+			            <i class="fa fa-archive"></i> Archive
+			        </a>
+			    </div>
+			</div>
+			-->
+
+			<!--Thông tin chủ sỡ hữu-->
+			<div class="box box-info owner-details">
+				<div class="box-header">
+					<h3 class="box-title">
+						<i class="fa fa-user"></i>&nbsp; Chủ sở hữu</h3>
+				</div>
+				<div class="box-body">
+					<div class="table-responsive">
+						<table class="table">
+							<tbody>
+								<tr>
+									<th class="nobr">Họ Tên</th>
+									<td>{{ itemOwn.value[0].first_name + ' ' + itemOwn.value[0].last_name }}</td>
+								</tr>
+								<tr>
+									<th class="nobr">Địa chỉ Email</th>
+									<td>{{ itemOwn.value[0].email_address }}</td>
+								</tr>
+								<tr>
+									<th class="nobr">Số điện thoại liên lạc.</th>
+									<td>{{ itemOwn.value[0].contact_phone_no }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<!--End-->
+
+			<!--Các vật phẩm liên quan-->
+			<div class="box box-default matches">
+				<div class="box-header">
+					<h3 class="box-title">
+						<i class="fa fa-search"></i>&nbsp; Có thể bạn quan tâm</h3>
+				</div>
+
+				<div class="box-body">
+					<div class="matches-list" ng-repeat='im in itemMatching'>
+						<a class="item" href='#/matched?itemsrc={{ itemOwn.value[0].itemId }}&itemdes={{ im.item.value[0].itemId }}'>
+							<div class="row">
+								<div class="col-xs-2">
+									<p>
+										<span class="small text-muted">Mã</span> {{ im.item.value[0].itemId }}</p>
+								</div>
+
+								<div class="col-xs-10">
+									<h4>{{ im.item.category.value[0].categoryName }}</h4>
+									<div class="table-responsive">
+										<table class="table table-condensed">
+											<tbody>
+												<tr>
+													<th>Tình Trạng</th>
+													<td>
+														<li style='display: inline;'>
+															<span class="item-status bg-warning" ng-if='im.item.value[0].status == -1'>Đã trả về</span>
+															<span class="item-status bg-warning" ng-if='im.item.value[0].status == 0'>Mới</span>
+															<span class="item-status bg-warning" ng-if='im.item.value[0].status == 1'>Đã tìm thấy</span>
+														</li>
+													</td>
+												</tr>
+												<tr>
+													<th>Thời gian</th>
+													<td>
+														<li style='display: inline;' ng-if='im.item.value[0].type == 1'>
+															<span class="item-type bg-teal pad-sm nowrap">Tìm thấy</span> lúc {{ im.item.value[0].lost_at | date:'HH:mm dd LLLL yyyy' }}</li>
+														<li style='display: inline;' ng-if='im.item.value[0].type == 0'>
+															<span class="item-type bg-orange pad-sm nowrap">Mất</span> lúc {{ im.item.value[0].lost_at | date:'HH:mm dd LLLL yyyy' }}</li>
+													</td>
+												</tr>
+												<tr>
+													<th>Địa điểm</th>
+													<td>
+														<li style='display: inline;'>Tìm thấy tại
+															<span class="item-location bg-info">{{ im.item.location.value[0].name }}</span>
+														</li>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+			<!--End-->
+
+			<div class="box box-default notes">
+				<div class="box-header">
+					<h3 class="box-title">
+						<i class="fa fa-file-text-o"></i>&nbsp; Ghi chú</h3>
+				</div>
+				<div class="box-body">
+					<blockquote class="note" ng-repeat="track in timeLine">
+						<div ng-if='track.note_id != NULL'>
+							<p>{{ track.note.value[0].text }}</p>
+							<small>{{ track.note.user.value[0].first_name + ' ' + track.note.user.value[0].last_name }} at {{ track.log_time | date:'HH:mm:ss
+								dd-MM-yyyy' }}</small>
+						</div>
+					</blockquote>
+					<hr>
+					<form role="form" method="post" action="" class="form">
+						<div class="row">
+							<div class="col-sm-8">
+								<textarea ng-model='item.text' required="required" placeholder="Thêm ghi chú tại đây..." class="form-control form-control"></textarea>
+							</div>
+							<div class="col-sm-4">
+								<button type="submit" class="btn btn-info btn-block" ng-click="save()">
+									<i class="fa fa-plus"></i> Thêm</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6 col-print-sm-6">
+			<div class="box box-default">
+				<div class="box-header">
+					<h3 class="box-title">
+						<i class="fa fa-history"></i>&nbsp; Lịch sử</h3>
+				</div>
+			</div>
+			<div class="timeline-wrapper">
+				<ul class="timeline">
+					<li class="time-label">
+						<span class="bg-aqua">{{ itemOwn.value[0].create_time | date:'dd LLLL yyyy' }}</span>
+					</li>
+					<li ng-if='itemOwn.value[0].type == 0'>
+						<i class="fa fa-plus bg-orange"></i>
+						<div class="timeline-item">
+							<span class="time">
+								<i class="fa fa-clock-o"></i> {{ itemOwn.value[0].create_time | date:'HH:mm' }}</span>
+							<h3 class="timeline-header no-border">{{ itemOwn.value[0].first_name + ' ' + itemOwn.value[0].last_name + ' đã đăng vật phẩm mất' }}</h3>
+						</div>
+					</li>
+
+					<li ng-if='itemOwn.value[0].type == 1'>
+						<i class="fa fa-plus bg-teal"></i>
+						<div class="timeline-item">
+							<span class="time">
+								<i class="fa fa-clock-o"></i> {{ itemOwn.value[0].create_time | date:'HH:mm' }}</span>
+							<h3 class="timeline-header no-border">{{ itemOwn.value[0].first_name + ' ' + itemOwn.value[0].last_name + ' đã đăng vật phẩm tìm thấy' }}</h3>
+						</div>
+					</li>
+
+					<li ng-repeat='track in timeLine'>
+						<span class="bg-aqua">{{ track.log_time | date:'dd LLLL yyyy' }}</span>
+						<!--<i class="fa fa-file-text-o bg-gray"></i>-->
+						<div class="timeline-item" ng-if='track.note_id != NULL'>
+							<span class="time">
+								<i class="fa fa-clock-o"></i> {{ track.log_time | date:'HH:mm' }}</span>
+							<h3 class="timeline-header">
+								{{ track.note.user.value[0].first_name + ' ' + track.note.user.value[0].last_name }} đã thêm ghi chú
+							</h3>
+							<div class="timeline-body">
+								<blockquote class="note no-margin">{{ track.note.value[0].text }}</blockquote>
+							</div>
+						</div>
+					</li>
+
+					<li ng-if='itemOwn.value[0].match_item_id != NULL && track.note_id == NULL' ng-repeat='track in timeLine'>
+						<i class="fa fa-check bg-orange"></i>
+						<div class="timeline-item">
+							<span class="time">
+								<i class="fa fa-clock-o"></i> {{ track.log_time | date:'HH:mm' }}</span>
+							<h3 class="timeline-header">{{ itemOwn.value[0].first_name + ' ' + itemOwn.value[0].last_name }} đã đối chiếu</h3>
+							<div class="timeline-body">
+								<a class="item" href="#/track?item={{ itemOwn.value[0].match_item_id }}">
+									<div class="row">
+										<div class="col-xs-2">
+											<p>
+												<span class="small text-muted">Mã</span> {{ itemOwn.value[0].match_item_id }}</p>
+										</div>
+										<div class="col-xs-7">
+											<h4>{{ itemOwn.item_matched.category.value[0].categoryName }}</h4>
+											<div class="table-responsive">
+												<table class="table table-condensed">
+													<tbody>
+														<tr>
+															<th>Trạng Thái</th>
+															<td>
+																<li style='display: inline;'>
+																	<span class="item-status bg-warning" ng-if='itemOwn.item_matched.value[0].status == -1'>Đã trả về</span>
+																	<span class="item-status bg-warning" ng-if='itemOwn.item_matched.value[0].status == 0'>Mới</span>
+																	<span class="item-status bg-warning" ng-if='itemOwn.item_matched.value[0].status == 1'>Đã tìm thấy</span>
+																</li>
+															</td>
+														</tr>
+														<tr>
+															<th>Thời gian</th>
+															<td>
+																<li style='display: inline;' ng-if='itemOwn.item_matched.value[0].type == 0'>
+																	<span class="item-type bg-orange pad-sm nowrap">Mất</span> lúc {{ itemOwn.item_matched.value[0].lost_at | date:'HH:mm dd LLLL yyyy' }}</li>
+																<li style='display: inline;' ng-if='itemOwn.item_matched.value[0].type == 1'>
+																	<span class="item-type bg-teal pad-sm nowrap">Tìm thấy</span> lúc {{ itemOwn.item_matched.value[0].lost_at | date:'HH:mm dd LLLL yyyy' }}</li>
+															</td>
+														</tr>
+														<tr>
+															<th>Địa điểm</th>
+															<td>
+																<li style='display: inline;'>Tìm thấy tại
+																	<span class="item-location bg-info">{{ itemOwn.item_matched.location.value[0].name }}</span>
+																</li>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+					</li>
+
+					<li>
+						<i class="fa fa-ellipsis-h"></i>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
