@@ -436,4 +436,68 @@ async function updateItem(req, res) {
     });
 }
 
-export default { insertItem, getAll, getById, recommendMatchingItems, matchedItems, getItemReportByDay, updateItem };
+function getStatisticForIndexPage(req, res) {
+    // type(0: lost, 1: found)
+    let outData = {
+        threeLost: [],
+        threeFound: [],
+        quanLost: 0,
+        quanFound: 0,
+        quanMatch: 0
+    }
+
+    Item.findAll({ 
+        order: [ ['lost_at', 'DESC'] ],
+        include: [{
+            model: Locations,
+            required: true
+        }]
+    })
+    .then(itemPool => {
+        for(let i = 0; i < itemPool.length; ++i) {
+            if(itemPool[i]['type'] === 0) {
+                outData.quanLost++;
+                if(outData.threeLost.length < 3 && !itemPool[i]['match_item_id']) {
+                    outData.threeLost.push({
+                        itemId: itemPool[i]['pk_id'],
+                        location_id: itemPool[i]['location_id'],
+                        location_name: itemPool[i]['location']['name'],
+                        lost_or_found_at: dateUtils.changeToDDMMYYYY(itemPool[i]['lost_at'].toString()),
+                        status: itemPool[i]['status'],
+                        type: itemPool[i]['type']
+                    });
+                }
+            } else {
+                outData.quanFound++;
+                if(outData.threeFound.length < 3 && !itemPool[i]['match_item_id']) {
+                    outData.threeFound.push({
+                        itemId: itemPool[i]['pk_id'],
+                        location_id: itemPool[i]['location_id'],
+                        location_name: itemPool[i]['location']['name'],
+                        lost_or_found_at: dateUtils.changeToDDMMYYYY(itemPool[i]['lost_at'].toString()),
+                        status: itemPool[i]['status'],
+                        type: itemPool[i]['type']
+                    });
+                }
+            }
+
+            if(itemPool[i]['match_item_id'])
+                outData.quanMatch++;
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Get statistic successfully",
+            data: outData
+        });
+    })
+    .catch(err => {
+        console.log(err);
+        return res.status(500).json({
+            success: false,
+            message: "Fail to get statistic"
+        });
+    })
+}
+
+export default { insertItem, getAll, getById, recommendMatchingItems, matchedItems, getItemReportByDay, updateItem, getStatisticForIndexPage };

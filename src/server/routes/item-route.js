@@ -4,6 +4,11 @@ import itemCtrl from '../controllers/item-controller';
 
 const router = express.Router();
 
+router.route('/statistic')
+.get(
+    itemCtrl.getStatisticForIndexPage
+);
+
 router.route('/')
     .post(
         itemCtrl.insertItem
