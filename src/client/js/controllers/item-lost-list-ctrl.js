@@ -3,8 +3,28 @@ var app = angular.module("findLostObject");
 app.controller("itemLostListCtrl", ['$scope', '$rootScope', '$http', 'helper', '$location', itemLostListCtrl]);
 function itemLostListCtrl($scope, $rootScope, $http, helper, $location) {
     function init() {
+        $scope.search = {
+            category: "",
+            location: ""
+        }
+        getCategoryList();
+        getLocationList();
     }
     init();
+
+    function getCategoryList() {
+        $http.get("/api/categories")
+            .then(function (response) {
+                $scope.categoryList = response.data.data;
+            });
+    }
+
+    function getLocationList() {
+        $http.get("/api/locations")
+            .then(function (response) {
+                $scope.locationList = response.data.data;
+            });
+    }
 
     $scope.itemList = {
         minRowsToShow: 15,

@@ -7,32 +7,38 @@
     <div class="row">
         <div class="col-sm-12 col-lg-12">
             <div class="col-md-3 col-xs-6">
-                    <div class="form-group">
-                        <label class="control-label">Thể loại</label>
-                        <input name="category" ng-model="search.category" type="text" class="form-control input-sm">
-                    </div>
+                <div class="form-group">
+                    <label class="control-label">Thể loại</label>
+                    <select ng-model="search.category" class="form-control input-sm">
+                        <option value="" ng-selected="true">Tất cả</option>
+                        <option value="{{cat.categoryId}}" ng-repeat="cat in categoryList">{{cat.categoryName}}</option>
+                    </select>
                 </div>
+            </div>
             <div class="col-md-3 col-xs-6">
                 <div class="form-group">
                     <label class="control-label">Vị trí</label>
-                    <input name="location" ng-model="search.location" type="text" class="form-control input-sm">
-                </div>
-            </div>
-            <div class="col-md-3 col-xs-6">
-                <div class="form-group">
-                    <label class="control-label">Từ ngày</label>
-                    <input name="fromDate" ng-model="search.fromDate" type="text" class="form-control input-sm">
-                </div>
-            </div>
-            <div class="col-md-3 col-xs-6">
-                <div class="form-group">
-                    <label class="control-label">Đến ngày</label>
-                    <input name="toDate" ng-model="search.toDate" type="text" class="form-control input-sm">
+                    <select ng-model="search.location" class="form-control input-sm">
+                        <option value="" ng-selected="true">Tất cả</option>
+                        <option value="{{loc.locationId}}" ng-repeat="loc in locationList">{{loc.name}}</option>
+                    </select>
                 </div>
                 <div class="form-group text-right">
                     <button type="button" class="btn btn-primary btn-xs" ng-click="">
                         <i class="fa fa-search"></i> Tìm</button>
                 </div>
+            </div>
+            <!-- <div class="col-md-3 col-xs-6">
+                    <div class="form-group">
+                        <label class="control-label">Từ ngày</label>
+                        <input name="fromDate" ng-model="search.fromDate" type="text" class="form-control input-sm">
+                    </div>
+                </div> -->
+            <div class="col-md-3 col-xs-6">
+                <!-- <div class="form-group">
+                        <label class="control-label">Đến ngày</label>
+                        <input name="toDate" ng-model="search.toDate" type="text" class="form-control input-sm">
+                    </div>                 -->
             </div>
         </div>
     </div>
