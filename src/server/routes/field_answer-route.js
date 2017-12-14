@@ -9,4 +9,9 @@ router.route('/itemid/:itemId')
         fieldAnswerCtrl.getFieldByItemId
     );
 
+router.route('/:field_id')
+    .put(
+        fieldAnswerCtrl.updateField
+    );
+
 export default router;
