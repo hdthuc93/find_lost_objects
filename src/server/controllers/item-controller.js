@@ -120,7 +120,7 @@ function getAll(req, res) {
         // required: true 
     }];
 
-    cond.order = [["lost_at", "DESC"]];
+    cond.order = [["create_time", "DESC"]];
 
     if(req.query.localId)
         cond.include[0].where = { pk_id: req.query.localId }
