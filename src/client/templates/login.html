@@ -1,36 +1,19 @@
 <div class="login-page" ng-controller="loginCtrl">
-    <div class="row">
-        <div class="login-panel panel panel-default">
-            <div class="panel-heading">
-                <p class="panel-title text-center">Đăng nhập</p>
-                <p class="panel-title text-center bold">Hệ thống tìm kiếm vật thất lạc</p>
-            </div>
-            <div class="panel-body">
-                <form role="form" id="login-form" name="loginForm">
-                    <fieldset>
-                        <div class="form-group">
-                            <input class="form-control" placeholder="Email" name="email" ng-model="email" autofocus ng-class="{'input-error': loginForm.email.$invalid && loginForm.email.$touched }"
-                                title="Địa chỉ Email là bắt buộc" required>
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control" placeholder="Mật khẩu" name="password" type="password" ng-model="password" maxlength="30" ng-class="{'input-error': loginForm.password.$invalid && loginForm.password.$touched }"
-                                title="Mật khẩu là bắt buộc" required>
-                        </div>
-                        <!-- <div class="checkbox">
-                            <label>
-                                <input name="remember" type="checkbox" value="Remember Me">Nhớ mật khẩu
-                            </label>
-                        </div> -->
-                        <div class="form-group">
-                            <button ng-click="login()" class="btn btn-lg btn-success btn-block">Đăng nhập</button>
-                        </div>
-
-                        <div class="form-group text-center">
-                            <a class="link" ng-click="register()">Đăng ký thành viên</a>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
+    <div class="panel-lite">
+        <div class="thumbur">
+            <div class="icon-lock"></div>
         </div>
+        <h4>Hệ thống tìm kiếm vật thất lạc</h4>
+        <form role="form" id="login-form" name="loginForm">
+            <div class="box-input">
+                <input class="box-control" placeholder="Email" name="email" ng-model="email" autofocus ng-class="{'input-error': loginForm.email.$invalid && loginForm.email.$touched }" title="Địa chỉ Email là bắt buộc" required>
+                <label class="box-label">Email</label>
+            </div>
+            <div class="box-input">
+                <input class="box-control" placeholder="Mật khẩu" name="password" type="password" ng-model="password" maxlength="30" ng-class="{'input-error': loginForm.password.$invalid && loginForm.password.$touched }" title="Mật khẩu là bắt buộc" required>
+                <label class="box-label">Mật khẩu</label>
+            </div><a href="#">Đăng ký ?  </a>
+            <button class="floating-btn" ng-click="login()"><i class="icon-arrow"></i></button>
+        </form>
     </div>
 </div>
