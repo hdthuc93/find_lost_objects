@@ -133,7 +133,7 @@ function insertUser(req, res) {
       let userInsert = {
         first_name: req.body.first_name,
         last_name: req.body.last_name,
-        user_type: 0,
+        user_type: req.body.user_type,
         email: req.body.email,
         password: req.body.password,
       };

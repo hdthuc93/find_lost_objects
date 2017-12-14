@@ -5,20 +5,29 @@
             <div class="panel-body">
                 <p class="lead">Thêm người dùng</p>
 
-                <form role="form" class="form">
+                <form role="form" class="form" name="frmRegister">
                     <div class="row">
                         <div class="col-sm-6">
-                            <div class="form-group "><label class="control-label required">Họ</label><input type="text" required="required" class="form-control" ng-model='item.last_name'></div>
+                            <div class="form-group "><label class="control-label required">Họ</label><input type="text" class="form-control" ng-model='item.last_name' name="lastName" required ng-class="{'has-error': frmRegister.lastName.$touched && frmRegister.lastName.$invalid}"></div>
                         </div>
                         <div class="col-sm-6">
-                            <div class="form-group "><label class="control-label required">Tên</label><input type="text" required="required" class="form-control" ng-model='item.first_name'></div>
+                            <div class="form-group "><label class="control-label required">Tên</label><input type="text" class="form-control" ng-model='item.first_name' name="firstName" required ng-class="{'has-error': frmRegister.firstName.$touched && frmRegister.firstName.$invalid}"></div>
                         </div>
                     </div>
 
-                    <div class="form-group "><label class="control-label required">Email</label><input type="email" required="required" class="form-control" ng-model='item.email'></div>
-                    <div class="form-group "><label class="control-label required">Password</label><input type="password" required="required" class="form-control" ng-model='item.password'></div>
+                    <div class="form-group "><label class="control-label required">Email</label><input type="email" required="required" class="form-control" ng-model='item.email' name="email" ng-class="{'has-error': frmRegister.email.$touched && frmRegister.email.$invalid}"></div>
 
-                    <div class="form-group "><label class="control-label required">Nhập lại Password</label><input type="password" required="required" class="form-control" ng-model='item.repassword'></div>
+                    <div class="form-group "><label class="control-label required">Loại Người Dùng</label>
+                        <select class="form-control" ng-model='item.user_type' required name="userType" name="email" ng-class="{'has-error': frmRegister.userType.$touched && frmRegister.userType.$invalid}">
+                            <option value="" ng-selected="true">Chọn loại người dùng...</option>
+                            <option value="0">Người dùng</option>
+                            <option value="1">Quản trị</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group "><label class="control-label required">Password</label><input type="password" required="required" class="form-control" ng-model='item.password' required name="passWord" ng-class="{'has-error': frmRegister.passWord.$touched && frmRegister.passWord.$invalid}"></div>
+
+                    <div class="form-group "><label class="control-label required">Nhập lại Password</label><input type="password" required="required" class="form-control" ng-model='item.repassword' required name="rePassWord" ng-class="{'has-error': frmRegister.rePassWord.$touched && frmRegister.rePassWord.$invalid}"></div>
 
                     <div class="text-center">
                         <button class="btn btn-success" ng-click="register()"><i class="fa fa-check"></i> Lưu</button>
