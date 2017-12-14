@@ -451,6 +451,9 @@ function getStatisticForIndexPage(req, res) {
         include: [{
             model: Locations,
             required: true
+        },{ 
+            model: Category,
+            required: true 
         }]
     })
     .then(itemPool => {
@@ -462,6 +465,8 @@ function getStatisticForIndexPage(req, res) {
                         itemId: itemPool[i]['pk_id'],
                         location_id: itemPool[i]['location_id'],
                         location_name: itemPool[i]['location']['name'],
+                        category_id: itemPool[i]['category_id'],
+                        category_name: itemPool[i]['Category']['name'],
                         lost_or_found_at: dateUtils.changeToDDMMYYYY(itemPool[i]['lost_at'].toString()),
                         status: itemPool[i]['status'],
                         type: itemPool[i]['type']
@@ -474,6 +479,8 @@ function getStatisticForIndexPage(req, res) {
                         itemId: itemPool[i]['pk_id'],
                         location_id: itemPool[i]['location_id'],
                         location_name: itemPool[i]['location']['name'],
+                        category_id: itemPool[i]['category_id'],
+                        category_name: itemPool[i]['Category']['name'],
                         lost_or_found_at: dateUtils.changeToDDMMYYYY(itemPool[i]['lost_at'].toString()),
                         status: itemPool[i]['status'],
                         type: itemPool[i]['type']

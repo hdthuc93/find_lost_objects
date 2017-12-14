@@ -1,30 +1,144 @@
-<div class="row gap-20" ng-controller="mainCtrl">
-    <div class="col-md-3 box-1 bg-green">
-        <h6 class="lbl-1">Thể loại</h6>
-        <div class="lbl-2">
-            <div class="lbl-2a">Xem danh sách</div>
-            <div class="lbl-2b">26</div>
+<div class="row form-horizontal">
+    <div class="form-group">
+        <div class="col-md-4 box-1 bg-green">
+            <h6 class="lbl-1">Bài đăng thất lạc vật</h6>
+            <div class="lbl-2">
+                <div ng-click="goListItem('lost')" class="lbl-2a">Xem danh sách</div>
+                <div class="lbl-2b">{{data.quanLost}}</div>
+            </div>
+        </div>
+        <div class="col-md-4 box-1 bg-red">
+            <h6 class="lbl-1">Bài đăng tìm được vật</h6>
+            <div class="lbl-2">
+                <div ng-click="goListItem('found')" class="lbl-2a">Xem danh sách</div>
+                <div class="lbl-2b">{{data.quanFound}}</div>
+            </div>
+        </div>
+        <div class="col-md-4 box-1 bg-purple">
+            <h6 class="lbl-1">Vật trùng khớp</h6>
+            <div class="lbl-2">
+                <div ng-click="goListItem('matched')" class="lbl-2a">Xem danh sách</div>
+                <div class="lbl-2b">{{data.quanMatch}}</div>
+            </div>
         </div>
     </div>
-    <div class="col-md-3 box-1 bg-red">
-        <h6 class="lbl-1">Thành viên</h6>
-        <div class="lbl-2">
-            <div class="lbl-2a">Xem danh sách</div>
-            <div class="lbl-2b">12</div>
+    <div class="form-group">
+        <div class="col-md-6">
+            <h3>Vật phẩm thất lạc gần đây</h3>
+            <div title="Bấm vào để xem chi tiết" class="row dashboard-item" ng-repeat="item in data.threeLost" style="cursor: pointer"
+                ng-click="viewItem(item.itemId)">
+                <div class="col-md-6">
+                    <div class="table-responsive">
+                        <table class="table table-condensed">
+                            <tbody>
+                                <tr>
+                                    <th>{{item.category_name}}</th>
+                                    <td> Mã: {{item.itemId}}</td>
+                                </tr>
+                                <tr ng-repeat="answer in item.fieldAnswerPool.value">
+                                    <th>{{answer.field_define_text}}</th>
+                                    <td>{{answer.field_answer_text}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="table-responsive">
+                        <table class="table table-condensed">
+                            <tbody>
+                                <tr>
+                                    <th>Tình Trạng</th>
+                                    <td>
+                                        <li style="display: inline;">
+                                            <span class="item-status bg-warning" ng-if='item.status == -1'>Đã trả về</span>
+                                            <span class="item-status bg-warning" ng-if='item.status == 0'>Mới</span>
+                                            <span class="item-status bg-warning" ng-if='item.status == 1'>Đã tìm thấy</span>
+                                        </li>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Thời gian</th>
+                                    <td>
+                                        <li style='display: inline;' ng-if='item.type == 1'>
+                                            <span class="item-type bg-teal pad-sm nowrap">Tìm thấy</span> lúc {{ item.lost_or_found_at | date:'HH:mm dd LLLL yyyy' }}
+                                        </li>
+                                        <li style='display: inline;' ng-if='item.type == 0'>
+                                            <span class="item-type bg-orange pad-sm nowrap">Mất</span> lúc {{ item.lost_or_found_at | date:'HH:mm dd LLLL yyyy' }}</li>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Địa điểm</th>
+                                    <td>
+                                        <li style="display: inline;">Tại
+                                            <span class="item-location bg-info">{{ item.location_name }}</span>
+                                        </li>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="col-md-3 box-1 bg-purple">
-        <h6 class="lbl-1">Vật đang thất lạc</h6>
-        <div class="lbl-2">
-            <div class="lbl-2a">Xem danh sách</div>
-            <div class="lbl-2b">12</div>
-        </div>
-    </div>
-    <div class="col-md-3 box-1 bg-blue">
-        <h6 class="lbl-1">Vật tìm thấy</h6>
-        <div class="lbl-2">
-            <div class="lbl-2a">Xem danh sách</div>
-            <div class="lbl-2b">13</div>
+        <div class="col-md-6">
+            <h3>Vật phẩm tìm thấy gần đây</h3>
+            <div title="Bấm vào để xem chi tiết" class="row dashboard-item" ng-repeat="item in data.threeFound" ng-click="viewItem(item.itemId)">
+                <div class="col-md-6">
+                    <div class="table-responsive">
+                        <table class="table table-condensed">
+                            <tbody>
+                                <tr>
+                                    <th>{{item.category_name}}</th>
+                                    <td> Mã: {{item.itemId}}</td>
+                                </tr>
+                                <tr ng-repeat="answer in item.fieldAnswerPool.value">
+                                    <th>{{answer.field_define_text}}</th>
+                                    <td>{{answer.field_answer_text}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="table-responsive">
+                        <table class="table table-condensed">
+                            <tbody>
+                                <tr>
+                                    <th>Tình Trạng</th>
+                                    <td>
+                                        <li style="display: inline;">
+                                            <span class="item-status bg-warning" ng-if='item.status == -1'>Đã trả về</span>
+                                            <span class="item-status bg-warning" ng-if='item.status == 0'>Mới</span>
+                                            <span class="item-status bg-warning" ng-if='item.status == 1'>Đã tìm thấy</span>
+                                        </li>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Thời gian</th>
+                                    <td>
+                                        <li style='display: inline;' ng-if='item.type == 1'>
+                                            <span class="item-type bg-teal pad-sm nowrap">Tìm thấy</span> lúc {{ item.lost_or_found_at | date:'HH:mm dd LLLL yyyy' }}
+                                        </li>
+                                        <li style='display: inline;' ng-if='item.type == 0'>
+                                            <span class="item-type bg-orange pad-sm nowrap">Mất</span> lúc {{ item.lost_or_found_at | date:'HH:mm dd LLLL yyyy' }}</li>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Địa điểm</th>
+                                    <td>
+                                        <li style="display: inline;">Tại
+                                            <span class="item-location bg-info">{{ item.location_name }}</span>
+                                        </li>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
 </div>
