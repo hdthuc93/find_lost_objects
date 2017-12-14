@@ -91,7 +91,7 @@ function updateUser(req, res) {
         obj.password = bcrypt.hashSync(obj.password, salt);
     }
 
-    let szQuery = `SELECT * FROM user WHERE email = ? AND pk_id <> ?`;
+    let szQuery = `SELECT * FROM User WHERE email = ? AND pk_id <> ?`;
     
     sequelize.query(szQuery, {
         replacements: [obj.email, uId],
