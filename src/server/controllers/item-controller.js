@@ -55,7 +55,7 @@ async function insertItem(req, res) {
                         insertFieldAnswerObj.push({
                             field_id: fieldAnswersPool[i].fieldDefineId,
                             item_id: result.pk_id,
-                            answer_text: fieldAnswersPool[i].helpText
+                            answer_text: fieldAnswersPool[i].helpText||""
                         });
                     }
                     return FieldAnswer.bulkCreate(insertFieldAnswerObj, { transaction: t });
@@ -104,7 +104,7 @@ function getAll(req, res) {
         if(typeStr === "lost") {
             cond = { where: { type: 0 } };
             if(matched && matched === "true")
-            cond.where.status = 1;
+                cond.where.status = 1;
         } else if(typeStr === "found")
             cond = { where: { type: 1 } };
     }
@@ -121,6 +121,12 @@ function getAll(req, res) {
     }];
 
     cond.order = [["lost_at", "DESC"]];
+
+    if(req.query.localId)
+        cond.include[0].where = { pk_id: req.query.localId }
+
+    if(req.query.catId)
+        cond.include[1].where = { pk_id: req.query.catId }
 
     Item.findAll(cond)
     .then((itemPool) => {
@@ -447,7 +453,7 @@ function getStatisticForIndexPage(req, res) {
     }
 
     Item.findAll({ 
-        order: [ ['lost_at', 'DESC'] ],
+        order: [ ['create_time', 'DESC'] ],
         include: [{
             model: Locations,
             required: true
