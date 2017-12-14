@@ -61,6 +61,11 @@ function userCtrl($scope, $rootScope, $http, helper) {
 	}
 
 	$scope.save = function() {
+		if ($scope.frmEditUser.$invalid) {
+            helper.popup.info({ title: "Lỗi", message: "Vui lòng điền thông tin đầy đủ và chính xác.", close: function () { return; } })
+            return;
+        }
+
 		if ($scope.item.newpassword != undefined && $scope.item.renewpassword != undefined) {
 			if ($scope.item.newpassword != $scope.item.renewpassword) {
 				helper.popup.info({ title: "Thông báo", message: "Nhập lại mật khẩu không chính xát.", close: function () { return; } });
@@ -75,8 +80,7 @@ function userCtrl($scope, $rootScope, $http, helper) {
 
 		$http.put("/api/user", param).then(function (response) {
 			console.log(response);
-			helper.popup.info({ title: "Thông báo", message: response.data.message, close: function () { return; } });
-	        //if (response.data.success) window.location.reload();
+			helper.popup.info({ title: "Thông báo", message: response.data.message, close: function () { if (response.data.success) window.location.reload(); } });
 	    });
 	}
 
