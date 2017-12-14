@@ -1,7 +1,7 @@
 var app = angular.module("findLostObject");
 
-app.controller("trackItemCtrl", ['$scope', '$rootScope', '$http', 'helper', 'fileReader', trackItemCtrl]);
-function trackItemCtrl($scope, $rootScope, $http, helper, fileReader) {
+app.controller("trackItemCtrl", ['$scope', '$rootScope', '$http', 'helper', 'fileReader', '$location', trackItemCtrl]);
+function trackItemCtrl($scope, $rootScope, $http, helper, fileReader, $location) {
 	var itemId = "";
 	function init() {
 		$scope.itemOwn = [];
@@ -139,8 +139,6 @@ function trackItemCtrl($scope, $rootScope, $http, helper, fileReader) {
             */
 			if (response.data.success) window.location.reload();
 		});
-
-		console.log($scope.item)
 	}
 
 	$scope.$watch('fileImg', function () {
@@ -168,4 +166,14 @@ function trackItemCtrl($scope, $rootScope, $http, helper, fileReader) {
 				});
 		}
 	});
+
+	$scope.editItem = function () {
+		// window.location.href = '#/item/edit?id=' + itemId
+		if ($scope.itemOwn.value[0].type == 0) {
+			window.location.href = '#/lost?edit=' + itemId
+		}
+		if ($scope.itemOwn.value[0].type == 1) {
+			window.location.href = '#/found?edit=' + itemId
+		}
+	}
 };

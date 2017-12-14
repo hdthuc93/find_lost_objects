@@ -1,8 +1,10 @@
 var app = angular.module("findLostObject");
 
-app.controller("lostItemCtrl", ['$scope', '$rootScope', '$http', 'helper', lostItemCtrl]);
-function lostItemCtrl($scope, $rootScope, $http, helper) {
+app.controller("lostItemCtrl", ['$scope', '$rootScope', '$http', 'helper', '$location', lostItemCtrl]);
+function lostItemCtrl($scope, $rootScope, $http, helper, $location) {
+
     $scope.emailPattern = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
+
     function init() {
         $scope.categoryList = [];
         $scope.locatonList = [];
@@ -15,10 +17,10 @@ function lostItemCtrl($scope, $rootScope, $http, helper) {
             firstName: "",
             lastName: "",
             locationId: "",
-            lostAt: "",
+            lostAt: new Date(),
             otherDetails: "",
             type: 0,
-            fieldAnswersPool:[]
+            fieldAnswersPool: []
         };
         getCategoryList();
         getLocationList();
@@ -29,6 +31,47 @@ function lostItemCtrl($scope, $rootScope, $http, helper) {
         }
     }
     init();
+
+    var params = new URL(window.location.href.replace('/#', '')).searchParams;
+    var itemId = parseInt(params.get('edit'));
+    if (itemId) {//EDIT ITEM
+        $http.get('/api/items/id/' + itemId).then(function (response) {
+            if (response.data.data.length > 0) {
+                console.log(response.data.data);
+                var _data = response.data.data[0];
+                $scope.item = {
+                    itemId: itemId,
+                    categoryId: _data['category_id'].toString(),
+                    contactPhoneNo: _data['contact_phone_no'],
+                    emailAddress: _data['email_address'],
+                    firstName: _data['first_name'],
+                    lastName: _data['last_name'],
+                    locationId: _data['location_id'].toString(),
+                    lostAt: new Date(_data['lost_at']),
+                    otherDetails: _data['other_details'],
+                    type: 0,
+                    fieldAnswersPool: []
+                };
+                getCategory(_data['category_id']);
+                $scope.$on('get_cat_done', function () {
+                    $http.get('/api/field_answers/itemid/' + itemId).then(function (response) {
+                        for (var i in response.data.data) {
+                            for (var j in $scope.category) {
+                                if (response.data.data[i]['field_define_id'] == $scope.category[j]['fieldDefineId']) {
+                                    $scope.category[j]['answer'] = response.data.data[i]['field_answer_text'];
+                                    $scope.category[j]['field_answer_id'] = response.data.data[i]['field_answer_id'];
+                                    break;
+                                }
+                            }
+                        }
+                    });
+                });
+            } else {
+                $location.url($location.path('/404'));
+            }
+        });
+    }
+
 
     function getCategoryList() {
         $http.get("/api/categories")
@@ -48,6 +91,7 @@ function lostItemCtrl($scope, $rootScope, $http, helper) {
         $http.get("/api/field_defines/catid/" + id)
             .then(function (response) {
                 $scope.category = response.data.data;
+                $scope.$emit('get_cat_done');
             });
     }
 
@@ -56,7 +100,6 @@ function lostItemCtrl($scope, $rootScope, $http, helper) {
             getCategory($scope.item.categoryId);
         } else {
             $scope.category = [];
-            //helper.popup.info({ title: "Lỗi", message: "Dữ liệu này không tồn tại.", close: function () { return; } })
         }
     }
 
@@ -73,17 +116,38 @@ function lostItemCtrl($scope, $rootScope, $http, helper) {
             helper.popup.info({ title: "Lỗi", message: "Vui lòng điền thông tin đầy đủ và chính xác.", close: function () { return; } })
             return;
         }
-        $scope.item.fieldAnswersPool = $scope.category;
+        $scope.item.fieldAnswersPool = angular.copy($scope.category);
+        for (var i in $scope.item.fieldAnswersPool) {
+            $scope.item.fieldAnswersPool[i]['helpText'] = $scope.item.fieldAnswersPool[i]['answer'];
+        }
         var param = angular.copy($scope.item);
+        console.log(22222, param.lostAt);
         param.lostAt = helper.convertDate($scope.item.lostAt);
-        $http.post("/api/items", param)
-            .then(function (response) {
-                var msg = response.data.success ? "Thêm vật thất lạc thành công." : "Thêm vật thất lạc thất bại, vui lòng kiểm tra lại";
-                helper.popup.info({ title: "Thông báo", message: msg, close: function () { return; } })
-            });
+        if (param.itemId) {
+            //EDIT
+            $http.put("/api/items", param)
+                .then(function (response) {
+                    for (var i in param.fieldAnswersPool) {
+                        $http.put("/api/field_answers/" + param.fieldAnswersPool[i]['field_answer_id'], {
+                            answer_text: param.fieldAnswersPool[i]['answer']
+                        }).then(function (response) {
+                        });
+                    }
+                    var msg = response.data.success ? "Cập nhật vật thất lạc thành công." : "Cập nhật vật thất lạc thất bại, vui lòng kiểm tra lại";
+                    helper.popup.info({ title: "Thông báo", message: msg, close: function () { return; } })
+                });
+        } else {
+            //CREATE
+            $http.post("/api/items", param)
+                .then(function (response) {
+                    var msg = response.data.success ? "Thêm vật thất lạc thành công." : "Thêm vật thất lạc thất bại, vui lòng kiểm tra lại";
+                    helper.popup.info({ title: "Thông báo", message: msg, close: function () { return; } })
+                });
+        }
+
     }
 
-    $scope.openDP = function(){
+    $scope.openDP = function () {
         $scope.openDatePicker = true;
     }
 }

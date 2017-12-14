@@ -117,6 +117,10 @@ angular.module('findLostObject').config(['$stateProvider', '$urlRouterProvider',
             .state('register', {
                 url: '/register',
                 templateUrl: 'templates/register.html'
+            })
+            .state('itemEdit', {
+                url: '/item/edit',
+                templateUrl: 'templates/item-edit.html'
             });
     }
 ]).factory('User', [function () {

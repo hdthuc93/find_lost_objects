@@ -26,12 +26,12 @@
 				<div class="box-header">
 					<h3 class="box-title">
 						<i class="fa fa-list-alt"></i>&nbsp; Mô tả</h3>
-					<!-- <div class="box-tools pull-right">
+					<div class="box-tools pull-right">
 						<a href="javascript:window.print();" class="btn btn-sm btn-default">
-							<i class="fa fa-print"></i>&nbsp; Print</a>
-						<a href="/demo-control-panel/items/edit/5a2df4b60db354002f4059e1/" class="btn btn-sm btn-default">
-							<i class="fa fa-edit"></i>&nbsp; Edit Item</a>
-					</div> -->
+							<i class="fa fa-print"></i>&nbsp; In thông tin</a>
+						<a ng-click="editItem()" href="javascript:void(0);" style="background-color:#d0ffa3" class="btn btn-sm btn-default">
+							<i class="fa fa-edit"></i>&nbsp; Chỉnh sửa</a>
+					</div>
 				</div>
 				<div class="box-body">
 
@@ -65,10 +65,6 @@
 										</colgroup>
 										<tbody>
 											<!-- repeat -->
-											<tr ng-repeat="ans in fieldAnswer" ng-if="ans.field_answer_text">
-												<th>{{ans.field_define_text}}</th>
-												<td>{{ans.field_answer_text}}</td>
-											</tr>
 											<tr ng-repeat="ans in fieldAnswer" ng-if="ans.field_answer_text">
 												<th>{{ans.field_define_text}}</th>
 												<td>{{ans.field_answer_text}}</td>
