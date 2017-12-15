@@ -23,6 +23,10 @@ angular.module('findLostObject').config(['$stateProvider', '$urlRouterProvider',
                 url: '/found',
                 templateUrl: 'templates/add-item-found.html'
             })
+            .state('foundEdit', {
+                url: '/found/edit/',
+                templateUrl: 'templates/add-item-found.html'
+            })
             .state('404', {
                 url: '/404',
                 templateUrl: 'templates/404.html'
